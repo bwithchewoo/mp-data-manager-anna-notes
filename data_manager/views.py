@@ -1,22 +1,22 @@
 from django.shortcuts import render
 
 # Create your views here.
+import json
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
-from django.utils import simplejson
 from django.views.decorators.cache import cache_page
 from models import *
 
 
 def get_json(request):
-    json = {
+    data = {
         "state": { "activeLayers": [] },
         "layers": [layer.toDict for layer in Layer.objects.filter(is_sublayer=False).exclude(layer_type='placeholder').order_by('name')],
         "themes": [theme.toDict for theme in Theme.objects.all().order_by('display_name')],
         "success": True
     }
-    return HttpResponse(simplejson.dumps(json))
+    return HttpResponse(json.dumps(data))
 
 
 def create_layer(request):
@@ -39,7 +39,7 @@ def create_layer(request):
             return HttpResponse(e.message, status=500)
 
         result = layer_result(layer, message="Saved Successfully")            
-        return HttpResponse(simplejson.dumps(result))
+        return HttpResponse(json.dumps(result))
 
     
 def update_layer(request, layer_id):
@@ -63,7 +63,7 @@ def update_layer(request, layer_id):
             return HttpResponse(e.message, status=500)
 
         result = layer_result(layer, message="Edited Successfully")
-        return HttpResponse(simplejson.dumps(result))
+        return HttpResponse(json.dumps(result))
     
     
 def get_layer_components(request_dict, url='', name='', type='XYZ', themes=[]):
