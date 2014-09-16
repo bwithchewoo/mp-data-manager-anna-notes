@@ -6,8 +6,16 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.views.decorators.cache import cache_page
-from models import *
+from models import Layer
+from .serializers import BriefLayerSerializer
+from rest_framework import viewsets
 
+class LayerViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    A simple ViewSet for layers.
+    """
+    queryset = Layer.objects.all()
+    serializer_class = BriefLayerSerializer
 
 def get_json(request):
     data = {
