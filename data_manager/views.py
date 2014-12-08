@@ -1,13 +1,20 @@
 from django.shortcuts import render
 
 # Create your views here.
-import json
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.views.decorators.cache import cache_page
 from models import *
+from .serializers import BriefLayerSerializer
+from rest_framework import viewsets
 
+class LayerViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    A simple ViewSet for layers.
+    """
+    queryset = Layer.objects.all()
+    serializer_class = BriefLayerSerializer
 
 def get_json(request):
     data = {
@@ -16,7 +23,7 @@ def get_json(request):
         "themes": [theme.toDict for theme in Theme.objects.all().order_by('display_name')],
         "success": True
     }
-    return HttpResponse(json.dumps(data))
+    return JsonResponse(data)
 
 
 def create_layer(request):
@@ -39,7 +46,7 @@ def create_layer(request):
             return HttpResponse(e.message, status=500)
 
         result = layer_result(layer, message="Saved Successfully")            
-        return HttpResponse(json.dumps(result))
+        return JsonResponse(result)
 
     
 def update_layer(request, layer_id):
@@ -63,9 +70,9 @@ def update_layer(request, layer_id):
             return HttpResponse(e.message, status=500)
 
         result = layer_result(layer, message="Edited Successfully")
-        return HttpResponse(json.dumps(result))
     
     
+        return JsonResponse(result)
 def get_layer_components(request_dict, url='', name='', type='XYZ', themes=[]):
     if 'url' in request_dict:
         url = request_dict['url']
