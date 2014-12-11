@@ -100,7 +100,7 @@ class Layer(models.Model):
     source = models.CharField(max_length=255, blank=True, null=True, help_text='link back to the data source')
     map_tiles = models.CharField(max_length=255, blank=True, null=True, help_text='internal link to a page that details how others might consume the data')
     thumbnail = models.URLField(max_length=255, blank=True, null=True, help_text='not sure we are using this any longer...')
-    
+
     #geojson javascript attribution
     EVENT_CHOICES = (
         ('click', 'click'),
@@ -119,7 +119,7 @@ class Layer(models.Model):
     vector_fill = models.FloatField(blank=True, null=True)
     vector_graphic = models.CharField(max_length=255, blank=True, null=True)
     opacity = models.FloatField(default=.5, blank=True, null=True)
-    
+
     def __unicode__(self):
         return unicode('%s' % (self.name))
 
@@ -133,6 +133,9 @@ class Layer(models.Model):
             return self.sublayers.all()[0]
         return self
     
+    def get_absolute_url(self):
+        return self.id
+
     @property
     def slug(self):
         return slugify(self.name)
@@ -269,7 +272,8 @@ class Layer(models.Model):
                 'opacity': layer.opacity,
                 'annotated': layer.is_annotated,
                 'is_disabled': layer.is_disabled,
-                'disabled_message': layer.disabled_message
+                'disabled_message': layer.disabled_message,
+                'data_url': layer.get_absolute_url()
             } 
             for layer in self.sublayers.all()
         ]
@@ -303,7 +307,8 @@ class Layer(models.Model):
             'opacity': self.opacity,
             'annotated': self.is_annotated,
             'is_disabled': self.is_disabled,
-            'disabled_message': self.disabled_message
+            'disabled_message': self.disabled_message,
+            'data_url': self.get_absolute_url()
         }
         return layers_dict
         
