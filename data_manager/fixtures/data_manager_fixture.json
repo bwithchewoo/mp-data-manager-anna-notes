@@ -406,7 +406,7 @@
             "data_source": "",
             "data_notes": "",
             "name": "Coral Zones Inferred",
-            "url": "/media/data_manager/geojson/DiscreteCoralZonesInferred.json",
+            "url": "/static/data_manager/geojson/DiscreteCoralZonesInferred.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -955,7 +955,7 @@
             "data_source": "",
             "data_notes": "",
             "name": "Alt Norfolk Option",
-            "url": "/media/data_manager/geojson/IAHankNorfolk.json",
+            "url": "/static/data_manager/geojson/IAHankNorfolk.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -1416,7 +1416,7 @@
             "data_source": "",
             "data_notes": "",
             "name": "Canyon Labels",
-            "url": "/media/data_manager/geojson/MajorCanyonsLabels.json",
+            "url": "/static/data_manager/geojson/MajorCanyonsLabels.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -1466,7 +1466,7 @@
             "data_source": "",
             "data_notes": "",
             "name": "Alt Baltimore Option",
-            "url": "/media/data_manager/geojson/IAHankBaltimore.json",
+            "url": "/static/data_manager/geojson/IAHankBaltimore.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -1672,7 +1672,7 @@
             "data_source": "",
             "data_notes": "",
             "name": "Coral Zones Boundary",
-            "url": "/media/data_manager/geojson/DiscreteCoralZonesBoundary.json",
+            "url": "/static/data_manager/geojson/DiscreteCoralZonesBoundary.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -1872,7 +1872,7 @@
             "data_source": "Compiled by TNC from various sources",
             "data_notes": "These data were compiled from various state sources. In Delaware, digital data were received directly from a state agency. The Nature Conservancy compiled reef data from numerous sources in Maryland, including state agencies. For the remaining states, GIS data was created from lat/long coordinates of reef corners found on public web sites (i.e., New York DEC, New Jersey DEP, Virginia MRC).",
             "name": "Artificial Reefs",
-            "url": "/media/data_manager/geojson/ArtificialReefsNoDecimals.json",
+            "url": "/static/data_manager/geojson/ArtificialReefsNoDecimals.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -2185,7 +2185,7 @@
             "data_source": "",
             "data_notes": "",
             "name": "Coral Protection Mockups",
-            "url": "/media/data_manager/geojson/CoralProtectionMockups.json",
+            "url": "/static/data_manager/geojson/CoralProtectionMockups.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -2592,7 +2592,7 @@
             "data_source": "United States Coast Pilot, Northeast Ocean Data Portal, NOAA Electronic Navigational Charts (ENC)",
             "data_notes": "",
             "name": "Pilot Boarding Areas",
-            "url": "/media/data_manager/geojson/PilotBoardingAreas.json",
+            "url": "/static/data_manager/geojson/PilotBoardingAreas.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -2704,7 +2704,7 @@
             "data_source": "NOAA Deep Sea Coral Research and Technology Program",
             "data_notes": "These records were obtained from historical sources and are not confirmed or validated. Observations record only where surveys have been conducted. Absence of an observation should not be interpreted as absence of corals.",
             "name": "Coldwater Corals",
-            "url": "/media/data_manager/geojson/Corals.json",
+            "url": "/static/data_manager/geojson/Corals.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -2752,7 +2752,7 @@
             "data_source": "NOAA",
             "data_notes": "NOAA ENC Direct to GIS data is not intended for navigational purposes. This data is provided for use in GIS software packages for coastal planning and research.",
             "name": "Ship Traffic Separation Zones",
-            "url": "/media/data_manager/geojson/ShipTrafficSeparationZones.json",
+            "url": "/static/data_manager/geojson/ShipTrafficSeparationZones.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -2955,7 +2955,7 @@
             "data_source": "",
             "data_notes": "",
             "name": "N. Atlantic Right Whale SMAs",
-            "url": "/media/data_manager/geojson/NorthAtlanticRightWhale_SMA.json",
+            "url": "/static/data_manager/geojson/NorthAtlanticRightWhale_SMA.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -3113,7 +3113,7 @@
             "data_source": "The Nature Conservancy",
             "data_notes": "These data were primarily created to be used for cartographic purposes. There are many submarine canyons in addition to those included here \u2013 this layer was created in an attempt to show the \u201cmajor\u201d canyons on maps. ",
             "name": "Submarine Canyons",
-            "url": "/media/data_manager/geojson/MajorCanyons.json",
+            "url": "/static/data_manager/geojson/MajorCanyons.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -3565,7 +3565,7 @@
             "data_source": "",
             "data_notes": "",
             "name": "OCS Test",
-            "url": "/media/data_manager/geojson/ocs.json",
+            "url": "/static/data_manager/geojson/ocs.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -3915,7 +3915,7 @@
             "data_source": "BOEM",
             "data_notes": "The data was developed within the U.S. Government; no proprietary rights may be attached to them nor may they be sold to the U.S. Government as part of any procurement of ADP products or services.",
             "name": "Wind Planning Areas",
-            "url": "/media/data_manager/geojson/WindPlanningAreas.json",
+            "url": "/static/data_manager/geojson/WindPlanningAreas.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -4490,7 +4490,7 @@
             "data_source": "",
             "data_notes": "",
             "name": "Tilefish Closure Areas",
-            "url": "/media/data_manager/geojson/TilefishClosureAreas.json",
+            "url": "/static/data_manager/geojson/TilefishClosureAreas.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -4592,7 +4592,7 @@
             "data_source": "Bureau of Ocean Energy Management",
             "data_notes": "",
             "name": "Federal OCS Administrative Boundaries",
-            "url": "/media/data_manager/geojson/OCSAdminBoundaries.json",
+            "url": "/static/data_manager/geojson/OCSAdminBoundaries.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -4746,7 +4746,7 @@
             "data_source": "",
             "data_notes": "",
             "name": "AWC Hubs",
-            "url": "/media/data_manager/geojson/AWCHubs.json",
+            "url": "/static/data_manager/geojson/AWCHubs.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -4948,7 +4948,7 @@
             "data_source": "",
             "data_notes": "",
             "name": "Coral Zones Observed",
-            "url": "/media/data_manager/geojson/DiscreteCoralZonesObserved.json",
+            "url": "/static/data_manager/geojson/DiscreteCoralZonesObserved.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -4996,7 +4996,7 @@
             "data_source": "",
             "data_notes": "",
             "name": "SCUP Closure Areas",
-            "url": "/media/data_manager/geojson/ScupClosureAreas.json",
+            "url": "/static/data_manager/geojson/ScupClosureAreas.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -5300,7 +5300,7 @@
             "data_source": "",
             "data_notes": "",
             "name": "Alt ML Depth Option",
-            "url": "/media/data_manager/geojson/IAHankMLDepth.json",
+            "url": "/static/data_manager/geojson/IAHankMLDepth.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -5398,7 +5398,7 @@
             "data_source": "NOAA",
             "data_notes": "NOAA ENC Direct to GIS data is not intended for navigational purposes. This data is provided for use in GIS software packages for coastal planning and research.",
             "name": "Submarine Cables",
-            "url": "/media/data_manager/geojson/SubmarineCablesNoDecimals.json",
+            "url": "/static/data_manager/geojson/SubmarineCablesNoDecimals.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -5551,7 +5551,7 @@
             "data_source": "MarineCadastre.gov",
             "data_notes": "",
             "name": "Routing Measures",
-            "url": "/media/data_manager/geojson/ShippingFairwaysLanesZones.json",
+            "url": "/static/data_manager/geojson/ShippingFairwaysLanesZones.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -5653,7 +5653,7 @@
             "data_source": "",
             "data_notes": "",
             "name": "Coral Zones Unobserved",
-            "url": "/media/data_manager/geojson/DiscreteCoralZonesUnobserved.json",
+            "url": "/static/data_manager/geojson/DiscreteCoralZonesUnobserved.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -5703,7 +5703,7 @@
             "data_source": "EPA",
             "data_notes": "",
             "name": "Offshore Dredge Disposal",
-            "url": "/media/data_manager/geojson/DredgeDisposalOffshore.json",
+            "url": "/static/data_manager/geojson/DredgeDisposalOffshore.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -6059,7 +6059,7 @@
             "data_source": "",
             "data_notes": "",
             "name": "Protraction Boundaries",
-            "url": "/media/data_manager/geojson/BOEMProtractionNoDecimals.json",
+            "url": "/static/data_manager/geojson/BOEMProtractionNoDecimals.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -6161,7 +6161,7 @@
             "data_source": "",
             "data_notes": "",
             "name": "AWC Routes",
-            "url": "/media/data_manager/geojson/AWCRoutes.json",
+            "url": "/static/data_manager/geojson/AWCRoutes.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -6420,7 +6420,7 @@
             "data_source": "Atlantic Wind Connection",
             "data_notes": "The Atlantic Wind Connection (AWC) is a proposed undersea transmission cable system that would bring power generated by Mid-Atlantic offshore wind turbines to shore. The private-sector project would span approximately 350 miles from northern New Jersey to southern Virginia and would be built in phases over a 10-year period.",
             "name": "AWC Routes & Hubs",
-            "url": "/media/data_manager/geojson/AWCRoutesAndHubs.json",
+            "url": "/static/data_manager/geojson/AWCRoutesAndHubs.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -6620,7 +6620,7 @@
             "data_source": "",
             "data_notes": "",
             "name": "Alt ML Straight Option",
-            "url": "/media/data_manager/geojson/IAHankMLStraight.json",
+            "url": "/static/data_manager/geojson/IAHankMLStraight.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
@@ -6820,7 +6820,7 @@
             "data_source": "",
             "data_notes": "",
             "name": "Canyons Test",
-            "url": "/media/data_manager/geojson/CanyonsTest.json",
+            "url": "/static/data_manager/geojson/CanyonsTest.json",
             "arcgis_layers": "",
             "legend_title": "",
             "sublayers": []
