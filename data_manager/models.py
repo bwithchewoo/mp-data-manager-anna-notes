@@ -1,5 +1,6 @@
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.core.urlresolvers import reverse
 #from sorl.thumbnail import ImageField
 
 # From MARCO/utils.py
@@ -134,7 +135,11 @@ class Layer(models.Model):
         return self
     
     def get_absolute_url(self):
-        return self.id
+        theme = self.themes.filter(visible=True).first()
+        if theme:
+            theme_url = reverse('portal.data_catalog.views.theme', args=[theme.name])
+            if theme_url:
+                return "{0}#layer-info-{1}".format(theme_url, self.slug)
 
     @property
     def slug(self):
