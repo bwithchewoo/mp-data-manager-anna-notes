@@ -232,7 +232,6 @@ class Layer(models.Model):
             return False
         return True
             
-    @property
     def serialize_attributes(self):
         return {'compress_attributes': self.compress_display,
                 'event': self.attribute_event,
@@ -267,7 +266,7 @@ class Layer(models.Model):
                 'metadata': layer.metadata_link,
                 'source': layer.source_link,
                 'tiles': layer.tiles_link,
-                'attributes': layer.serialize_attributes,
+                'attributes': layer.serialize_attributes(),
                 'lookups': layer.serialize_lookups,
                 'outline_color': layer.vector_outline_color,
                 'outline_opacity': layer.vector_outline_opacity,
@@ -302,7 +301,7 @@ class Layer(models.Model):
             'metadata': self.metadata_link,
             'source': self.source_link,
             'tiles': self.tiles_link,
-            'attributes': self.serialize_attributes,
+            'attributes': self.serialize_attributes(),
             'lookups': self.serialize_lookups,
             'outline_color': self.vector_outline_color,
             'outline_opacity': self.vector_outline_opacity,
