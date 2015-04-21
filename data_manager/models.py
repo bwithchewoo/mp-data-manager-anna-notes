@@ -35,7 +35,9 @@ class Theme(models.Model):
     feature_excerpt = models.TextField(blank=True, null=True)
     feature_link = models.CharField(max_length=255, blank=True, null=True)
 
-
+    def url(self):
+        id = self.id
+        return '/visualize/#x=-73.24&y=38.93&z=7&logo=true&controls=true&basemap=Ocean&themes[ids][]=%s&tab=data&legends=false&layers=true' % (id)
 
     def __unicode__(self):
         return unicode('%s' % (self.name))
