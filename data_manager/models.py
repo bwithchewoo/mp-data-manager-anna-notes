@@ -215,7 +215,7 @@ class Layer(models.Model):
     def tiles_link(self):
         if self.is_shareable and self.layer_type in ['XYZ', 'ArcRest', 'WMS']:
             domain = get_domain(8000)
-            return '/explore/%s' %(self.slug)
+            return self.slug
         return None
         
     @property
