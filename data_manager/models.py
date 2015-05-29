@@ -137,7 +137,6 @@ class Layer(models.Model):
             return self.sublayers.all()[0]
         return self
         
-    @property
     def get_absolute_url(self):
         theme = self.themes.filter(visible=True).first()
         if theme:
