@@ -171,13 +171,23 @@ class Layer(models.Model):
     
     @property
     def bookmark_link(self):
-        if not self.bookmark and self.is_sublayer and self.parent.bookmark:
+        if self.bookmark:
+            return self.bookmark
+
+        if self.is_sublayer and self.parent.bookmark:
             return self.parent.bookmark.replace('<layer_id>', str(self.id))
-        if not self.bookmark:
-            domain = get_domain(8000)
-            return '%s/planner/#%s' %(domain, self.slug)
-        return self.bookmark
-    
+
+        if self.is_parent:
+            for theme in self.themes.all():
+                # just return the first one. If there are none, return
+                # the original (broken) url
+                return theme.url()
+
+        # Note: this is the original default return value, which is totally
+        # broken
+        domain = get_domain(8000)
+        return '%s/planner/#%s' %(domain, self.slug)
+
     @property
     def data_download_link(self):
         if self.data_download and self.data_download.lower() == 'none':
