@@ -18,6 +18,18 @@ def get_domain(port=8010):
     #print domain
     return domain
 
+class SiteFlags(object):#(models.Model):
+    """Add-on class for displaying sites in the list_display
+    in the admin.
+    """
+    def primary_site(self):
+        return self.site.filter(id=1).exists()
+    primary_site.boolean = True
+
+    def preview_site(self):
+        return self.site.filter(id=2).exists()
+    preview_site.boolean = True
+
 class ThemeSite(models.Model):
     theme = models.ForeignKey('Theme')
     site = models.ForeignKey(Site)
@@ -26,7 +38,7 @@ class ThemeSite(models.Model):
         auto_created = True
         unique_together = ('theme', 'site')
 
-class Theme(models.Model):
+class Theme(models.Model, SiteFlags):
     site = models.ManyToManyField(Site, through=ThemeSite)
     display_name = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
@@ -81,7 +93,7 @@ class LayerSite(models.Model):
         auto_created = True
         unique_together = ('layer', 'site')
 
-class Layer(models.Model):
+class Layer(models.Model, SiteFlags):
     TYPE_CHOICES = (
         ('XYZ', 'XYZ'),
         ('WMS', 'WMS'),

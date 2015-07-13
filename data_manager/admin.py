@@ -3,7 +3,7 @@ from django import forms
 from models import * 
 
 class ThemeAdmin(admin.ModelAdmin):
-    list_display = ('display_name', 'name', 'id')
+    list_display = ('display_name', 'name', 'id', 'primary_site', 'preview_site')
 
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name == 'site':
@@ -11,11 +11,14 @@ class ThemeAdmin(admin.ModelAdmin):
 
         return db_field.formfield(**kwargs)
 
+
 class LayerAdmin(admin.ModelAdmin):
-    list_display = ('name', 'layer_type', 'url')
+    list_display = ('name', 'layer_type', 'url', 'primary_site', 'preview_site')
     search_fields = ['name', 'layer_type']
     ordering = ('name',)
     exclude = ('slug_name',)
+
+
 
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name == 'attribute_fields':
