@@ -1,3 +1,5 @@
+from django.contrib.sites.managers import CurrentSiteManager
+from django.contrib.sites.models import Site
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.core.urlresolvers import reverse
@@ -16,8 +18,16 @@ def get_domain(port=8010):
     #print domain
     return domain
 
+class ThemeSite(models.Model):
+    theme = models.ForeignKey('Theme')
+    site = models.ForeignKey(Site)
+
+    class Meta:
+        auto_created = True
+        unique_together = ('theme', 'site')
 
 class Theme(models.Model):
+    site = models.ManyToManyField(Site, through=ThemeSite)
     display_name = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     visible = models.BooleanField(default=True)
@@ -34,6 +44,9 @@ class Theme(models.Model):
     feature_image = models.CharField(max_length=255, blank=True, null=True)
     feature_excerpt = models.TextField(blank=True, null=True)
     feature_link = models.CharField(max_length=255, blank=True, null=True)
+
+    objects = CurrentSiteManager('site')
+    all_objects = models.Manager()
 
     def url(self):
         id = self.id
@@ -60,6 +73,14 @@ class Theme(models.Model):
         }
         return themes_dict
 
+class LayerSite(models.Model):
+    layer = models.ForeignKey('Layer')
+    site = models.ForeignKey(Site)
+
+    class Meta:
+        auto_created = True
+        unique_together = ('layer', 'site')
+
 class Layer(models.Model):
     TYPE_CHOICES = (
         ('XYZ', 'XYZ'),
@@ -70,6 +91,7 @@ class Layer(models.Model):
         ('Vector', 'Vector'),
         ('placeholder', 'placeholder'),
     )
+    site = models.ManyToManyField(Site, through=LayerSite)
     name = models.CharField(max_length=100)
     slug_name = models.CharField(max_length=100, blank=True, null=True)
     layer_type = models.CharField(max_length=50, choices=TYPE_CHOICES, help_text='use placeholder to temporarily remove layer from TOC')
@@ -123,6 +145,9 @@ class Layer(models.Model):
     vector_graphic = models.CharField(max_length=255, blank=True, null=True)
     point_radius = models.IntegerField(blank=True, null=True, help_text='Used only for for Point layers (default is 2)')
     opacity = models.FloatField(default=.5, blank=True, null=True)
+
+    objects = CurrentSiteManager('site')
+    all_objects = models.Manager()
 
     def __unicode__(self):
         return unicode('%s' % (self.name))
