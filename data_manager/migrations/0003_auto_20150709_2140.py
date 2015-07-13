@@ -17,7 +17,12 @@ def add_default_m2m_relationships(apps, schema_editor):
     Theme = apps.get_model('data_manager', 'Theme')
     ThemeSite = apps.get_model('data_manager', 'ThemeSite')
 
-    site1 = Site.objects.get(id=1)
+    try:
+        site1 = Site.objects.get(id=1)
+    except Site.DoesNotExist:
+        site1 = Site(id=1, name='site one', domain='set-domain')
+        site1.save()
+
     for layer in Layer.objects.all():
         LayerSite.objects.create(layer=layer, site=site1)
 
