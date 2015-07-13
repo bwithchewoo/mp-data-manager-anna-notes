@@ -1,25 +1,36 @@
 from django.contrib import admin
+from django import forms
 from models import * 
 
 class ThemeAdmin(admin.ModelAdmin):
     list_display = ('display_name', 'name', 'id')
-    pass
+
+    def formfield_for_manytomany(self, db_field, request=None, **kwargs):
+        if db_field.name == 'site':
+            kwargs['widget'] = forms.CheckboxSelectMultiple()
+
+        return db_field.formfield(**kwargs)
 
 class LayerAdmin(admin.ModelAdmin):
     list_display = ('name', 'layer_type', 'url')
     search_fields = ['name', 'layer_type']
     ordering = ('name',)
     exclude = ('slug_name',)
-    
-    def formfield_for_manytomany(self, db_field, request, **kwargs):
+
+    def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name == 'attribute_fields':
             kwargs['queryset'] = AttributeInfo.objects.order_by('field_name')
-        if db_field.name == 'sublayers':
+        elif db_field.name == 'sublayers':
             kwargs['queryset'] = Layer.objects.order_by('name')
-        if db_field.name == 'themes':
+        elif db_field.name == 'themes':
             kwargs['queryset'] = Theme.objects.order_by('name')
-        if db_field.name == 'lookup_table':
+        elif db_field.name == 'lookup_table':
             kwargs['queryset'] = LookupInfo.objects.order_by('value')
+        elif db_field.name == 'site':
+            kwargs['widget'] = forms.CheckboxSelectMultiple()
+            kwargs['widget'].attrs['style'] = 'list-style-type: none;'
+            kwargs['widget'].can_add_related = False
+
         return super(LayerAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
     
 
