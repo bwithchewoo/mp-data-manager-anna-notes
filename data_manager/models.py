@@ -35,7 +35,7 @@ class ThemeSite(models.Model):
     site = models.ForeignKey(Site)
 
     class Meta:
-        auto_created = True
+        # auto_created = True
         unique_together = ('theme', 'site')
 
 class Theme(models.Model, SiteFlags):
@@ -90,7 +90,7 @@ class LayerSite(models.Model):
     site = models.ForeignKey(Site)
 
     class Meta:
-        auto_created = True
+        # auto_created = True
         unique_together = ('layer', 'site')
 
 class Layer(models.Model, SiteFlags):
@@ -110,6 +110,7 @@ class Layer(models.Model, SiteFlags):
     url = models.CharField(max_length=255, blank=True, null=True)
     shareable_url = models.BooleanField(default=True, help_text='Indicates whether the data layer (e.g. map tiles) can be shared with others (through the Map Tiles Link)')
     arcgis_layers = models.CharField(max_length=255, blank=True, null=True, help_text='comma separated list of arcgis layer IDs')
+    wms_slug = models.CharField(max_length=255, blank=True, null=True)
     sublayers = models.ManyToManyField('self', blank=True, null=True)
     themes = models.ManyToManyField("Theme", blank=True, null=True)
     is_sublayer = models.BooleanField(default=False)
@@ -302,6 +303,7 @@ class Layer(models.Model, SiteFlags):
                 'type': layer.layer_type,
                 'url': layer.url,
                 'arcgis_layers': layer.arcgis_layers,
+                'wms_slug': layer.wms_slug,
                 'utfurl': layer.utfurl,
                 'parent': self.id,
                 'legend': layer.legend,
@@ -338,6 +340,7 @@ class Layer(models.Model, SiteFlags):
             'type': self.layer_type,
             'url': self.url,
             'arcgis_layers': self.arcgis_layers,
+            'wms_slug': self.wms_slug,
             'utfurl': self.utfurl,
             'subLayers': sublayers,
             'legend': self.legend,
