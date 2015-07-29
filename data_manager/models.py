@@ -111,6 +111,7 @@ class Layer(models.Model, SiteFlags):
     shareable_url = models.BooleanField(default=True, help_text='Indicates whether the data layer (e.g. map tiles) can be shared with others (through the Map Tiles Link)')
     arcgis_layers = models.CharField(max_length=255, blank=True, null=True, help_text='comma separated list of arcgis layer IDs')
     wms_slug = models.CharField(max_length=255, blank=True, null=True)
+    wms_version = models.CharField(max_length=10, blank=True, null=True)
     sublayers = models.ManyToManyField('self', blank=True, null=True)
     themes = models.ManyToManyField("Theme", blank=True, null=True)
     is_sublayer = models.BooleanField(default=False)
