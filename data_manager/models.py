@@ -111,7 +111,7 @@ class Layer(models.Model, SiteFlags):
     shareable_url = models.BooleanField(default=True, help_text='Indicates whether the data layer (e.g. map tiles) can be shared with others (through the Map Tiles Link)')
     arcgis_layers = models.CharField(max_length=255, blank=True, null=True, help_text='comma separated list of arcgis layer IDs')
     wms_slug = models.CharField(max_length=255, blank=True, null=True)
-    wms_version = models.CharField(max_length=10, blank=True, null=True)
+    wms_version = models.CharField(max_length=10, blank=True, null=True, help_text='WMS Versioning - usually either 1.1.1 or 1.3.0')
     sublayers = models.ManyToManyField('self', blank=True, null=True)
     themes = models.ManyToManyField("Theme", blank=True, null=True)
     is_sublayer = models.BooleanField(default=False)
@@ -305,6 +305,7 @@ class Layer(models.Model, SiteFlags):
                 'url': layer.url,
                 'arcgis_layers': layer.arcgis_layers,
                 'wms_slug': layer.wms_slug,
+                'wms_version': layer.wms_version,
                 'utfurl': layer.utfurl,
                 'parent': self.id,
                 'legend': layer.legend,
@@ -342,6 +343,7 @@ class Layer(models.Model, SiteFlags):
             'url': self.url,
             'arcgis_layers': self.arcgis_layers,
             'wms_slug': self.wms_slug,
+            'wms_version': self.wms_version,
             'utfurl': self.utfurl,
             'subLayers': sublayers,
             'legend': self.legend,
