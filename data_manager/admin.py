@@ -8,6 +8,8 @@ class ThemeAdmin(admin.ModelAdmin):
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name == 'site':
             kwargs['widget'] = forms.CheckboxSelectMultiple()
+            kwargs['widget'].attrs['style'] = 'list-style-type: none;'
+            kwargs['widget'].can_add_related = False
 
         return db_field.formfield(**kwargs)
 
@@ -33,6 +35,7 @@ class LayerAdmin(admin.ModelAdmin):
             kwargs['widget'] = forms.CheckboxSelectMultiple()
             kwargs['widget'].attrs['style'] = 'list-style-type: none;'
             kwargs['widget'].can_add_related = False
+            return db_field.formfield(**kwargs)
 
         return super(LayerAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
     
