@@ -42,6 +42,7 @@ class Theme(models.Model, SiteFlags):
     site = models.ManyToManyField(Site, through=ThemeSite)
     display_name = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
+    order = models.PositiveSmallIntegerField(default=10, blank=True, null=True, help_text='input an integer to determine the priority/order of the layer being displayed (1 being the highest)') 
     visible = models.BooleanField(default=True)
     header_image = models.CharField(max_length=255, blank=True, null=True)
     header_attrib = models.CharField(max_length=255, blank=True, null=True)
@@ -105,6 +106,7 @@ class Layer(models.Model, SiteFlags):
     )
     site = models.ManyToManyField(Site, through=LayerSite)
     name = models.CharField(max_length=100)
+    order = models.PositiveSmallIntegerField(default=10, blank=True, null=True, help_text='input an integer to determine the priority/order of the layer being displayed (1 being the highest)') 
     slug_name = models.CharField(max_length=100, blank=True, null=True)
     layer_type = models.CharField(max_length=50, choices=TYPE_CHOICES, help_text='use placeholder to temporarily remove layer from TOC')
     url = models.CharField(max_length=255, blank=True, null=True)
@@ -301,6 +303,7 @@ class Layer(models.Model, SiteFlags):
             {
                 'id': layer.id,
                 'name': layer.name,
+                'order': layer.order,
                 'type': layer.layer_type,
                 'url': layer.url,
                 'arcgis_layers': layer.arcgis_layers,
@@ -339,6 +342,7 @@ class Layer(models.Model, SiteFlags):
         layers_dict = {
             'id': self.id,
             'name': self.name,
+            'order': self.order,
             'type': self.layer_type,
             'url': self.url,
             'arcgis_layers': self.arcgis_layers,

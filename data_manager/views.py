@@ -19,8 +19,8 @@ class LayerViewSet(viewsets.ReadOnlyModelViewSet):
 def get_json(request):
     data = {
         "state": { "activeLayers": [] },
-        "layers": [layer.toDict for layer in Layer.objects.filter(is_sublayer=False).exclude(layer_type='placeholder').order_by('name')],
-        "themes": [theme.toDict for theme in Theme.objects.all().order_by('display_name')],
+        "layers": [layer.toDict for layer in Layer.objects.filter(is_sublayer=False).exclude(layer_type='placeholder').order_by('order')],
+        "themes": [theme.toDict for theme in Theme.objects.all().order_by('order')],
         "success": True
     }
     return JsonResponse(data)
