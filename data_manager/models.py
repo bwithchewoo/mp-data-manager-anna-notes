@@ -220,14 +220,7 @@ class Layer(models.Model, SiteFlags):
 
         if self.is_parent:
             for theme in self.themes.all():
-                # just return the first one. If there are none, return
-                # the original (broken) url
                 return theme.url()
-
-        # Note: this is the original default return value, which is totally
-        # broken
-        domain = get_domain(8000)
-        return '%s/planner/#%s' %(domain, self.slug)
 
     @property
     def data_download_link(self):
