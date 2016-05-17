@@ -19,7 +19,6 @@ class ThemeAdmin(admin.ModelAdmin):
 class LayerResource(resources.ModelResource):
     class Meta:
         model = Layer
-        fields = ('name', 'layer_type', 'url')
 
 class LayerAdmin(ExportMixin, admin.ModelAdmin):
     resource_class = LayerResource
