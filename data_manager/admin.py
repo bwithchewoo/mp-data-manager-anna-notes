@@ -2,6 +2,9 @@ from django.contrib import admin
 from django import forms
 from models import * 
 
+from import_export import fields, resources
+from import_export.admin import ExportMixin
+
 class ThemeAdmin(admin.ModelAdmin):
     list_display = ('display_name', 'name', 'order', 'primary_site', 'preview_site')
 
@@ -13,8 +16,13 @@ class ThemeAdmin(admin.ModelAdmin):
 
         return db_field.formfield(**kwargs)
 
+class LayerResource(resources.ModelResource):
+    class Meta:
+        model = Layer
+        fields = ('name', 'layer_type', 'url')
 
-class LayerAdmin(admin.ModelAdmin):
+class LayerAdmin(ExportMixin, admin.ModelAdmin):
+    resource_class = LayerResource
     list_display = ('name', 'layer_type', 'Theme_', 'order', 'url', 'primary_site', 'preview_site')
     search_fields = ['name', 'layer_type']
     ordering = ('name',)
