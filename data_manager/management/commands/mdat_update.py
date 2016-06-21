@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 from data_manager.models import Layer, Theme
+
 import requests
 
 class Command(BaseCommand):
@@ -15,9 +16,10 @@ class Command(BaseCommand):
 
         #grab all parent service directories for enpoint
         r = requests.get(mdat_rest_path+'MDAT?f=json')
-        #request status is OK
+        
         if r.status_code != 200:
             return
+        #request status is OK
         else:
             print "**** Request 200 - is OK *****"
             parent_json = r.json()
@@ -32,11 +34,25 @@ class Command(BaseCommand):
                     'layer_type':'checkbox',
                 }
 
+                synthetic_list = [
+                    'MDAT/AvianModels_SyntheticProducts', 
+                    'MDAT/Fish_NEFSC_SyntheticProducts', 
+                    'MDAT/Mammal_SyntheticProducts'
+                ]
+
+                excluded_list = [
+                    'Core Abundance Area - Northeast scale',
+                    'Core Abundance Area - Atlantic scale',
+                    'Diversity',
+                    'Core Biomass Area - Northeast Shelf scale',
+                    'Core Biomass Area - Northeast scale'
+                ]
+
                 if directory['type'] != 'MapServer':
                     print "***** %s is not a MapServer Layer" % directory['name']
                     return
-                #continue on if it's a MapServer layer
-                else:
+                #continue on if it's a MapServer layer && a synthetic product
+                elif directory['name'] in synthetic_list:
                     #does layer exist?
                     try:
                         obj = Layer.objects.get(themes=mdat, name=directory['name'])
@@ -70,24 +86,25 @@ class Command(BaseCommand):
                             'is_sublayer': 1,
                             'url':layer_url
                         }
+                        #no aggregate layers or excluded layers
+                        if layer['subLayerIds'] is None and not any(substring in layer['name'] for substring in excluded_list):
+                            try:
+                                lyr = Layer.objects.get(themes=mdat, arcgis_layers=layer['id'], url=layer_url)
+                                #update name, just incase it changed
+                                lyr.name = layer['name']
+                                lyr.save()
+                                print "***** Layer %s exists *****" % layer['name']
+                            #create layers of parent directory - if they don't exist
+                            except Layer.DoesNotExist:
+                                print "***** Adding %s *****" % layer['name']
+                                lyr = Layer.objects.create(**layer_defaults)
+                                lyr.site = [1,2]
+                                lyr.themes = [mdat_id]                              
+                                lyr.sublayers = [layer_id]
+                                lyr.save()
 
-                        try:
-                            lyr = Layer.objects.get(themes=mdat, arcgis_layers=layer['id'], url=layer_url)
-                            #update name, just incase it changed
-                            lyr.name = layer['name']
-                            lyr.save()
-                            print "***** Layer %s exits *****" % layer['name']
-                        #create layers of parent directory - if they don't exist
-                        except Layer.DoesNotExist:
-                            print "***** Adding %s *****" % layer['name']
-                            lyr = Layer.objects.create(**layer_defaults)
-                            lyr.site = [1,2]
-                            lyr.themes = [mdat_id]                              
-                            lyr.sublayers = [layer_id]
-                            lyr.save()
-
-                            #sublayer fields need to be filled with pks for parent dir
-                            obj.sublayers.add(lyr.pk)
-                            obj.save()
+                                #sublayer fields need to be filled with pks for parent dir
+                                obj.sublayers.add(lyr.pk)
+                                obj.save()
 
 
