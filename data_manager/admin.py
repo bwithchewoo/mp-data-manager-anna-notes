@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django import forms
-from models import * 
+from models import *
 
 from import_export import fields, resources
-from import_export.admin import ExportMixin
+from import_export.admin import ImportExportMixin
 
 class ThemeAdmin(admin.ModelAdmin):
     list_display = ('display_name', 'name', 'order', 'primary_site', 'preview_site')
@@ -20,14 +20,14 @@ class LayerResource(resources.ModelResource):
     class Meta:
         model = Layer
 
-class LayerAdmin(ExportMixin, admin.ModelAdmin):
+class LayerAdmin(ImportExportMixin, admin.ModelAdmin):
     resource_class = LayerResource
     list_display = ('name', 'layer_type', 'Theme_', 'order', 'url', 'primary_site', 'preview_site')
     search_fields = ['name', 'layer_type']
     ordering = ('name',)
     exclude = ('slug_name',)
 
-    def Theme_(self, obj):           
+    def Theme_(self, obj):
         return obj.themes.first()
 
     Theme_.admin_order_field = 'themes'
@@ -48,11 +48,11 @@ class LayerAdmin(ExportMixin, admin.ModelAdmin):
             return db_field.formfield(**kwargs)
 
         return super(LayerAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
-    
+
 
 class AttributeInfoAdmin(admin.ModelAdmin):
     list_display = ('field_name', 'display_name', 'precision', 'order')
-    
+
 class LookupInfoAdmin(admin.ModelAdmin):
     list_display = ('value', 'color', 'dashstyle', 'fill', 'graphic')
 
