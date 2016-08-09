@@ -78,6 +78,7 @@ class Theme(models.Model, SiteFlags):
         layers = [layer.id for layer in self.layer_set.filter(is_sublayer=False).exclude(layer_type='placeholder')]
         themes_dict = {
             'id': self.id,
+            'name': self.name,
             'display_name': self.display_name,
             'learn_link': self.learn_link,
             'is_visible': self.visible,
