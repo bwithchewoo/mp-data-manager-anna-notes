@@ -7,8 +7,8 @@ class Command(BaseCommand):
     help = "Run an update on MDAT layers"
 
     def handle(self, *args, **options):
-        #theme object for mdat
-        mdat = Theme.objects.all().filter(name='MDAT')[0]
+        #theme object for mdat synthetic products - 'conservation'
+        mdat = Theme.objects.all().filter(name='conservation')[0]
         mdat_id = mdat.pk
 
         #allows initial endpoint url to be updated via a faux layer
@@ -45,7 +45,16 @@ class Command(BaseCommand):
                     'Core Abundance Area - Atlantic scale',
                     'Diversity',
                     'Core Biomass Area - Northeast Shelf scale',
-                    'Core Biomass Area - Northeast scale'
+                    'Core Biomass Area - Northeast scale',
+                    'Breeding: Abundance',
+                    'Breeding: Species Richness',
+                    'Breeding: Core Abundance Area - Mid-Atlantic scale',
+                    'Nonbreeding: Abundance',
+                    'Nonbreeding: Species Richness',
+                    'Nonbreeding: Core Abundance Area - Mid-Atlantic scale',
+                    'Resident: Abundance',
+                    'Resident: Species Richness',
+                    'Resident: Core Abundance Area - Mid-Atlantic scale'
                 ]
 
                 if directory['type'] != 'MapServer':
