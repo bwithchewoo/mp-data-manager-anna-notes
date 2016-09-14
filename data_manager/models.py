@@ -35,7 +35,7 @@ class ThemeSite(models.Model):
     site = models.ForeignKey(Site)
 
     class Meta:
-        # auto_created = True
+        auto_created = True
         unique_together = ('theme', 'site')
 
 class Theme(models.Model, SiteFlags):
@@ -92,7 +92,7 @@ class LayerSite(models.Model):
     site = models.ForeignKey(Site)
 
     class Meta:
-        # auto_created = True
+        auto_created = True
         unique_together = ('layer', 'site')
 
 class Layer(models.Model, SiteFlags):
@@ -118,6 +118,7 @@ class Layer(models.Model, SiteFlags):
     sublayers = models.ManyToManyField('self', blank=True, null=True)
     themes = models.ManyToManyField("Theme", blank=True, null=True)
     is_sublayer = models.BooleanField(default=False)
+    search_query = models.BooleanField(default=False, help_text='Select when layers are queryable - e.g. MDAT and CAS')
     is_disabled = models.BooleanField(default=False, help_text='when disabled, the layer will still appear in the TOC, only disabled')
     disabled_message = models.CharField(max_length=255, blank=True, null=True)
     legend = models.CharField(max_length=255, blank=True, null=True, help_text='URL or path to the legend image file')
@@ -344,6 +345,7 @@ class Layer(models.Model, SiteFlags):
             'wms_version': self.wms_version,
             'utfurl': self.utfurl,
             'subLayers': sublayers,
+            'queryable': self.search_query,
             'legend': self.legend,
             'legend_title': self.legend_title,
             'legend_subtitle': self.legend_subtitle,
