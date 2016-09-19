@@ -115,10 +115,12 @@ class Layer(models.Model, SiteFlags):
     arcgis_layers = models.CharField(max_length=255, blank=True, null=True, help_text='comma separated list of arcgis layer IDs')
     wms_slug = models.CharField(max_length=255, blank=True, null=True)
     wms_version = models.CharField(max_length=10, blank=True, null=True, help_text='WMS Versioning - usually either 1.1.1 or 1.3.0')
+    is_sublayer = models.BooleanField(default=False)
     sublayers = models.ManyToManyField('self', blank=True, null=True)
     themes = models.ManyToManyField("Theme", blank=True, null=True)
-    is_sublayer = models.BooleanField(default=False)
     search_query = models.BooleanField(default=False, help_text='Select when layers are queryable - e.g. MDAT and CAS')
+    has_companion = models.BooleanField(default=False, help_text='Check if this layer has a companion layer')
+    connect_companion_layers_to = models.ManyToManyField('self', blank=True, null=True, help_text='Select which main layer(s) you would like to use in conjuction with this companion layer.')
     is_disabled = models.BooleanField(default=False, help_text='when disabled, the layer will still appear in the TOC, only disabled')
     disabled_message = models.CharField(max_length=255, blank=True, null=True)
     legend = models.CharField(max_length=255, blank=True, null=True, help_text='URL or path to the legend image file')
@@ -330,9 +332,51 @@ class Layer(models.Model, SiteFlags):
                 'annotated': layer.is_annotated,
                 'is_disabled': layer.is_disabled,
                 'disabled_message': layer.disabled_message,
-                'data_url': layer.get_absolute_url()
+                'data_url': layer.get_absolute_url(),
+                'has_companion': layer.has_companion
             } 
             for layer in self.sublayers.all()
+        ]
+        connect_companion_layers_to = [
+            {
+                'id': layer.id,
+                'name': layer.name,
+                'order': layer.order,
+                'type': layer.layer_type,
+                'url': layer.url,
+                'arcgis_layers': layer.arcgis_layers,
+                'wms_slug': layer.wms_slug,
+                'wms_version': layer.wms_version,
+                'utfurl': layer.utfurl,
+                'parent': self.id,
+                'legend': layer.legend,
+                'legend_title': layer.legend_title,
+                'legend_subtitle': layer.legend_subtitle,
+                'description': layer.tooltip,
+                'overview': layer.data_overview_text,
+                'data_source': layer.data_source,
+                'data_notes': layer.data_notes,
+                'kml': layer.kml,
+                'data_download': layer.data_download_link,
+                'metadata': layer.metadata_link,
+                'source': layer.source_link,
+                'tiles': layer.tiles_link,
+                'attributes': layer.serialize_attributes(),
+                'lookups': layer.serialize_lookups,
+                'outline_color': layer.vector_outline_color,
+                'outline_opacity': layer.vector_outline_opacity,
+                'point_radius': layer.point_radius,
+                'color': layer.vector_color,
+                'fill_opacity': layer.vector_fill,
+                'graphic': layer.vector_graphic,
+                'opacity': layer.opacity,
+                'annotated': layer.is_annotated,
+                'is_disabled': layer.is_disabled,
+                'disabled_message': layer.disabled_message,
+                'data_url': layer.get_absolute_url(),
+                'has_companion': layer.has_companion
+            } 
+            for layer in self.connect_companion_layers_to.all()
         ]
         layers_dict = {
             'id': self.id,
@@ -345,6 +389,8 @@ class Layer(models.Model, SiteFlags):
             'wms_version': self.wms_version,
             'utfurl': self.utfurl,
             'subLayers': sublayers,
+            'companion_layers': connect_companion_layers_to,
+            'has_companion': self.has_companion,
             'queryable': self.search_query,
             'legend': self.legend,
             'legend_title': self.legend_title,
