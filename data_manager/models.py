@@ -113,6 +113,7 @@ class Layer(models.Model, SiteFlags):
     url = models.CharField(max_length=255, blank=True, null=True)
     shareable_url = models.BooleanField(default=True, help_text='Indicates whether the data layer (e.g. map tiles) can be shared with others (through the Map Tiles Link)')
     arcgis_layers = models.CharField(max_length=255, blank=True, null=True, help_text='comma separated list of arcgis layer IDs')
+    disable_arcgis_attributes = models.BooleanField(default=False, help_text='Click to disable clickable ArcRest layers')
     wms_slug = models.CharField(max_length=255, blank=True, null=True)
     wms_version = models.CharField(max_length=10, blank=True, null=True, help_text='WMS Versioning - usually either 1.1.1 or 1.3.0')
     is_sublayer = models.BooleanField(default=False)
@@ -304,6 +305,7 @@ class Layer(models.Model, SiteFlags):
                 'type': layer.layer_type,
                 'url': layer.url,
                 'arcgis_layers': layer.arcgis_layers,
+                'disable_arcgis_attributes': layer.disable_arcgis_attributes,
                 'wms_slug': layer.wms_slug,
                 'wms_version': layer.wms_version,
                 'utfurl': layer.utfurl,
@@ -346,6 +348,7 @@ class Layer(models.Model, SiteFlags):
                 'type': layer.layer_type,
                 'url': layer.url,
                 'arcgis_layers': layer.arcgis_layers,
+                'disable_arcgis_attributes': layer.disable_arcgis_attributes,
                 'wms_slug': layer.wms_slug,
                 'wms_version': layer.wms_version,
                 'utfurl': layer.utfurl,
@@ -387,6 +390,7 @@ class Layer(models.Model, SiteFlags):
             'type': self.layer_type,
             'url': self.url,
             'arcgis_layers': self.arcgis_layers,
+            'disable_arcgis_attributes': self.disable_arcgis_attributes,
             'wms_slug': self.wms_slug,
             'wms_version': self.wms_version,
             'utfurl': self.utfurl,
