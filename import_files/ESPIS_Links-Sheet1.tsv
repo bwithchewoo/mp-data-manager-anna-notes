@@ -1,5 +1,5 @@
 Theme	Layer Name	Subject Keyword	Location Key	URL
-Renewable Energy	BOEM Active Renewable Energy Lease Areas	Wind Energy	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=wind%20energy&geo=Mid%20Atlantic
+Renewable Energy	BOEM Active Renewable Energy Lease Areas 	Wind Energy	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=wind%20energy&geo=Mid%20Atlantic
 Renewable Energy	BOEM Wind Planning Areas	Wind Energy	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=wind%20energy&geo=Mid%20Atlantic
 Renewable Energy	Coastal Energy Facilities	Power Plants	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=power%20plants&geo=Mid%20Atlantic
 Renewable Energy	Department of Defense Offshore Wind Mission Compatibility Assessments	Wind Energy	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=wind%20energy&geo=Mid%20Atlantic
@@ -7,22 +7,22 @@ Renewable Energy	Virginia Research Lease Areas	Wind Energy	Mid Atlantic	https://
 Renewable Energy	Wind Speed	Wind Energy	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=wind%20energy&geo=Mid%20Atlantic
 				
 Maritime	Aids to Navigation	Aids to Navigation 	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=aids%20to%20navigation&geo=Mid%20Atlantic
-Maritime	AIS Shipping Data 2011 - ALL	Shipping	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=shipping&geo=Mid%20Atlantic
-Maritime	AIS Shipping Data 2011 - Cargo	Shipping	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=shipping&geo=Mid%20Atlantic
-Maritime	AIS Shipping Data 2011 - Passenger	Passenger	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=passenger&geo=Mid%20Atlantic
-Maritime	AIS Shipping Data 2011 - Tanker	Shipping	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=shipping&geo=Mid%20Atlantic
-Maritime	AIS Shipping Data 2011 - Tug & Tow	Tugboat	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=tugboat&geo=Mid%20Atlantic
-Maritime	AIS Shipping Data 2012 - ALL	Shipping	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=shipping&geo=Mid%20Atlantic
-Maritime	AIS Shipping Data 2012 - Cargo	Shipping	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=shipping&geo=Mid%20Atlantic
-Maritime	AIS Shipping Data 2012 - Passenger	Passenger	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=passenger&geo=Mid%20Atlantic
-Maritime	AIS Shipping Data 2012 - Tanker	Shipping	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=shipping&geo=Mid%20Atlantic
-Maritime	AIS Shipping Data 2012 - Tug & Tow	Tugboat	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=tugboat&geo=Mid%20Atlantic
-Maritime	AIS Shipping Data 2013 - ALL	Shipping	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=shipping&geo=Mid%20Atlantic
-Maritime	AIS Shipping Data 2013 - Cargo	Shipping	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=shipping&geo=Mid%20Atlantic
-Maritime	AIS Shipping Data 2013 - Passenger	Passenger	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=passenger&geo=Mid%20Atlantic
-Maritime	AIS Shipping Data 2013 - Tanker	Shipping	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=shipping&geo=Mid%20Atlantic
-Maritime	AIS Shipping Data 2013 - Tug & Tow	Tugboat	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=tugboat&geo=Mid%20Atlantic
-Maritime	Anchorage Grounds	Anchorage Areas	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=anchorage%20areas&geo=Mid%20Atlantic
+Maritime	All Vessels	Shipping	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=shipping&geo=Mid%20Atlantic
+Maritime	Cargo Vessels	Shipping	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=shipping&geo=Mid%20Atlantic
+Maritime	Passenger Vessels	Passenger	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=passenger&geo=Mid%20Atlantic
+Maritime	Tanker Vessels	Shipping	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=shipping&geo=Mid%20Atlantic
+Maritime	Tug Tow Vessels	Tugboat	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=tugboat&geo=Mid%20Atlantic
+Maritime	All Vessels (2012)	Shipping	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=shipping&geo=Mid%20Atlantic
+Maritime	Cargo Vessels (2012)	Shipping	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=shipping&geo=Mid%20Atlantic
+Maritime	Passenger Vessels (2012)	Passenger	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=passenger&geo=Mid%20Atlantic
+Maritime	Tanker Vessels (2012)	Shipping	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=shipping&geo=Mid%20Atlantic
+Maritime	Tug Tow Vessels (2012)	Tugboat	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=tugboat&geo=Mid%20Atlantic
+Maritime	All Vessels (2013)	Shipping	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=shipping&geo=Mid%20Atlantic
+Maritime	Cargo Vessels (2013)	Shipping	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=shipping&geo=Mid%20Atlantic
+Maritime	Passenger Vessels (2013)	Passenger	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=passenger&geo=Mid%20Atlantic
+Maritime	Tanker Vessels (2013)	Shipping	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=shipping&geo=Mid%20Atlantic
+Maritime	Tug Tow Vessels (2013)	Tugboat	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=tugboat&geo=Mid%20Atlantic
+Maritime	Anchorage Areas	Anchorage Areas	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=anchorage%20areas&geo=Mid%20Atlantic
 Maritime	Federal OCS Sand and Gravel Borrow (Lease Areas)	Offshore sand	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=offshore%20sand&geo=Mid%20Atlantic
 Maritime	Maintained Channels	Channels	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=channels&geo=Mid%20Atlantic
 Maritime	N. Atlantic Right Whale SMAs	Right Whale	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=right%20whale&geo=Mid%20Atlantic
@@ -37,9 +37,39 @@ Maritime	Port Ownership (Points)	Ports	Mid Atlantic	https://marinecadastre.gov/e
 Maritime	Routing Measures	Shipping	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=shipping&geo=Mid%20Atlantic
 Maritime	Shipwreck Density	Shipwreck	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=shipwreck&geo=Mid%20Atlantic
 				
-Fishing	Management Areas (from NE)	Fishery Management	Mid Atlantic	http://marinecadastre.gov/espis/#/search/txt=fishery%20management&geo=Mid%20Atlantic
 Fishing	Artificial Reefs	Artificial Reefs	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=artificial%20reef&geo=Mid%20Atlantic
-Fishing	Commerical Fishing	Commerical Fishing	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=commercial%20fishing&geo=Mid%20Atlantic
+Fishing	Herring 2006-2010	herring	Mid Atlantic	
+Fishing	Herring 2011-2014	herring	Mid Atlantic	
+Fishing	Herring 2011-2014 (<4knots)	herring	Mid Atlantic	
+Fishing	Mackerel 2014	mackeral	Mid Atlantic	
+Fishing	Mackerel 2014 (<4knots)	mackeral	Mid Atlantic	
+Fishing	Monkfish 2006-2010	monkfish	Mid Atlantic	
+Fishing	Monkfish 2011-2014	monkfish	Mid Atlantic	
+Fishing	Monkfish 2011-2014 (<4knots)	monkfish	Mid Atlantic	
+Fishing	Multispecies (groundfish) 2006-2010	groundfish	Mid Atlantic	
+Fishing	Multispecies (groundfish) 2011-2014	groundfish	Mid Atlantic	
+Fishing	Multispecies (groundfish) 2011-2014 (<4knots)	groundfish	Mid Atlantic	
+Fishing	Scallop 2006-2010	scallop	Mid Atlantic	
+Fishing	Scallop 2011-2014	scallop	Mid Atlantic	
+Fishing	Scallop 2011-2014 (<5knots)	scallop	Mid Atlantic	
+Fishing	Squid 2014	squid	Mid Atlantic	
+Fishing	Squid 2014 (<4 knots)	squid	Mid Atlantic	
+Fishing	Surfcalm/Ocean Quahog 2006-2010	clam	Mid Atlantic	
+Fishing	Surfcalm/Ocean Quahog 2012-2014	clam	Mid Atlantic	
+Fishing	Surfcalm/Ocean Quahog 2012-2014 (<5knots)	clam	Mid Atlantic	
+Fishing	Bottom Trawl <65ft 2011-2013	trawl	Mid Atlantic	
+Fishing	Bottom Trawl over 65ft 2011-2013	trawl	Mid Atlantic	
+Fishing	Dredge 2011 - 2013	dredge	Mid Atlantic	
+Fishing	Gillnet 2011 - 2013	gillnet	Mid Atlantic	
+Fishing	Lobster 2011 - 2013	lobster	Mid Atlantic	
+Fishing	Longline 2011 - 2013	longline	Mid Atlantic	
+Fishing	Pots and traps 2011 - 2013	pots and traps	Mid Atlantic	
+Fishing	Seine 2011 - 2013	seine	Mid Atlantic	
+Fishing	Fathom Lines	fathom	Mid Atlantic	
+Fishing	Frank R. Lautenberg Deep-sea coral protection area	coral	Mid Atlantic	
+Fishing	Groundfish management areas	groundfish management	Mid Atlantic	
+Fishing	Scallop management areas	fishery management	Mid Atlantic	
+Fishing	Surfclam/ocean quahog management areas	fishery management	Mid Atlantic	
 Fishing	Recreational Fishing	Recreational Fishing	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=recreational%20fishing&geo=Mid%20Atlantic
 				
 Security	(general search keyword)	Security	Mid Atlantic	http://marinecadastre.gov/espis/#/search/txt=security&geo=Mid%20Atlantic
@@ -57,21 +87,50 @@ Security	Submarine Transit Lanes	No relevant links
 Security	Atlantic City Airspace Corridor	No relevant links		
 Security	Sink Exercise (SINKEX) Area	No relevant links		
 Security	Ship Shock Trial Area	No relevant links		
-Security	Naval Undersea Warfare Center Division, Newport Testing Range	Naval Undersea Warfare	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=naval%20undersea%20warfare&geo=Mid%20Atlantic
+Security	Naval Undersea Warfare Center Division - Newport	Naval Undersea Warfare	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=naval%20undersea%20warfare&geo=Mid%20Atlantic
 				
-Recreation	(general search keyword)	Recreation	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=recreation&geo=Mid%20Atlantic
-Recreation	Coastal Recreation Survey*	Recreation	Mid Atlantic	
-Recreation	Recreational Boating Survey*	Recreational Boating	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=recreational%20boating&geo=Mid%20Atlantic
-Recreation	Recreational Uses Workshop*	Whale Watching	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=whale%20watching&geo=Mid%20Atlantic
-Recreation	Recreational Uses Workshop*	Scuba	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=scuba&geo=Mid%20Atlantic
-Recreation	Recreational Uses Workshop*	Surfing	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=surfing&geo=Mid%20Atlantic
+Recreation	Shore-based Activities	shore recreation	Mid Atlantic	
+Recreation	Surface Water Activities	Recreational Boating	Mid Atlantic	
+Recreation	Underwater Activities	Recreational Uses	Mid Atlantic	
+Recreation	Wildlife and Sightseeing Activities	Wildlife Viewing	Mid Atlantic	
+Recreation	Recreational Boating points	Recreational Boating	Mid Atlantic	
+Recreation	Recreational Boating density (1km)	Recreational Boating	Mid Atlantic	
+Recreation	Recreational Boating density (5km)	Recreational Boating	Mid Atlantic	
+Recreation	Recreational Boating routes and density	Recreational Boating	Mid Atlantic	
+Recreation	Northeast Recreational Boating Density	Recreational Boating	Mid Atlantic	
+Recreation	Recreational Uses Workshop: DE	Recreational Uses	Mid Atlantic	
+Recreation	Recreational Uses Workshop: MD	Recreational Uses	Mid Atlantic	
+Recreation	NJ Recreational Uses Workshop	Recreational Uses	Mid Atlantic	
+Recreation	NJDEP Sport Ocean Fishing Grounds	Fishing Grounds	Mid Atlantic	
+Recreation	NY Recreational Fishing	Recreational Fishing	Mid Atlantic	
+Recreation	NY Surfing	Surfing	Mid Atlantic	
+Recreation	NY Wildlife Viewing	Wildlife Viewing	Mid Atlantic	
+Recreation	Recreational Uses Workshop: VA	Recreational Uses	Mid Atlantic	
 				
-Oceanography	(general search term)	Oceanography	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=oceanography&geo=Mid%20Atlantic
 Oceanography	Acidification Monitoring Locations	Ocean Acidification	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=ocean%20acidification&geo=Mid%20Atlantic
-Oceanography	Bathymetry*	Bathymetry	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=bathymetry&geo=Mid%20Atlantic
-Oceanography	Fronts Probability*	Fronts	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=fronts&geo=Mid%20Atlantic
-Oceanography	Net Primary Productivity	Net Primary Productivity	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=net%20primary%20productivity&geo=Mid%20Atlantic
-Oceanography	NE Canyons and Seamounts	No relevant links		
+Oceanography	Regional Bathymetry	Regional Bathymetry	Mid Atlantic	
+Oceanography	NOAA NOS Hydrographic Survey Data	Hydrographic Survey	Mid Atlantic	
+Oceanography	OKEANOS Explorer Bathymetry	OKEANOS	Mid Atlantic	
+Oceanography	Fronts Fall Max 2012	Fronts	Mid Atlantic	
+Oceanography	Fronts Fall Max 2013	Fronts	Mid Atlantic	
+Oceanography	Fronts Spring Max 2012	Fronts	Mid Atlantic	
+Oceanography	Fronts Spring Max 2013	Fronts	Mid Atlantic	
+Oceanography	Fronts Summer Max 2012	Fronts	Mid Atlantic	
+Oceanography	Fronts Summer Max 2013	Fronts	Mid Atlantic	
+Oceanography	Fronts Winter Max 2012	Fronts	Mid Atlantic	
+Oceanography	Fronts Winter Max 2013	Fronts	Mid Atlantic	
+Oceanography	NPP Fall Max 2011	Primary productivity	Mid Atlantic	
+Oceanography	NPP Fall Max 2012	Primary productivity	Mid Atlantic	
+Oceanography	NPP Fall Max 2013	Primary productivity	Mid Atlantic	
+Oceanography	NPP Spring Max 2011	Primary productivity	Mid Atlantic	
+Oceanography	NPP Spring Max 2012	Primary productivity	Mid Atlantic	
+Oceanography	NPP Spring Max 2013	Primary productivity	Mid Atlantic	
+Oceanography	NPP Summer Max 2011	Primary productivity	Mid Atlantic	
+Oceanography	NPP Summer Max 2012	Primary productivity	Mid Atlantic	
+Oceanography	NPP Summer Max 2013	Primary productivity	Mid Atlantic	
+Oceanography	NPP Winter Max 2011	Primary productivity	Mid Atlantic	
+Oceanography	NPP Winter Max 2012	Primary productivity	Mid Atlantic	
+Oceanography	NPP Winter Max 2013	Primary productivity	Mid Atlantic	
 Oceanography	Seabed Forms	Seabed	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=seabed&geo=Mid%20Atlantic
 Oceanography	Soft Sediments (by grain size)	Soft Sediments	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=soft%20sediments&geo=Mid%20Atlantic
 Oceanography	Submarine Canyons	Submarine Canyon	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=submarine%20canyon&geo=Mid%20Atlantic
@@ -82,7 +141,8 @@ Administrative	Northeast Canyons and Seamounts Marine National Monument	No relev
 Administrative	OCS Lease Blocks	No relevant links		
 Administrative	Tribal Headquarters	Native American	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=native%20american&geo=Mid%20Atlantic
 				
-Marine Life	Benthic Habitats	benthic habitat	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=benthic%20habitat&geo=Mid%20Atlantic
+Marine Life	Benthic Habitats (North)	benthic habitat	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=benthic%20habitat&geo=Mid%20Atlantic
+Marine Life	Benthic Habitats (South)	benthic habitat	Mid Atlantic	
 Marine Life	Birds	bird	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=bird&geo=Mid%20Atlantic
 Marine Life	Coldwater Corals (Observed)	coral	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=coral&geo=Mid%20Atlantic
 Marine Life	EFH Highly Migratory Species	highly migratory species	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=highly%20migratory%20species&geo=Mid%20Atlantic
@@ -93,5 +153,19 @@ Marine Life	Marine Mammals	marine mammals	Mid Atlantic	https://marinecadastre.go
 Marine Life	Sea Scallops Average Abundance (SMAST)	sea scallops	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=sea%20scallops&geo=Mid%20Atlantic
 Marine Life	Sea Scallops Biomass, meat weight in kg (NEFSC) - Draft	sea scallops	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=sea%20scallops&geo=Mid%20Atlantic
 Marine Life	Sea Turtles	sea turtles	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=sea%20turtles&geo=Mid%20Atlantic
+				
 Socioeconomic	Population Density	No relevant links		
-Socioeconomic	GDP All Ocean Sectors	economics	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=economics&geo=Mid%20Atlantic
+Socioeconomic	Ocean Economics GDP	economics	Mid Atlantic	https://marinecadastre.gov/espis/#/search/txt=economics&geo=Mid%20Atlantic
+				
+Human Use Data Synthesis	All Data	No relevant links		
+Human Use Data Synthesis	Theme - Energy Data	No relevant links		
+Human Use Data Synthesis	Theme - Fishing Data	No relevant links		
+Human Use Data Synthesis	Theme - Maritime Data	No relevant links		
+Human Use Data Synthesis	Theme - Recreation Data	No relevant links		
+Human Use Data Synthesis	Theme - Security Data	No relevant links		
+Human Use Data Synthesis	Type - Activity Data	No relevant links		
+Human Use Data Synthesis	Type - Infrastructure Data	No relevant links		
+Human Use Data Synthesis	Type - Physical Infrastructure Data	No relevant links		
+Human Use Data Synthesis	Type - Regulatory Data	No relevant links		
+Human Use Data Synthesis	Use Intensity - Fishing Data	No relevant links		
+Human Use Data Synthesis	Use Intensity - Maritime Data	No relevant links		
