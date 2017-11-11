@@ -105,6 +105,13 @@ class Layer(models.Model, SiteFlags):
         ('Vector', 'Vector'),
         ('placeholder', 'placeholder'),
     )
+    WMS_VERSION_CHOICES = (
+        (None, ''),
+        ('1.0.0', '1.0.0'),
+        ('1.1.0', '1.1.0'),
+        ('1.1.1', '1.1.1'),
+        ('1.3.0', '1.3.0'),
+    )
     site = models.ManyToManyField(Site, through=LayerSite)
     name = models.CharField(max_length=100)
     order = models.PositiveSmallIntegerField(default=10, blank=True, null=True, help_text='input an integer to determine the priority/order of the layer being displayed (1 being the highest)')
@@ -114,8 +121,13 @@ class Layer(models.Model, SiteFlags):
     shareable_url = models.BooleanField(default=True, help_text='Indicates whether the data layer (e.g. map tiles) can be shared with others (through the Map Tiles Link)')
     arcgis_layers = models.CharField(max_length=255, blank=True, null=True, help_text='comma separated list of arcgis layer IDs')
     disable_arcgis_attributes = models.BooleanField(default=False, help_text='Click to disable clickable ArcRest layers')
-    wms_slug = models.CharField(max_length=255, blank=True, null=True)
-    wms_version = models.CharField(max_length=10, blank=True, null=True, help_text='WMS Versioning - usually either 1.1.1 or 1.3.0')
+    wms_slug = models.CharField(max_length=255, blank=True, null=True, verbose_name='WMS Layer Name')
+    wms_version = models.CharField(max_length=10, blank=True, null=True, choices=WMS_VERSION_CHOICES, help_text='WMS Versioning - usually either 1.1.1 or 1.3.0')
+    wms_format = models.CharField(max_length=100, blank=True, null=True, help_text='most common: image/png', verbose_name='WMS Format')
+    wms_srs = models.CharField(max_length=100, blank=True, null=True, help_text='If not EPSG:3857 WMS requests will be proxied', verbose_name='WMS SRS')
+    wms_styles = models.CharField(max_length=255, blank=True, null=True, help_text='pre-determined styles, if exist', verbose_name='WMS Styles')
+    wms_timing = models.CharField(max_length=255, blank=True, null=True, help_text='http://docs.geoserver.org/stable/en/user/services/wms/time.html#specifying-a-time', verbose_name='WMS Time')
+    wms_additional = models.TextField(blank=True, null=True, help_text='additional WMS key-value pairs: &key=value...', verbose_name='WMS Additional Fields')
     is_sublayer = models.BooleanField(default=False)
     sublayers = models.ManyToManyField('self', blank=True, null=True)
     themes = models.ManyToManyField("Theme", blank=True, null=True)
@@ -328,6 +340,11 @@ class Layer(models.Model, SiteFlags):
                 'disable_arcgis_attributes': layer.disable_arcgis_attributes,
                 'wms_slug': layer.wms_slug,
                 'wms_version': layer.wms_version,
+                'wms_format': layer.wms_format,
+                'wms_srs': layer.wms_srs,
+                'wms_styles': layer.wms_styles,
+                'wms_timing': layer.wms_timing,
+                'wms_additional': layer.wms_additional,
                 'utfurl': layer.utfurl,
                 'parent': self.id,
                 'legend': layer.legend,
@@ -371,6 +388,11 @@ class Layer(models.Model, SiteFlags):
                 'disable_arcgis_attributes': layer.disable_arcgis_attributes,
                 'wms_slug': layer.wms_slug,
                 'wms_version': layer.wms_version,
+                'wms_format': layer.wms_format,
+                'wms_srs': layer.wms_srs,
+                'wms_styles': layer.wms_styles,
+                'wms_timing': layer.wms_timing,
+                'wms_additional': layer.wms_additional,
                 'utfurl': layer.utfurl,
                 'parent': self.id,
                 'legend': layer.legend,
@@ -413,6 +435,11 @@ class Layer(models.Model, SiteFlags):
             'disable_arcgis_attributes': self.disable_arcgis_attributes,
             'wms_slug': self.wms_slug,
             'wms_version': self.wms_version,
+            'wms_format': self.wms_format,
+            'wms_srs': self.wms_srs,
+            'wms_styles': self.wms_styles,
+            'wms_timing': self.wms_timing,
+            'wms_additional': self.wms_additional,
             'utfurl': self.utfurl,
             'subLayers': sublayers,
             'companion_layers': connect_companion_layers_to,
