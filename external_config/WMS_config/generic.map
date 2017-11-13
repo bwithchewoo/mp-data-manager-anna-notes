@@ -1,0 +1,92 @@
+MAP
+    NAME "generic"
+    STATUS ON
+    SIZE 800 400
+    EXTENT -180 -90 180 90
+    PROJECTION
+      "init=epsg:4326"
+    END
+    IMAGECOLOR 255 255 255
+    WEB
+      METADATA
+        "wms_title"           "ERDDAP"
+        "wms_onlineresource"  "http://tiles.ecotrust.org/mapserver?map=/mapfiles/generic.map&"
+        "wms_srs"             "EPSG:4326 EPSG:3857"
+        "wms_enable_request"  "GetMap GetCapabilities GetLegendGraphic"
+      END
+    END # WEB
+    LAYER
+        NAME "generic"
+        TYPE RASTER
+        STATUS DEFAULT
+        CONNECTIONTYPE WMS
+        PROJECTION
+          "init=epsg:4326"
+        END
+	VALIDATION
+	  'LAYERNAME'		".+"
+	  'default_LAYERNAME'	"jplMURSST:analysed_sst"
+          'CONN'		".+"
+          'default_CONN'        "https://coastwatch.pfeg.noaa.gov/erddap/wms/jplMURSST/request?"
+          'FORMAT'              ".+"
+          'default_FORMAT'      "image/png"
+          'VERSION'             "1.[0-3].[0-1]"
+          'default_VERSION'     "1.1.1"
+          'SOURCESRS'           ".+"
+          'default_SOURCESRS'   "EPSG:4326"
+          'SRCSTYLE'            ".*"
+          'default_SRCSTYLE'    ""
+	END
+        CONNECTION "%CONN%"
+        # CONNECTION "https://coastwatch.pfeg.noaa.gov/erddap/wms/jplMURSST/request?"
+	METADATA
+	  "wms_srs"             "%SOURCESRS%"
+          "wms_name"            '%LAYERNAME%'
+	  "wms_server_version"  "%VERSION%"
+          "wms_format"          "%FORMAT%"
+          "wms_style"           "%SRCSTYLE%"
+	END # METADATA
+    END # LAYER
+    LAYER
+        NAME "time"
+        TYPE RASTER
+        STATUS DEFAULT
+        CONNECTIONTYPE WMS
+        PROJECTION
+          "init=epsg:4326"
+        END
+	VALIDATION
+	  'LAYERNAME'		".+"
+	  'default_LAYERNAME'	"jplMURSST:analysed_sst"
+          'CONN'		".+"
+          'default_CONN'        "https://coastwatch.pfeg.noaa.gov/erddap/wms/jplMURSST/request?"
+          'FORMAT'              ".+"
+          'default_FORMAT'      "image/png"
+          'VERSION'             "1.[0-3].[0-1]"
+          'default_VERSION'     "1.1.1"
+          'SOURCESRS'           ".+"
+          'default_SOURCESRS'   "EPSG:4326"
+          'SRCSTYLE'            ".*"
+          'default_SRCSTYLE'    ""
+          'TIMEEXT'             ".*"
+          'default_TIMEEXT'     ""
+          #'TIMEDEF'             ".*"
+          #'default_TIMEDEF'     ""
+          'TIMEITEM'            ".*"
+          'default_TIMEITEM'    "TIME"
+	END
+        CONNECTION "%CONN%"
+        # CONNECTION "https://coastwatch.pfeg.noaa.gov/erddap/wms/jplMURSST/request?"
+	METADATA
+	  "wms_srs"             "%SOURCESRS%"
+          "wms_name"            '%LAYERNAME%'
+	  "wms_server_version"  "%VERSION%"
+          "wms_format"          "%FORMAT%"
+          "wms_style"           "%SRCSTYLE%"
+          "wms_timeextent"      "%TIMEEXT%"
+          "wms_timeitem"        "%TIMEITEM%"
+          #"wms_timedefault"     "%TIMEDEF%"
+	END # METADATA
+    END # LAYER
+END # MAP
+
