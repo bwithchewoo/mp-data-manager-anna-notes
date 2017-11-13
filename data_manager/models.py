@@ -127,6 +127,7 @@ class Layer(models.Model, SiteFlags):
     wms_srs = models.CharField(max_length=100, blank=True, null=True, help_text='If not EPSG:3857 WMS requests will be proxied', verbose_name='WMS SRS')
     wms_styles = models.CharField(max_length=255, blank=True, null=True, help_text='pre-determined styles, if exist', verbose_name='WMS Styles')
     wms_timing = models.CharField(max_length=255, blank=True, null=True, help_text='http://docs.geoserver.org/stable/en/user/services/wms/time.html#specifying-a-time', verbose_name='WMS Time')
+    wms_time_item = models.CharField(max_length=255, blank=True, null=True, help_text='Time Attribute Field, if different from "TIME". Proxy only.', verbose_name='WMS Time Field')
     wms_additional = models.TextField(blank=True, null=True, help_text='additional WMS key-value pairs: &key=value...', verbose_name='WMS Additional Fields')
     is_sublayer = models.BooleanField(default=False)
     sublayers = models.ManyToManyField('self', blank=True, null=True)
@@ -344,6 +345,7 @@ class Layer(models.Model, SiteFlags):
                 'wms_srs': layer.wms_srs,
                 'wms_styles': layer.wms_styles,
                 'wms_timing': layer.wms_timing,
+                'wms_time_item': layer.wms_time_item,
                 'wms_additional': layer.wms_additional,
                 'utfurl': layer.utfurl,
                 'parent': self.id,
@@ -392,6 +394,7 @@ class Layer(models.Model, SiteFlags):
                 'wms_srs': layer.wms_srs,
                 'wms_styles': layer.wms_styles,
                 'wms_timing': layer.wms_timing,
+                'wms_time_item': layer.wms_time_item,
                 'wms_additional': layer.wms_additional,
                 'utfurl': layer.utfurl,
                 'parent': self.id,
@@ -439,6 +442,7 @@ class Layer(models.Model, SiteFlags):
             'wms_srs': self.wms_srs,
             'wms_styles': self.wms_styles,
             'wms_timing': self.wms_timing,
+            'wms_time_item': self.wms_time_item,
             'wms_additional': self.wms_additional,
             'utfurl': self.utfurl,
             'subLayers': sublayers,
