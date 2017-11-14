@@ -27,6 +27,10 @@ class LayerAdmin(ImportExportMixin, admin.ModelAdmin):
     ordering = ('name',)
     exclude = ('slug_name',)
 
+    from marco.settings import BASE_DIR
+    add_form_template = '%s/../apps/mp-data-manager/data_manager/templates/admin/LayerForm.html' % BASE_DIR
+    change_form_template = '%s/../apps/mp-data-manager/data_manager/templates/admin/LayerForm.html' % BASE_DIR
+
     def Theme_(self, obj):
         return obj.themes.first()
 
@@ -64,4 +68,3 @@ admin.site.register(Layer, LayerAdmin)
 admin.site.register(AttributeInfo, AttributeInfoAdmin)
 admin.site.register(LookupInfo, LookupInfoAdmin)
 admin.site.register(DataNeed, DataNeedAdmin)
-
