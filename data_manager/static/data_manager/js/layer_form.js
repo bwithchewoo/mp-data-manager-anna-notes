@@ -1,15 +1,8 @@
 
 
 show_layertype_form = function(layertype) {
-  $('.field-wms_help').hide();
-  $('.field-wms_slug').hide();
-  $('.field-wms_version').hide();
-  $('.field-wms_format').hide();
-  $('.field-wms_srs').hide();
-  $('.field-wms_styles').hide();
-  $('.field-wms_timing').hide();
-  $('.field-wms_time_item').hide();
-  $('.field-wms_additional').hide();
+  $('.field-wms_help').parent().addClass('collapsed');
+  $('.field-wms_help').parent().children('h2').children('a').text('Show');
 
   var url = $('#id_url').val()
 
@@ -184,15 +177,8 @@ show_layertype_form = function(layertype) {
       case '---------':
         break;
       case 'WMS':
-        $('.field-wms_help').show();
-        $('.field-wms_slug').show();
-        $('.field-wms_version').show();
-        $('.field-wms_format').show();
-        $('.field-wms_srs').show();
-        $('.field-wms_styles').show();
-        $('.field-wms_timing').show();
-        $('.field-wms_time_item').show();
-        $('.field-wms_additional').show();
+        $('.field-wms_help').parent().removeClass('collapsed');
+        $('.field-wms_help').parent().children('h2').children('a').text('Hide');
         break;
       default:
         break;
