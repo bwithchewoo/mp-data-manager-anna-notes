@@ -76,9 +76,7 @@ show_layertype_form = function(layertype) {
               }
             });
 
-
             // Replace Styles
-
             style_keys = Object.keys(data.styles[slug_val]);
             if (style_keys.length == 0) {
               $('#id_wms_styles').val(null);
@@ -122,10 +120,11 @@ show_layertype_form = function(layertype) {
               }
             }
 
-
           },
           error: function(data) {
-            console.log('error!');
+            url = $('#id_url').val();
+            err_msg = 'ERROR: Layer url ' + url + ' does not appear to be a valid WMS endpoint.'
+            window.alert(err_msg);
           }
       });
     } else {
@@ -158,7 +157,6 @@ show_layertype_form = function(layertype) {
           $('#id_wms_additional').prop('disabled', true);
         }
       });
-
 
       // Replace Styles
       style_val = $('#id_wms_styles').val();
