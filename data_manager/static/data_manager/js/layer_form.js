@@ -73,6 +73,17 @@ show_layertype_form = function(layertype) {
               $('#id_wms_srs').val(srs_val);
             }
 
+            $('#id_wms_srs').change(function() {
+              if ($('#id_wms_srs').val() == 'EPSG:3857') {
+                $('#id_wms_time_item').prop('disabled', true);
+                $('#id_wms_additional').prop('disabled', false);
+              } else {
+                $('#id_wms_time_item').prop('disabled', false);
+                $('#id_wms_additional').prop('disabled', true);
+              }
+            });
+
+
             // Replace Styles
 
             style_keys = Object.keys(data.styles[slug_val]);
@@ -145,6 +156,17 @@ show_layertype_form = function(layertype) {
       $('#id_wms_srs').replaceWith('<input class="vTextField" id="id_wms_srs" maxlength="100" name="wms_srs" type="text" value="' + srs_val +'">' +
           '</input>');
 
+      $('#id_wms_srs').blur(function() {
+        if ($('#id_wms_srs').val() == 'EPSG:3857') {
+          $('#id_wms_time_item').prop('disabled', true);
+          $('#id_wms_additional').prop('disabled', false);
+        } else {
+          $('#id_wms_time_item').prop('disabled', false);
+          $('#id_wms_additional').prop('disabled', true);
+        }
+      });
+
+
       // Replace Styles
       style_val = $('#id_wms_styles').val();
       $('#id_wms_styles').replaceWith('<input class="vTextField" id="id_wms_styles" maxlength="255" name="wms_styles" type="text" value="' + style_val + '">' +
@@ -157,17 +179,6 @@ show_layertype_form = function(layertype) {
       $('#wms_timing_position_options').remove();
 
     }
-
-    $('#id_wms_srs').change(function() {
-      console.log('FFFFOOOO!!!!11!!!');
-      if ($('#id_wms_srs').val() == 'EPSG:3857') {
-        $('#id_wms_time_item').prop('disabled', true);
-        $('#id_wms_additional').prop('disabled', false);
-      } else {
-        $('#id_wms_time_item').prop('disabled', false);
-        $('#id_wms_additional').prop('disabled', true);
-      }
-    });
 
     switch(layertype) {
       case '---------':
