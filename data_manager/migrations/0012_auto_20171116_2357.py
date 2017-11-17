@@ -13,6 +13,12 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='layer',
+            name='site_migrate',
+            field=models.CharField(max_length=255, null=True, blank=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='layer',
             name='wms_additional',
             field=models.TextField(help_text=b'additional WMS key-value pairs: &key=value...', null=True, verbose_name=b'WMS Additional Fields', blank=True),
             preserve_default=True,
@@ -20,7 +26,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='layer',
             name='wms_format',
-            field=models.CharField(help_text=b'most common: image/png', max_length=100, null=True, verbose_name=b'WMS Format', blank=True),
+            field=models.CharField(help_text=b'most common: image/png. Only image types supported.', max_length=100, null=True, verbose_name=b'WMS Format', blank=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='layer',
+            name='wms_help',
+            field=models.BooleanField(default=False, help_text=b'Enable simple selection for WMS fields. Only supports WMS 1.1.1'),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -37,8 +49,20 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='layer',
+            name='wms_time_item',
+            field=models.CharField(help_text=b'Time Attribute Field, if different from "TIME". Proxy only.', max_length=255, null=True, verbose_name=b'WMS Time Field', blank=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='layer',
             name='wms_timing',
             field=models.CharField(help_text=b'http://docs.geoserver.org/stable/en/user/services/wms/time.html#specifying-a-time', max_length=255, null=True, verbose_name=b'WMS Time', blank=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='theme',
+            name='site_migrate',
+            field=models.CharField(max_length=255, null=True, blank=True),
             preserve_default=True,
         ),
         migrations.AlterField(

@@ -30,16 +30,8 @@ class SiteFlags(object):#(models.Model):
         return self.site.filter(id=2).exists()
     preview_site.boolean = True
 
-class ThemeSite(models.Model):
-    theme = models.ForeignKey('Theme')
-    site = models.ForeignKey(Site)
-
-    class Meta:
-        auto_created = True
-        unique_together = ('theme', 'site')
-
 class Theme(models.Model, SiteFlags):
-    site = models.ManyToManyField(Site, through=ThemeSite)
+    site = models.ManyToManyField(Site)
     display_name = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     order = models.PositiveSmallIntegerField(default=10, blank=True, null=True, help_text='input an integer to determine the priority/order of the layer being displayed (1 being the highest)')
@@ -58,6 +50,7 @@ class Theme(models.Model, SiteFlags):
     feature_excerpt = models.TextField(blank=True, null=True)
     feature_link = models.CharField(max_length=255, blank=True, null=True)
 
+    # objects = models.Manager()
     objects = CurrentSiteManager('site')
     all_objects = models.Manager()
 
@@ -87,13 +80,6 @@ class Theme(models.Model, SiteFlags):
         }
         return themes_dict
 
-class LayerSite(models.Model):
-    layer = models.ForeignKey('Layer')
-    site = models.ForeignKey(Site)
-
-    class Meta:
-        auto_created = True
-        unique_together = ('layer', 'site')
 
 class Layer(models.Model, SiteFlags):
     TYPE_CHOICES = (
@@ -112,7 +98,7 @@ class Layer(models.Model, SiteFlags):
         ('1.1.1', '1.1.1'),
         ('1.3.0', '1.3.0'),
     )
-    site = models.ManyToManyField(Site, through=LayerSite)
+    site = models.ManyToManyField(Site)
     name = models.CharField(max_length=100)
     order = models.PositiveSmallIntegerField(default=10, blank=True, null=True, help_text='input an integer to determine the priority/order of the layer being displayed (1 being the highest)')
     slug_name = models.CharField(max_length=100, blank=True, null=True)
@@ -150,6 +136,7 @@ class Layer(models.Model, SiteFlags):
     data_overview = models.TextField(blank=True, null=True)
     data_source = models.CharField(max_length=255, blank=True, null=True)
     data_notes = models.TextField(blank=True, null=True)
+    # data_publish_date = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True, default=None, verbose_name='Date created/published')
 
     #data catalog links
     bookmark = models.CharField(max_length=755, blank=True, null=True, help_text='link to view data layer in the planner')
@@ -181,6 +168,7 @@ class Layer(models.Model, SiteFlags):
     point_radius = models.IntegerField(blank=True, null=True, help_text='Used only for for Point layers (default is 2)')
     opacity = models.FloatField(default=.5, blank=True, null=True)
 
+    # objects = models.Manager()
     objects = CurrentSiteManager('site')
     all_objects = models.Manager()
 
