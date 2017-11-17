@@ -46,7 +46,7 @@ class LayerAdmin(ImportExportMixin, admin.ModelAdmin):
         ('METADATA', {
             'classes': ('collapse',),
             'fields': (
-                'description', 'data_overview','data_source','data_notes'
+                'description', 'data_overview','data_source','data_notes', 'data_publish_date'
             )
         }),
         ('LEGEND', {
