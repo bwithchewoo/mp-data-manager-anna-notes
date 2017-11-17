@@ -128,9 +128,9 @@ class LayerAdmin(ImportExportMixin, admin.ModelAdmin):
         }),
     )
 
-    from marco.settings import BASE_DIR
-    add_form_template = '%s/../apps/mp-data-manager/data_manager/templates/admin/LayerForm.html' % BASE_DIR
-    change_form_template = '%s/../apps/mp-data-manager/data_manager/templates/admin/LayerForm.html' % BASE_DIR
+    from settings import BASE_DIR
+    add_form_template = '%s/data_manager/templates/admin/LayerForm.html' % BASE_DIR
+    change_form_template = '%s/data_manager/templates/admin/LayerForm.html' % BASE_DIR
 
     def Theme_(self, obj):
         return obj.themes.first()
