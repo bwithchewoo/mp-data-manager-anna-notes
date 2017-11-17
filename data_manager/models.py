@@ -136,7 +136,7 @@ class Layer(models.Model, SiteFlags):
     data_overview = models.TextField(blank=True, null=True)
     data_source = models.CharField(max_length=255, blank=True, null=True)
     data_notes = models.TextField(blank=True, null=True)
-    data_publish_date = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True, default=None, verbose_name='Date created/published')
+    data_publish_date = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True, default=None, verbose_name='Date published', help_text='YYYY-MM-DD')
 
     #data catalog links
     bookmark = models.CharField(max_length=755, blank=True, null=True, help_text='link to view data layer in the planner')

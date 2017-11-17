@@ -22,8 +22,8 @@ class LayerResource(resources.ModelResource):
 
 class LayerAdmin(ImportExportMixin, admin.ModelAdmin):
     resource_class = LayerResource
-    list_display = ('name', 'layer_type', 'Theme_', 'order', 'url', 'data_publish_date', 'primary_site', 'preview_site')
-    search_fields = ['name', 'layer_type']
+    list_display = ('name', 'layer_type', 'Theme_', 'order', 'data_publish_date', 'primary_site', 'preview_site', 'url')
+    search_fields = ['name', 'layer_type', 'url']
     ordering = ('name',)
     exclude = ('slug_name',)
 
