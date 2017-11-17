@@ -37,7 +37,7 @@ show_layertype_form = function(layertype) {
 
             // Set wms version (only 1.1.1 supported)
             $('#id_wms_version').val(data.version);
-            $('#id_wms_version').prop('disabled', true);
+            $('.field-wms_version.field-box').hide()
 
             // Replace WMS Format
             format_val = $('#id_wms_format').val();
@@ -136,7 +136,7 @@ show_layertype_form = function(layertype) {
           '</input>');
 
       // Release lock on WMS version field
-      $('#id_wms_version').prop('disabled', false);
+      $('.field-wms_version.field-box').show();
 
       // Replace WMS format
       format_val = $('#id_wms_format').val();
