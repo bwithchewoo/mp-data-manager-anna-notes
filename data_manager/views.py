@@ -95,27 +95,108 @@ def layer_result(layer, status_code=1, success=True, message="Success"):
     }
     return result
 
+def recurse_layers(sublayer, current_layer_dict, layers):
+    if sublayer.find('Name') is not None:
+        layers[sublayer.find('Name').text] = current_layer_dict
+    if len(sublayer.findall('Layer')) > 0:
+        for sub_sublayer in sublayer.findall('Layer'):
+            layers = recurse_layers(sub_sublayer, current_layer_dict, layers)
+    return layers
+
 def wms_get_capabilities(url):
+    from datetime import datetime
     from owslib.wms import WebMapService
 
     if url[-1] == '?':
       url = url[0:-1]
 
     wms = WebMapService(url)
-    layers = list(wms.contents)
+    layers = {}
+    for layer in list(wms.contents): #TODO: create dict
+        layers[layer] = {'dimensions':{}}
     styles = {}
     srs_opts = {}
     times = {}
-    for layer in layers:
+    import xml.etree.ElementTree as ET
+    root = ET.fromstring(wms.getServiceXML())
+    # get time dimensions from XML directly, in case OWSLIB fails to set it appropriately
+    try:
+        layer_group = root.find('Capability').findall('Layer')[0]
+        current_layer = {
+            'dimensions': {}
+        }
+        for layer in layer_group.findall('Layer'):
+            if len(layer.findall('Dimension')) > 0:
+                for dimension in layer.findall('Dimension'):
+                    if dimension.get('name'):
+                        current_layer['dimensions'][dimension.get('name')] = None
+            if len(layer.findall('Extent')) > 0:
+                for extent in layer.findall('Extent'):
+                    if extent.get('name'):
+                        current_layer['dimensions'][extent.get('name')] = {}
+                        for key in extent.keys():
+                            current_layer['dimensions'][extent.get('name')][key] = extent.get(key)
+                        try:
+                            positions = extent.text.split(',')
+                            if len(positions) > 4:
+                                current_layer['dimensions'][extent.get('name')]['positions'] = positions[0:2] + ['...'] + positions[-3:-1]
+                            else:
+                                current_layer['dimensions'][extent.get('name')]['positions'] = positions
+                        except:
+                            pass
+                new_layer_dict = recurse_layers(layer, current_layer, {})
+                for key in layers.keys():
+                    if key in new_layer_dict.keys():
+                        layers[key] = new_layer_dict[key]
+
+
+    except:
+        # trouble parsing raw xml
+        print('trouble parsing raw xml')
+        pass
+
+    for layer in layers.keys():
         styles[layer] = wms[layer].styles
         srs_opts[layer] = wms[layer].crsOptions
+
+        dimensions = layers[layer]['dimensions']
+        timefield = None
+        if len(dimensions.keys()) == 1:
+            timefield = dimensions.keys()[0]
+        else:
+            # there is no explicit way to know what time field is. This makes educated guesses.
+            for dimension in dimensions.keys():
+                if 'time' in dimension.lower():
+                    timefield = dimension
+                    break
+
+        if timefield:
+            layer_obj = layers[layer]['dimensions'][timefield]
+        else:
+            layer_obj = {}
+
+        if wms[layer].timepositions:
+            positions = wms[layer].timepositions
+        elif layer_obj.has_key('positions'):
+            positions = layer_obj['positions']
+        else:
+            positions = None
+        if wms[layer].defaulttimeposition:
+            defaulttimeposition = wms[layer].defaulttimeposition
+        elif layer_obj.has_key('default'):
+            defaulttimeposition = layer_obj['default']
+        else:
+            defaulttimeposition = None
+
+
         times[layer] = {
-            'positions': wms[layer].timepositions,
-            'default': wms[layer].defaulttimeposition
+            'positions': positions,
+            'default': defaulttimeposition,
+            'field': timefield
         }
 
     result = {
-        'layers': layers,
+        'layers': layers.keys(),
         'formats': wms.getOperationByName('GetMap').formatOptions,
         'version': wms.version,
         'styles':  styles,
@@ -126,7 +207,7 @@ def wms_get_capabilities(url):
     return result
 
 def wms_request_capabilities(request):
-    
+
     url = request.GET.get('url')
     result = wms_get_capabilities(url)
 
