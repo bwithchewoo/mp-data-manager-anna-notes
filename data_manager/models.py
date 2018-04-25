@@ -80,6 +80,12 @@ class Theme(models.Model, SiteFlags):
         }
         return themes_dict
 
+    def save(self, *args, **kwargs):
+        super(Theme, self).save(*args, **kwargs)
+        from data_manager.views import get_json
+        for site in self.site.all():
+            get_json(None, True, site)
+
 
 class Layer(models.Model, SiteFlags):
     TYPE_CHOICES = (
@@ -471,7 +477,8 @@ class Layer(models.Model, SiteFlags):
         self.slug_name = self.slug
         super(Layer, self).save(*args, **kwargs)
         from data_manager.views import get_json
-        get_json(None, True)
+        for site in self.site.all():
+            get_json(None, True, site)
 
 class AttributeInfo(models.Model):
     display_name = models.CharField(max_length=255, blank=True, null=True)

@@ -16,9 +16,12 @@ class LayerViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Layer.objects.all()
     serializer_class = BriefLayerSerializer
 
-def get_json(request, reset_cache=False):
+def get_json(request, reset_cache=False, current_site=None):
     from django.core.cache import cache
-    data = cache.get('data_manager_json')
+    if not current_site:
+        from django.contrib.sites import shortcuts
+        current_site = shortcuts.get_current_site(request)
+    data = cache.get('data_manager_json_site_%d' % current_site.pk)
     if not data or reset_cache:
         data = {
             "state": { "activeLayers": [] },
@@ -27,8 +30,7 @@ def get_json(request, reset_cache=False):
             "success": True
         }
         # Cache for 1 week, will be reset if layer data changes
-        cache.set('data_manager_json', data, 60*60*24*7)
-        print("CACHE 'data_manager_json' RESET!")
+        cache.set('data_manager_json_site_%d' % current_site.pk, data, 60*60*24*7)
     return JsonResponse(data)
 
 
