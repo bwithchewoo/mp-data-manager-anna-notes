@@ -470,6 +470,8 @@ class Layer(models.Model, SiteFlags):
     def save(self, *args, **kwargs):
         self.slug_name = self.slug
         super(Layer, self).save(*args, **kwargs)
+        from data_manager.views import get_json
+        get_json(None, True)
 
 class AttributeInfo(models.Model):
     display_name = models.CharField(max_length=255, blank=True, null=True)
