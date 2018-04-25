@@ -82,9 +82,10 @@ class Theme(models.Model, SiteFlags):
 
     def save(self, *args, **kwargs):
         super(Theme, self).save(*args, **kwargs)
+        from threading import Thread
         from data_manager.views import get_json
         for site in self.site.all():
-            get_json(None, True, site)
+            Thread(target=get_json, args=(None, True, site)).start()
 
 
 class Layer(models.Model, SiteFlags):
@@ -476,9 +477,11 @@ class Layer(models.Model, SiteFlags):
     def save(self, *args, **kwargs):
         self.slug_name = self.slug
         super(Layer, self).save(*args, **kwargs)
+        from threading import Thread
         from data_manager.views import get_json
         for site in self.site.all():
-            get_json(None, True, site)
+            Thread(target=get_json, args=(None, True, site)).start()
+
 
 class AttributeInfo(models.Model):
     display_name = models.CharField(max_length=255, blank=True, null=True)
