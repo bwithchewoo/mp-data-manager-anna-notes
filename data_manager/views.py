@@ -25,8 +25,8 @@ def get_json(request, reset_cache=False, current_site=None):
     if not data or reset_cache:
         data = {
             "state": { "activeLayers": [] },
-            "layers": [layer.toDict for layer in Layer.objects.filter(is_sublayer=False).exclude(layer_type='placeholder').order_by('order')],
-            "themes": [theme.toDict for theme in Theme.objects.all().order_by('order')],
+            "layers": [layer.toDict for layer in Layer.all_objects.filter(is_sublayer=False, site__pk=current_site.pk).exclude(layer_type='placeholder').order_by('order')],
+            "themes": [theme.toDict for theme in Theme.all_objects.filter(site__pk=current_site.pk).order_by('order')],
             "success": True
         }
         # Cache for 1 week, will be reset if layer data changes
