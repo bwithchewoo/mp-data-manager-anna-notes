@@ -18,6 +18,17 @@ def get_domain(port=8010):
     #print domain
     return domain
 
+def reset_cache(site):
+    from django.core.cache import cache
+    import requests
+    cache.delete('data_manager_json_site_%s' % site.pk)
+    from marco.settings import DEBUG
+    if DEBUG and ('localhost:' in site.domain or '127.0.0.1:' in site.domain):
+        url = "http://%s:8000/data_manager/get_json" % site.domain[:site.domain.index(':')]
+    else:
+        url = "http://%s/data_manager/get_json" % site.domain
+    requests.get(url)
+
 class SiteFlags(object):#(models.Model):
     """Add-on class for displaying sites in the list_display
     in the admin.
@@ -83,9 +94,8 @@ class Theme(models.Model, SiteFlags):
     def save(self, *args, **kwargs):
         super(Theme, self).save(*args, **kwargs)
         from threading import Thread
-        from data_manager.views import get_json
         for site in self.site.all():
-            Thread(target=get_json, args=(None, True, site)).start()
+            Thread(target=reset_cache, args=(site,)).start()
 
 
 class Layer(models.Model, SiteFlags):
@@ -474,20 +484,12 @@ class Layer(models.Model, SiteFlags):
         }
         return layers_dict
 
-    def reset_cache(self):
-        from django.core.cache import cache
-        import requests
-        for site in self.site.all():
-            cache.delete('data_manager_json_site_%s' % site.pk)
-            url = "http://%s/data_manager/get_json" % site.domain
-            requests.get(url)
-
     def save(self, *args, **kwargs):
         self.slug_name = self.slug
         super(Layer, self).save(*args, **kwargs)
         from threading import Thread
         for site in self.site.all():
-            Thread(target=self.reset_cache).start()
+            Thread(target=reset_cache, args=(site,)).start()
 
 
 class AttributeInfo(models.Model):
