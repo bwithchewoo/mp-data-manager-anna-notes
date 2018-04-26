@@ -475,9 +475,12 @@ class Layer(models.Model, SiteFlags):
         return layers_dict
 
     def reset_cache(self):
-        from data_manager.views import get_json
+        from django.core.cache import cache
+        import requests
         for site in self.site.all():
-            get_json(None, True, site)
+            cache.delete('data_manager_json_site_%s' % site.pk)
+            url = "http://%s/data_manager/get_json" % site.domain
+            requests.get(url)
 
     def save(self, *args, **kwargs):
         self.slug_name = self.slug
