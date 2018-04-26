@@ -18,16 +18,17 @@ def get_domain(port=8010):
     #print domain
     return domain
 
-def reset_cache(site):
+def reset_cache(sites):
     from django.core.cache import cache
     import requests
-    cache.delete('data_manager_json_site_%s' % site.pk)
-    from marco.settings import DEBUG
-    if DEBUG and ('localhost:' in site.domain or '127.0.0.1:' in site.domain):
-        url = "http://%s:8000/data_manager/get_json" % site.domain[:site.domain.index(':')]
-    else:
-        url = "http://%s/data_manager/get_json" % site.domain
-    requests.get(url)
+    for site in sites:
+        cache.delete('data_manager_json_site_%s' % site.pk)
+        from marco.settings import DEBUG
+        if DEBUG and ('localhost:' in site.domain or '127.0.0.1:' in site.domain):
+            url = "http://%s:8000/data_manager/get_json" % site.domain[:site.domain.index(':')]
+        else:
+            url = "http://%s/data_manager/get_json" % site.domain
+        requests.get(url)
 
 class SiteFlags(object):#(models.Model):
     """Add-on class for displaying sites in the list_display
@@ -94,8 +95,7 @@ class Theme(models.Model, SiteFlags):
     def save(self, *args, **kwargs):
         super(Theme, self).save(*args, **kwargs)
         from threading import Thread
-        for site in self.site.all():
-            Thread(target=reset_cache, args=(site,)).start()
+        Thread(target=reset_cache, args=(self.site.all(),)).start()
 
 
 class Layer(models.Model, SiteFlags):
@@ -488,8 +488,7 @@ class Layer(models.Model, SiteFlags):
         self.slug_name = self.slug
         super(Layer, self).save(*args, **kwargs)
         from threading import Thread
-        for site in self.site.all():
-            Thread(target=reset_cache, args=(site,)).start()
+        Thread(target=reset_cache, args=(self.site.all(),)).start()
 
 
 class AttributeInfo(models.Model):
