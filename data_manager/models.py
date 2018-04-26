@@ -474,13 +474,17 @@ class Layer(models.Model, SiteFlags):
         }
         return layers_dict
 
+    def reset_cache(self):
+        from data_manager.views import get_json
+        for site in self.site.all():
+            get_json(None, True, site)
+
     def save(self, *args, **kwargs):
         self.slug_name = self.slug
         super(Layer, self).save(*args, **kwargs)
         from threading import Thread
-        from data_manager.views import get_json
         for site in self.site.all():
-            Thread(target=get_json, args=(None, True, site)).start()
+            Thread(target=self.reset_cache).start()
 
 
 class AttributeInfo(models.Model):
