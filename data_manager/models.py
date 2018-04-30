@@ -537,3 +537,63 @@ class DataNeed(models.Model):
 
     def __unicode__(self):
         return unicode('%s' % (self.name))
+
+class MultilayerDimension(models.Model):
+    name = models.CharField(max_length=200, help_text='name to be used for selection in admin tool forms')
+    label = models.CharField(max_length=50, help_text='label to be used in mapping tool slider')
+    order = models.IntegerField(default=100, help_text='the order in which this dimension will be presented among other dimensions on this layer')
+    animated = models.BooleanField(default=False, help_text='enable auto-toggling of layers across this dimension')
+    layer = models.ForeignKey(Layer)
+
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ('order',)
+
+    # def save(self, *args, **kwargs):
+    #     super(MultilayerDimension, self).save(*args, **kwargs)
+    #     # TODO
+    #     # Get parent layer
+
+class MultilayerAssociation(models.Model):
+    name = models.CharField(max_length=200)
+    layer = models.ForeignKey(Layer, null=True, blank=True, default=None)
+
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return self.name
+
+class MultilayerDimensionValue(models.Model):
+    dimension = models.ForeignKey(MultilayerDimension)
+    value = models.CharField(max_length=200, help_text="Actual value of selection")
+    label = models.CharField(max_length=50, help_text="Label for this selection seen in mapping tool slider")
+    order = models.IntegerField(default=100)
+    associations = models.ManyToManyField(MultilayerAssociation)
+
+    def __unicode__(self):
+        return '%s: %s' % (self.dimension, self.value)
+
+    def __str__(self):
+        return '%s: %s' % (self.dimension, self.value)
+
+    class Meta:
+        ordering = ('order',)
+
+    def save(self, *args, **kwargs):
+        super(MultilayerDimensionValue, self).save(*args, **kwargs)
+        # TODO
+        # Get parent dimension
+        # Get parent dimension's parent layer
+        # Get all associations for parent layer
+        # Get all dimensions for parent layer
+        # For each association
+        #   if no records of parent dimension, add M2M for this
+        # For each dimension:
+        #   For each OTHER dimension:
+        #       Get or create association with all dimension/value combos

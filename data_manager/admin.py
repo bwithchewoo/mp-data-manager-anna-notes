@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django import forms
 from models import *
+import nested_admin
 
 from import_export import fields, resources
 from import_export.admin import ImportExportMixin
@@ -16,11 +17,28 @@ class ThemeAdmin(admin.ModelAdmin):
 
         return db_field.formfield(**kwargs)
 
+class NestedMultilayerDimensionValueInline(nested_admin.NestedTabularInline):
+    model = MultilayerDimensionValue
+    fields = ('value', 'label', 'order')
+    extra = 1
+    classes = ['collapse', 'open']
+    verbose_name_plural = 'Multilayer Dimension Values'
+
+class NestedMultilayerDimensionInline(nested_admin.NestedStackedInline):
+    model = MultilayerDimension
+    fields = (('name', 'label', 'order', 'animated'),)
+    extra = 1
+    classes = ['collapse', 'open']
+    verbose_name_plural = 'Multilayer Dimensions'
+    inlines = [
+        NestedMultilayerDimensionValueInline,
+    ]
+
 class LayerResource(resources.ModelResource):
     class Meta:
         model = Layer
 
-class LayerAdmin(ImportExportMixin, admin.ModelAdmin):
+class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
     resource_class = LayerResource
     list_display = ('name', 'layer_type', 'Theme_', 'order', 'data_publish_date', 'primary_site', 'preview_site', 'url')
     search_fields = ['name', 'layer_type', 'url']
@@ -127,6 +145,10 @@ class LayerAdmin(ImportExportMixin, admin.ModelAdmin):
             )
         }),
     )
+
+    inlines = [
+        NestedMultilayerDimensionInline
+    ]
 
     from settings import BASE_DIR
     add_form_template = '%s/data_manager/templates/admin/LayerForm.html' % BASE_DIR

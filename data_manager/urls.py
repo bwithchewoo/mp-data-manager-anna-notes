@@ -6,6 +6,7 @@ router = routers.DefaultRouter()
 router.register(r'layers', views.LayerViewSet)
 
 urlpatterns = patterns('',
+    url(r'^nested_admin/', include('nested_admin.urls')),
     url(r'^api/', include(router.urls)),
     (r'^layer/([A-Za-z0-9_-]+)$', views.update_layer),
     (r'^layer$', views.create_layer),
