@@ -9,6 +9,10 @@
 
 {% block field_sets %}
   {% for fieldset in adminform %}
-    {% include "admin/includes/fieldset.html" %}
+    {% include "admin/includes/LayerFieldset.html" %}
   {% endfor %}
+{% endblock %}
+
+{% block after_related_objects %}
+  <!--<h2>{{ test }}</h2>-->
 {% endblock %}

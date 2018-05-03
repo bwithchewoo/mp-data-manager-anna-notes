@@ -554,20 +554,33 @@ class MultilayerDimension(models.Model):
     class Meta:
         ordering = ('order',)
 
-    # def save(self, *args, **kwargs):
-    #     super(MultilayerDimension, self).save(*args, **kwargs)
-    #     # TODO
-    #     # Get parent layer
+    def save(self, *args, **kwargs):
+        super(MultilayerDimension, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        for value in self.multilayerdimensionvalue_set.all().order_by('-order'):
+            value.delete()
+        super(MultilayerDimension, self).delete(*args, **kwargs)
+
 
 class MultilayerAssociation(models.Model):
     name = models.CharField(max_length=200)
-    layer = models.ForeignKey(Layer, null=True, blank=True, default=None)
+    parentLayer = models.ForeignKey(Layer, related_name="parent_layer", db_column='parentlayer')
+    layer = models.ForeignKey(Layer, null=True, blank=True, default=None, related_name="associated_layer", db_column='associatedlayer')
 
     def __unicode__(self):
         return self.name
 
     def __str__(self):
         return self.name
+
+    # def save(self, *args, **kwargs):
+    #     super(MultilayerAssociation, self).save(*args, **kwargs)
+    #     print("Association: %s +++SAVED+++" % str(self))
+    #
+    # def delete(self, *args, **kwargs):
+    #     super(MultilayerAssociation, self).delete(*args, **kwargs)
+    #     print("Association: %s ---DELETED---" % str(self))
 
 class MultilayerDimensionValue(models.Model):
     dimension = models.ForeignKey(MultilayerDimension)
@@ -586,14 +599,42 @@ class MultilayerDimensionValue(models.Model):
         ordering = ('order',)
 
     def save(self, *args, **kwargs):
-        super(MultilayerDimensionValue, self).save(*args, **kwargs)
-        # TODO
-        # Get parent dimension
-        # Get parent dimension's parent layer
-        # Get all associations for parent layer
-        # Get all dimensions for parent layer
-        # For each association
-        #   if no records of parent dimension, add M2M for this
-        # For each dimension:
-        #   For each OTHER dimension:
-        #       Get or create association with all dimension/value combos
+        if self.pk is None:
+            super(MultilayerDimensionValue, self).save(*args, **kwargs)
+            parentLayer = self.dimension.layer
+            associations = MultilayerAssociation.objects.filter(parentLayer=parentLayer)
+            if len(associations) == 0:
+                MultilayerAssociation.objects.create(name=str(self), parentLayer=parentLayer)
+                associations.update()
+            siblingValues = [x for x in self.dimension.multilayerdimensionvalue_set.all() if x != self]
+            if len(siblingValues) == 0:
+                for association in associations:
+                    self.associations.add(association)
+            else:
+                # If this is not the first value saved to this dimension, choosing
+                # an arbitrary sibling value and copying all of its associations
+                # is the closest thing we can do to smart generation of associations
+                from copy import deepcopy
+                siblingValue = siblingValues[0]
+                for association in siblingValue.associations.all():
+                    dimensionValues = [x for x in association.multilayerdimensionvalue_set.all() if x.dimension != self.dimension]
+                    # create a clone of association
+                    newAssociation = deepcopy(association)
+                    newAssociation.id = None
+                    newAssociation.name = 'NEW'
+                    newAssociation.save()
+                    # restore value/association relationships
+                    for value in dimensionValues:
+                        value.associations.add(newAssociation)
+                    self.associations.add(newAssociation)
+
+        else:
+            super(MultilayerDimensionValue, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        for association in self.associations.all():
+            if len(self.dimension.multilayerdimensionvalue_set.all()) > 1:
+                association.multilayerdimensionvalue_set.clear()
+                association.delete()
+
+        super(MultilayerDimensionValue, self).delete(*args, **kwargs)

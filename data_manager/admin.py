@@ -24,7 +24,7 @@ class NestedMultilayerDimensionValueInline(nested_admin.NestedTabularInline):
     classes = ['collapse', 'open']
     verbose_name_plural = 'Multilayer Dimension Values'
 
-class NestedMultilayerDimensionInline(nested_admin.NestedStackedInline):
+class NestedMultilayerDimensionInline(nested_admin.NestedTabularInline):
     model = MultilayerDimension
     fields = (('name', 'label', 'order', 'animated'),)
     extra = 1
@@ -33,6 +33,29 @@ class NestedMultilayerDimensionInline(nested_admin.NestedStackedInline):
     inlines = [
         NestedMultilayerDimensionValueInline,
     ]
+
+class NestedMultilayerAssociationInline(nested_admin.NestedTabularInline):
+    model = MultilayerAssociation
+    fk_name = 'parentLayer'
+    readonly_fields = ('get_values',)
+    fields = (('get_values', 'name', 'layer'),)
+    extra = 0
+    classes = ['collapse', 'open']
+    verbose_name_plural = 'Multilayer Associations'
+
+    def get_values(self, obj):
+        return '| %s |' % ' | '.join([str(x) for x in obj.multilayerdimensionvalue_set.all()])
+
+    def get_readlony_values(self, obj):
+        return obj.multilayerdimensionvalue_set.all()
+
+    def get_dimensions(self, obj):
+        dimensions = []
+        for value in obj.multilayerdimensionvalue_set.all():
+            dimension = value.dimension
+            if dimension not in dimensions:
+                dimensions.append(dimension)
+        return dimensions
 
 class LayerResource(resources.ModelResource):
     class Meta:
@@ -147,7 +170,8 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
     )
 
     inlines = [
-        NestedMultilayerDimensionInline
+        NestedMultilayerAssociationInline,
+        NestedMultilayerDimensionInline,
     ]
 
     from settings import BASE_DIR
@@ -176,6 +200,15 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
 
         return super(LayerAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
 
+    # New Layer Form
+    def add_view(self, request, form_url='', extra_context={}):
+        # extra_context['test'] = 'BAR'
+        return super(LayerAdmin, self).add_view(request, form_url, extra_context)
+
+    # Edit Layer Form
+    def change_view(self, request, id=None, extra_context={}):
+        # extra_context['test'] = 'BAR'
+        return super(LayerAdmin, self).change_view(request, id, extra_context=extra_context)
 
 class AttributeInfoAdmin(admin.ModelAdmin):
     list_display = ('field_name', 'display_name', 'precision', 'order')
