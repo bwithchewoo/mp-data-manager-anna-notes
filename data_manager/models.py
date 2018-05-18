@@ -94,8 +94,8 @@ class Theme(models.Model, SiteFlags):
 
     def save(self, *args, **kwargs):
         super(Theme, self).save(*args, **kwargs)
-        from threading import Thread
-        Thread(target=reset_cache, args=(self.site.all(),)).start()
+        # from threading import Thread
+        # Thread(target=reset_cache, args=(self.site.all(),)).start()
 
 
 class Layer(models.Model, SiteFlags):
@@ -334,161 +334,218 @@ class Layer(models.Model, SiteFlags):
                 return 'https://marinecadastre.gov/espis/#/search/%s' % urlencode(search_dict)
         return None
 
+    def dimensionRecursion(self, dimensions, associations):
+        associationArray = {}
+        dimension = dimensions.pop(0)
+        for value in sorted(dimension.multilayerdimensionvalue_set.all(), key=lambda x: x.order):
+            value_associations = associations.filter(pk__in=[x.pk for x in value.associations.all()])
+            if len(dimensions) > 0:
+                associationArray[str(value.value)] = self.dimensionRecursion(list(dimensions), value_associations)
+            else:
+                if len(value_associations) == 1 and value_associations[0].layer:
+                    associationArray[str(value.value)] = value_associations[0].layer.toDict()
+                else:
+                    associationArray[str(value.value)] = None
+        return associationArray
+
     @property
     def toDict(self):
-        sublayers = [
-            {
-                'id': layer.id,
-                'name': layer.name,
-                'order': layer.order,
-                'type': layer.layer_type,
-                'url': layer.url,
-                'arcgis_layers': layer.arcgis_layers,
-                'disable_arcgis_attributes': layer.disable_arcgis_attributes,
-                'wms_slug': layer.wms_slug,
-                'wms_version': layer.wms_version,
-                'wms_format': layer.wms_format,
-                'wms_srs': layer.wms_srs,
-                'wms_styles': layer.wms_styles,
-                'wms_timing': layer.wms_timing,
-                'wms_time_item': layer.wms_time_item,
-                'wms_additional': layer.wms_additional,
-                'utfurl': layer.utfurl,
-                'parent': self.id,
-                'legend': layer.legend,
-                'legend_title': layer.legend_title,
-                'legend_subtitle': layer.legend_subtitle,
-                'description': layer.tooltip,
-                'overview': layer.data_overview_text,
-                'data_source': layer.data_source,
-                'data_notes': layer.data_notes,
-                'kml': layer.kml,
-                'data_download': layer.data_download_link,
-                'learn_more': layer.learn_more,
-                'metadata': layer.metadata_link,
-                'source': layer.source_link,
-                'tiles': layer.tiles_link,
-                'attributes': layer.serialize_attributes(),
-                'lookups': layer.serialize_lookups,
-                'outline_color': layer.vector_outline_color,
-                'outline_opacity': layer.vector_outline_opacity,
-                'point_radius': layer.point_radius,
-                'color': layer.vector_color,
-                'fill_opacity': layer.vector_fill,
-                'graphic': layer.vector_graphic,
-                'opacity': layer.opacity,
-                'annotated': layer.is_annotated,
-                'is_disabled': layer.is_disabled,
-                'disabled_message': layer.disabled_message,
-                'data_url': layer.get_absolute_url(),
-                'has_companion': layer.has_companion
+        from django.core.cache import cache
+        layers_dict = cache.get('data_manager_layer_dict_%d' % self.pk)
+        if not layers_dict:
+            associated_multilayers = {}
+            if len(self.multilayerdimension_set.all()) > 0:
+                is_multilayer = True
+                dimensions = sorted([
+                    {
+                        'label': x.label,
+                        'name': x.name,
+                        'order': x.order,
+                        'animated': x.animated,
+                        'nodes': sorted([
+                            {
+                                'value': y.value,
+                                'label': y.label,
+                                'order': y.order
+                            }
+                            for y in x.multilayerdimensionvalue_set.all()
+                        ], key=lambda y: y['order'])
+                    }
+                    for x in self.multilayerdimension_set.all()
+                ], key=lambda x: x['order'])
+                associations =  self.parent_layer.all()
+                associated_multilayers = self.dimensionRecursion(sorted(self.multilayerdimension_set.all(), key=lambda x: x.order), associations)
+            else:
+                is_multilayer = False
+                dimensions = []
+            sublayers = [
+                {
+                    'id': layer.id,
+                    'name': layer.name,
+                    'order': layer.order,
+                    'type': layer.layer_type,
+                    'url': layer.url,
+                    'arcgis_layers': layer.arcgis_layers,
+                    'disable_arcgis_attributes': layer.disable_arcgis_attributes,
+                    'wms_slug': layer.wms_slug,
+                    'wms_version': layer.wms_version,
+                    'wms_format': layer.wms_format,
+                    'wms_srs': layer.wms_srs,
+                    'wms_styles': layer.wms_styles,
+                    'wms_timing': layer.wms_timing,
+                    'wms_time_item': layer.wms_time_item,
+                    'wms_additional': layer.wms_additional,
+                    'utfurl': layer.utfurl,
+                    'parent': self.id,
+                    'legend': layer.legend,
+                    'legend_title': layer.legend_title,
+                    'legend_subtitle': layer.legend_subtitle,
+                    'description': layer.tooltip,
+                    'overview': layer.data_overview_text,
+                    'data_source': layer.data_source,
+                    'data_notes': layer.data_notes,
+                    'kml': layer.kml,
+                    'data_download': layer.data_download_link,
+                    'learn_more': layer.learn_more,
+                    'metadata': layer.metadata_link,
+                    'source': layer.source_link,
+                    'tiles': layer.tiles_link,
+                    'attributes': layer.serialize_attributes(),
+                    'lookups': layer.serialize_lookups,
+                    'outline_color': layer.vector_outline_color,
+                    'outline_opacity': layer.vector_outline_opacity,
+                    'point_radius': layer.point_radius,
+                    'color': layer.vector_color,
+                    'fill_opacity': layer.vector_fill,
+                    'graphic': layer.vector_graphic,
+                    'opacity': layer.opacity,
+                    'annotated': layer.is_annotated,
+                    'is_disabled': layer.is_disabled,
+                    'disabled_message': layer.disabled_message,
+                    'data_url': layer.get_absolute_url(),
+                    'has_companion': layer.has_companion
+                }
+                for layer in self.sublayers.all()
+            ]
+            connect_companion_layers_to = [
+                {
+                    'id': layer.id,
+                    'name': layer.name,
+                    'order': layer.order,
+                    'type': layer.layer_type,
+                    'url': layer.url,
+                    'arcgis_layers': layer.arcgis_layers,
+                    'disable_arcgis_attributes': layer.disable_arcgis_attributes,
+                    'wms_slug': layer.wms_slug,
+                    'wms_version': layer.wms_version,
+                    'wms_format': layer.wms_format,
+                    'wms_srs': layer.wms_srs,
+                    'wms_styles': layer.wms_styles,
+                    'wms_timing': layer.wms_timing,
+                    'wms_time_item': layer.wms_time_item,
+                    'wms_additional': layer.wms_additional,
+                    'utfurl': layer.utfurl,
+                    'parent': self.id,
+                    'legend': layer.legend,
+                    'legend_title': layer.legend_title,
+                    'legend_subtitle': layer.legend_subtitle,
+                    'description': layer.tooltip,
+                    'overview': layer.data_overview_text,
+                    'data_source': layer.data_source,
+                    'data_notes': layer.data_notes,
+                    'kml': layer.kml,
+                    'data_download': layer.data_download_link,
+                    'learn_more': layer.learn_more,
+                    'metadata': layer.metadata_link,
+                    'source': layer.source_link,
+                    'tiles': layer.tiles_link,
+                    'attributes': layer.serialize_attributes(),
+                    'lookups': layer.serialize_lookups,
+                    'outline_color': layer.vector_outline_color,
+                    'outline_opacity': layer.vector_outline_opacity,
+                    'point_radius': layer.point_radius,
+                    'color': layer.vector_color,
+                    'fill_opacity': layer.vector_fill,
+                    'graphic': layer.vector_graphic,
+                    'opacity': layer.opacity,
+                    'annotated': layer.is_annotated,
+                    'is_disabled': layer.is_disabled,
+                    'disabled_message': layer.disabled_message,
+                    'data_url': layer.get_absolute_url(),
+                    'has_companion': layer.has_companion
+                }
+                for layer in self.connect_companion_layers_to.all()
+            ]
+            layers_dict = {
+                'id': self.id,
+                'name': self.name,
+                'order': self.order,
+                'type': self.layer_type,
+                'url': self.url,
+                'arcgis_layers': self.arcgis_layers,
+                'disable_arcgis_attributes': self.disable_arcgis_attributes,
+                'wms_slug': self.wms_slug,
+                'wms_version': self.wms_version,
+                'wms_format': self.wms_format,
+                'wms_srs': self.wms_srs,
+                'wms_styles': self.wms_styles,
+                'wms_timing': self.wms_timing,
+                'wms_time_item': self.wms_time_item,
+                'wms_additional': self.wms_additional,
+                'utfurl': self.utfurl,
+                'subLayers': sublayers,
+                'companion_layers': connect_companion_layers_to,
+                'has_companion': self.has_companion,
+                'queryable': self.search_query,
+                'legend': self.legend,
+                'legend_title': self.legend_title,
+                'legend_subtitle': self.legend_subtitle,
+                'description': self.description,
+                'overview': self.data_overview,
+                'data_source': self.data_source,
+                'data_notes': self.data_notes,
+                'kml': self.kml,
+                'data_download': self.data_download_link,
+                'learn_more': self.learn_more,
+                'metadata': self.metadata_link,
+                'source': self.source_link,
+                'tiles': self.tiles_link,
+                'attributes': self.serialize_attributes(),
+                'lookups': self.serialize_lookups,
+                'outline_color': self.vector_outline_color,
+                'outline_opacity': self.vector_outline_opacity,
+                'point_radius': self.point_radius,
+                'color': self.vector_color,
+                'fill_opacity': self.vector_fill,
+                'graphic': self.vector_graphic,
+                'opacity': self.opacity,
+                'annotated': self.is_annotated,
+                'is_disabled': self.is_disabled,
+                'disabled_message': self.disabled_message,
+                'data_url': self.get_absolute_url(),
+                'is_multilayer': is_multilayer,
+                'dimensions': dimensions,
+                'associated_multilayers': associated_multilayers
             }
-            for layer in self.sublayers.all()
-        ]
-        connect_companion_layers_to = [
-            {
-                'id': layer.id,
-                'name': layer.name,
-                'order': layer.order,
-                'type': layer.layer_type,
-                'url': layer.url,
-                'arcgis_layers': layer.arcgis_layers,
-                'disable_arcgis_attributes': layer.disable_arcgis_attributes,
-                'wms_slug': layer.wms_slug,
-                'wms_version': layer.wms_version,
-                'wms_format': layer.wms_format,
-                'wms_srs': layer.wms_srs,
-                'wms_styles': layer.wms_styles,
-                'wms_timing': layer.wms_timing,
-                'wms_time_item': layer.wms_time_item,
-                'wms_additional': layer.wms_additional,
-                'utfurl': layer.utfurl,
-                'parent': self.id,
-                'legend': layer.legend,
-                'legend_title': layer.legend_title,
-                'legend_subtitle': layer.legend_subtitle,
-                'description': layer.tooltip,
-                'overview': layer.data_overview_text,
-                'data_source': layer.data_source,
-                'data_notes': layer.data_notes,
-                'kml': layer.kml,
-                'data_download': layer.data_download_link,
-                'learn_more': layer.learn_more,
-                'metadata': layer.metadata_link,
-                'source': layer.source_link,
-                'tiles': layer.tiles_link,
-                'attributes': layer.serialize_attributes(),
-                'lookups': layer.serialize_lookups,
-                'outline_color': layer.vector_outline_color,
-                'outline_opacity': layer.vector_outline_opacity,
-                'point_radius': layer.point_radius,
-                'color': layer.vector_color,
-                'fill_opacity': layer.vector_fill,
-                'graphic': layer.vector_graphic,
-                'opacity': layer.opacity,
-                'annotated': layer.is_annotated,
-                'is_disabled': layer.is_disabled,
-                'disabled_message': layer.disabled_message,
-                'data_url': layer.get_absolute_url(),
-                'has_companion': layer.has_companion
-            }
-            for layer in self.connect_companion_layers_to.all()
-        ]
-        layers_dict = {
-            'id': self.id,
-            'name': self.name,
-            'order': self.order,
-            'type': self.layer_type,
-            'url': self.url,
-            'arcgis_layers': self.arcgis_layers,
-            'disable_arcgis_attributes': self.disable_arcgis_attributes,
-            'wms_slug': self.wms_slug,
-            'wms_version': self.wms_version,
-            'wms_format': self.wms_format,
-            'wms_srs': self.wms_srs,
-            'wms_styles': self.wms_styles,
-            'wms_timing': self.wms_timing,
-            'wms_time_item': self.wms_time_item,
-            'wms_additional': self.wms_additional,
-            'utfurl': self.utfurl,
-            'subLayers': sublayers,
-            'companion_layers': connect_companion_layers_to,
-            'has_companion': self.has_companion,
-            'queryable': self.search_query,
-            'legend': self.legend,
-            'legend_title': self.legend_title,
-            'legend_subtitle': self.legend_subtitle,
-            'description': self.description,
-            'overview': self.data_overview,
-            'data_source': self.data_source,
-            'data_notes': self.data_notes,
-            'kml': self.kml,
-            'data_download': self.data_download_link,
-            'learn_more': self.learn_more,
-            'metadata': self.metadata_link,
-            'source': self.source_link,
-            'tiles': self.tiles_link,
-            'attributes': self.serialize_attributes(),
-            'lookups': self.serialize_lookups,
-            'outline_color': self.vector_outline_color,
-            'outline_opacity': self.vector_outline_opacity,
-            'point_radius': self.point_radius,
-            'color': self.vector_color,
-            'fill_opacity': self.vector_fill,
-            'graphic': self.vector_graphic,
-            'opacity': self.opacity,
-            'annotated': self.is_annotated,
-            'is_disabled': self.is_disabled,
-            'disabled_message': self.disabled_message,
-            'data_url': self.get_absolute_url()
-        }
+            # Cache for 1 week, will be reset if layer data changes
+            cache.set('data_manager_layer_dict_%d' % self.pk, layers_dict, 60*60*24*7)
         return layers_dict
 
     def save(self, *args, **kwargs):
         self.slug_name = self.slug
         super(Layer, self).save(*args, **kwargs)
-        from threading import Thread
-        Thread(target=reset_cache, args=(self.site.all(),)).start()
+        from django.core.cache import cache
+        cache.delete('data_manager_layer_dict_%s' % self.pk)
+        if self.is_sublayer:
+            for parent_layer in self.sublayers:
+                cache.delete('data_manager_layer_dict_%s' % parent_layer.pk)
+        for association in self.associated_layer.all():
+            cache.delete('data_manager_layer_dict_%s' % association.parentlayer.pk)
+
+
+
+        # from threading import Thread
+        # Thread(target=reset_cache, args=(self.site.all(),)).start()
 
 
 class AttributeInfo(models.Model):
@@ -517,7 +574,6 @@ class LookupInfo(models.Model):
 
     def __unicode__(self):
         return unicode('%s' % (self.value))
-
 
 class DataNeed(models.Model):
     name = models.CharField(max_length=100)
@@ -561,7 +617,6 @@ class MultilayerDimension(models.Model):
         for value in self.multilayerdimensionvalue_set.all().order_by('-order'):
             value.delete()
         super(MultilayerDimension, self).delete(*args, **kwargs)
-
 
 class MultilayerAssociation(models.Model):
     name = models.CharField(max_length=200)
