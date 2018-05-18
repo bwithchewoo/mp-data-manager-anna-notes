@@ -533,6 +533,8 @@ class Layer(models.Model, SiteFlags):
 
     def save(self, *args, **kwargs):
         self.slug_name = self.slug
+        if self.url == None:
+            self.url = ''
         super(Layer, self).save(*args, **kwargs)
         from django.core.cache import cache
         cache.delete('data_manager_layer_dict_%s' % self.pk)
