@@ -343,7 +343,7 @@ class Layer(models.Model, SiteFlags):
                 associationArray[str(value.value)] = self.dimensionRecursion(list(dimensions), value_associations)
             else:
                 if len(value_associations) == 1 and value_associations[0].layer:
-                    associationArray[str(value.value)] = value_associations[0].layer.toDict()
+                    associationArray[str(value.value)] = value_associations[0].layer.toDict
                 else:
                     associationArray[str(value.value)] = None
         return associationArray
@@ -537,10 +537,10 @@ class Layer(models.Model, SiteFlags):
         from django.core.cache import cache
         cache.delete('data_manager_layer_dict_%s' % self.pk)
         if self.is_sublayer:
-            for parent_layer in self.sublayers:
+            for parent_layer in self.sublayers.all():
                 cache.delete('data_manager_layer_dict_%s' % parent_layer.pk)
         for association in self.associated_layer.all():
-            cache.delete('data_manager_layer_dict_%s' % association.parentlayer.pk)
+            cache.delete('data_manager_layer_dict_%s' % association.parentLayer.pk)
 
 
 
