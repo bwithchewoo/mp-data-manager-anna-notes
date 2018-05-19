@@ -343,7 +343,7 @@ class Layer(models.Model, SiteFlags):
                 associationArray[str(value.value)] = self.dimensionRecursion(list(dimensions), value_associations)
             else:
                 if len(value_associations) == 1 and value_associations[0].layer:
-                    associationArray[str(value.value)] = value_associations[0].layer.toDict
+                    associationArray[str(value.value)] = value_associations[0].layer.pk
                 else:
                     associationArray[str(value.value)] = None
         return associationArray
