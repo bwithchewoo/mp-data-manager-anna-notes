@@ -355,7 +355,7 @@ class Layer(models.Model, SiteFlags):
         if not layers_dict:
             associated_multilayers = {}
             if len(self.multilayerdimension_set.all()) > 0:
-                is_multilayer = True
+                is_multilayer_parent = True
                 dimensions = sorted([
                     {
                         'label': x.label,
@@ -376,8 +376,12 @@ class Layer(models.Model, SiteFlags):
                 associations =  self.parent_layer.all()
                 associated_multilayers = self.dimensionRecursion(sorted(self.multilayerdimension_set.all(), key=lambda x: x.order), associations)
             else:
-                is_multilayer = False
+                is_multilayer_parent = False
                 dimensions = []
+            if len(self.associated_layer.all()) > 0:
+                is_multilayer = True
+            else:
+                is_multilayer = False
             sublayers = [
                 {
                     'id': layer.id,
@@ -524,6 +528,7 @@ class Layer(models.Model, SiteFlags):
                 'disabled_message': self.disabled_message,
                 'data_url': self.get_absolute_url(),
                 'is_multilayer': is_multilayer,
+                'is_multilayer_parent': is_multilayer_parent,
                 'dimensions': dimensions,
                 'associated_multilayers': associated_multilayers
             }
