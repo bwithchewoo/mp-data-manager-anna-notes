@@ -378,7 +378,10 @@ class Layer(models.Model, SiteFlags):
 
     @property
     def associatedMultilayers(self):
-        return self.dimensionRecursion(sorted(self.multilayerdimension_set.all(), key=lambda x: x.order), self.parent_layer.all())
+        if len(self.multilayerdimension_set.all()) > 0:
+            return self.dimensionRecursion(sorted(self.multilayerdimension_set.all(), key=lambda x: x.order), self.parent_layer.all())
+        else:
+            return {}
 
     @property
     def toDict(self):
@@ -434,7 +437,7 @@ class Layer(models.Model, SiteFlags):
                     'is_multilayer': layer.isMultilayer,
                     'is_multilayer_parent': layer.isMultilayerParent,
                     'dimensions': layer.dimensions,
-                    'associated_multilayers': layer.associated_multilayers
+                    'associated_multilayers': layer.associatedMultilayers
                 }
                 for layer in self.sublayers.all()
             ]
@@ -487,7 +490,7 @@ class Layer(models.Model, SiteFlags):
                     'is_multilayer': layer.isMultilayer,
                     'is_multilayer_parent': layer.isMultilayerParent,
                     'dimensions': layer.dimensions,
-                    'associated_multilayers': layer.associated_multilayers
+                    'associated_multilayers': layer.associatedMultilayers
                 }
                 for layer in self.connect_companion_layers_to.all()
             ]
@@ -541,7 +544,7 @@ class Layer(models.Model, SiteFlags):
                 'is_multilayer': self.isMultilayer,
                 'is_multilayer_parent': self.isMultilayerParent,
                 'dimensions': self.dimensions,
-                'associated_multilayers': self.associated_multilayers
+                'associated_multilayers': self.associatedMultilayers
             }
             # Cache for 1 week, will be reset if layer data changes
             cache.set('data_manager_layer_dict_%d' % self.pk, layers_dict, 60*60*24*7)
