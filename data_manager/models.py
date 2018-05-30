@@ -349,39 +349,42 @@ class Layer(models.Model, SiteFlags):
         return associationArray
 
     @property
+    def isMultilayerParent(self):
+        return len(self.multilayerdimension_set.all()) > 0
+
+    @property
+    def isMultiLayer(self):
+        return len(self.associated_layer.all()) > 0
+
+    @property
+    def dimensions(self):
+        return sorted([
+            {
+                'label': x.label,
+                'name': x.name,
+                'order': x.order,
+                'animated': x.animated,
+                'nodes': sorted([
+                    {
+                        'value': y.value,
+                        'label': y.label,
+                        'order': y.order
+                    }
+                    for y in x.multilayerdimensionvalue_set.all()
+                ], key=lambda y: y['order'])
+            }
+            for x in self.multilayerdimension_set.all()
+        ], key=lambda x: x['order'])
+
+    @property
+    def associatedMultilayers(self):
+        return self.dimensionRecursion(sorted(self.multilayerdimension_set.all(), key=lambda x: x.order), self.parent_layer.all())
+
+    @property
     def toDict(self):
         from django.core.cache import cache
         layers_dict = cache.get('data_manager_layer_dict_%d' % self.pk)
         if not layers_dict:
-            associated_multilayers = {}
-            if len(self.multilayerdimension_set.all()) > 0:
-                is_multilayer_parent = True
-                dimensions = sorted([
-                    {
-                        'label': x.label,
-                        'name': x.name,
-                        'order': x.order,
-                        'animated': x.animated,
-                        'nodes': sorted([
-                            {
-                                'value': y.value,
-                                'label': y.label,
-                                'order': y.order
-                            }
-                            for y in x.multilayerdimensionvalue_set.all()
-                        ], key=lambda y: y['order'])
-                    }
-                    for x in self.multilayerdimension_set.all()
-                ], key=lambda x: x['order'])
-                associations =  self.parent_layer.all()
-                associated_multilayers = self.dimensionRecursion(sorted(self.multilayerdimension_set.all(), key=lambda x: x.order), associations)
-            else:
-                is_multilayer_parent = False
-                dimensions = []
-            if len(self.associated_layer.all()) > 0:
-                is_multilayer = True
-            else:
-                is_multilayer = False
             sublayers = [
                 {
                     'id': layer.id,
@@ -427,7 +430,11 @@ class Layer(models.Model, SiteFlags):
                     'is_disabled': layer.is_disabled,
                     'disabled_message': layer.disabled_message,
                     'data_url': layer.get_absolute_url(),
-                    'has_companion': layer.has_companion
+                    'has_companion': layer.has_companion,
+                    'is_multilayer': layer.isMultilayer,
+                    'is_multilayer_parent': layer.isMultilayerParent,
+                    'dimensions': layer.dimensions,
+                    'associated_multilayers': layer.associated_multilayers
                 }
                 for layer in self.sublayers.all()
             ]
@@ -476,7 +483,11 @@ class Layer(models.Model, SiteFlags):
                     'is_disabled': layer.is_disabled,
                     'disabled_message': layer.disabled_message,
                     'data_url': layer.get_absolute_url(),
-                    'has_companion': layer.has_companion
+                    'has_companion': layer.has_companion,
+                    'is_multilayer': layer.isMultilayer,
+                    'is_multilayer_parent': layer.isMultilayerParent,
+                    'dimensions': layer.dimensions,
+                    'associated_multilayers': layer.associated_multilayers
                 }
                 for layer in self.connect_companion_layers_to.all()
             ]
@@ -527,10 +538,10 @@ class Layer(models.Model, SiteFlags):
                 'is_disabled': self.is_disabled,
                 'disabled_message': self.disabled_message,
                 'data_url': self.get_absolute_url(),
-                'is_multilayer': is_multilayer,
-                'is_multilayer_parent': is_multilayer_parent,
-                'dimensions': dimensions,
-                'associated_multilayers': associated_multilayers
+                'is_multilayer': self.isMultilayer,
+                'is_multilayer_parent': self.isMultilayerParent,
+                'dimensions': self.dimensions,
+                'associated_multilayers': self.associated_multilayers
             }
             # Cache for 1 week, will be reset if layer data changes
             cache.set('data_manager_layer_dict_%d' % self.pk, layers_dict, 60*60*24*7)
