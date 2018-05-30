@@ -353,7 +353,7 @@ class Layer(models.Model, SiteFlags):
         return len(self.multilayerdimension_set.all()) > 0
 
     @property
-    def isMultiLayer(self):
+    def isMultilayer(self):
         return len(self.associated_layer.all()) > 0
 
     @property
