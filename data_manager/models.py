@@ -634,8 +634,12 @@ class MultilayerDimension(models.Model):
         super(MultilayerDimension, self).save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
+        if len(self.layer.dimensions) == 1:
+            last = True
+        else:
+            last = False
         for value in self.multilayerdimensionvalue_set.all().order_by('-order'):
-            value.delete()
+            value.delete((),last=last)
         super(MultilayerDimension, self).delete(*args, **kwargs)
 
 class MultilayerAssociation(models.Model):
@@ -707,8 +711,13 @@ class MultilayerDimensionValue(models.Model):
             super(MultilayerDimensionValue, self).save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
+        delete_all = False
+        if kwargs.has_key('last'):
+            if kwargs['last']:
+                delete_all = True
+            kwargs.pop('last', None)
         for association in self.associations.all():
-            if len(self.dimension.multilayerdimensionvalue_set.all()) > 1:
+            if delete_all or len(self.dimension.multilayerdimensionvalue_set.all()) > 1:
                 association.multilayerdimensionvalue_set.clear()
                 association.delete()
 
