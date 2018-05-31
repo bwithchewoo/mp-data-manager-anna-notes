@@ -22,7 +22,7 @@ def get_json(request):
     current_site = shortcuts.get_current_site(request)
     data = {
         "state": { "activeLayers": [] },
-        "layers": [layer.toDict for layer in Layer.objects.filter(is_sublayer=False).exclude(layer_type='placeholder').order_by('order')],
+        "layers": [layer.toDict(current_site.pk) for layer in Layer.objects.filter(is_sublayer=False).exclude(layer_type='placeholder').order_by('order')],
         "themes": [theme.toDict for theme in Theme.objects.all().order_by('order')],
         "success": True
     }
@@ -89,11 +89,13 @@ def get_layer_components(request_dict, url='', name='', type='XYZ', themes=[]):
 
 
 def layer_result(layer, status_code=1, success=True, message="Success"):
+    from django.contrib.sites import shortcuts
+    current_site = shortcuts.get_current_site(request)
     result = {
         "status_code":status_code,
         "success":success,
         "message":message,
-        "layer": layer.toDict,
+        "layer": layer.toDict(current_site.pk),
         "themes": [theme.id for theme in layer.themes.all()]
     }
     return result

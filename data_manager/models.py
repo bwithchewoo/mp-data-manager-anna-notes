@@ -383,10 +383,9 @@ class Layer(models.Model, SiteFlags):
         else:
             return {}
 
-    @property
-    def toDict(self):
+    def toDict(self, siteId):
         from django.core.cache import cache
-        layers_dict = cache.get('data_manager_layer_dict_%d' % self.pk)
+        layers_dict = cache.get('data_manager_layer_dict_%d_site_%d' % (self.pk, siteId))
         if not layers_dict:
             sublayers = [
                 {
@@ -547,7 +546,7 @@ class Layer(models.Model, SiteFlags):
                 'associated_multilayers': self.associatedMultilayers
             }
             # Cache for 1 week, will be reset if layer data changes
-            cache.set('data_manager_layer_dict_%d' % self.pk, layers_dict, 60*60*24*7)
+            cache.set('data_manager_layer_dict_%d_site_%d' % (self.pk, siteId), layers_dict, 60*60*24*7)
         return layers_dict
 
     def save(self, *args, **kwargs):
@@ -556,15 +555,15 @@ class Layer(models.Model, SiteFlags):
             self.url = ''
         super(Layer, self).save(*args, **kwargs)
         from django.core.cache import cache
-        cache.delete('data_manager_layer_dict_%s' % self.pk)
+        for site in self.site.all():
+            cache.delete('data_manager_layer_dict_%s_site_%d' % (self.pk, site.id))
         if self.is_sublayer:
             for parent_layer in self.sublayers.all():
-                cache.delete('data_manager_layer_dict_%s' % parent_layer.pk)
+                for site in parent_layer.site.all():
+                    cache.delete('data_manager_layer_dict_%s_site_%d' % (parent_layer.pk, site.id))
         for association in self.associated_layer.all():
-            cache.delete('data_manager_layer_dict_%s' % association.parentLayer.pk)
-
-
-
+            for site in association.parentLayer.site.all():
+                cache.delete('data_manager_layer_dict_%s_site_%d' % (association.parentLayer.pk, site.id))
         # from threading import Thread
         # Thread(target=reset_cache, args=(self.site.all(),)).start()
 
