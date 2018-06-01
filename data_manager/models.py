@@ -717,7 +717,7 @@ class MultilayerDimensionValue(models.Model):
                 delete_all = True
             kwargs.pop('last', None)
         for association in self.associations.all():
-            if delete_all or len(self.dimension.multilayerdimensionvalue_set.all()) > 1:
+            if delete_all or len(self.dimension.multilayerdimensionvalue_set.all()) > 1 or len(self.dimension.layer.parent_layer.all()) == 1:
                 association.multilayerdimensionvalue_set.clear()
                 association.delete()
 
