@@ -70,7 +70,7 @@ def parseLayerName(sublayer_name):
               'value': '05',
               'name': 'may',
               'label': 'M',
-              'order': 5
+              'order': 6
         },
         'month06': {
               'dimension_type': 'time',
@@ -235,13 +235,18 @@ def createArcRestLayer(layer, url, layer_id, layer_source, theme, parent_layer=F
     parsed_layer_dict = parseLayerName(layer['name'])
     layer_name = parsed_layer_dict['name']
     is_sublayer = not(parent_layer == False)
-    (layer_record, layer_created) = Layer.objects.get_or_create(
-        name=layer_name,
-        layer_type='ArcRest',
-        url=url,
-        is_sublayer=is_sublayer,
-        arcgis_layers=str(layer_id)
-    )
+    url_record_matches = Layer.objects.filter(url=url, arcgis_layers=str(layer_id), is_sublayer=is_sublayer, layer_type='ArcRest')
+    if len(url_record_matches) == 1:
+        layer_record = url_record_matches[0]
+        layer_created = False
+    else:
+        (layer_record, layer_created) = Layer.objects.get_or_create(
+            name=layer_name,
+            layer_type='ArcRest',
+            url=url,
+            is_sublayer=is_sublayer,
+            arcgis_layers=str(layer_id)
+        )
     if not theme in layer_record.themes.all():
         layer_record.themes.add(theme)
     if is_sublayer and not parent_layer in layer_record.sublayers.all():
