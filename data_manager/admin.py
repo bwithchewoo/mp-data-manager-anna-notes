@@ -63,8 +63,8 @@ class LayerResource(resources.ModelResource):
 
 class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
     resource_class = LayerResource
-    list_display = ('name', 'layer_type', 'Theme_', 'order', 'data_publish_date', 'primary_site', 'preview_site', 'url')
-    search_fields = ['name', 'layer_type', 'url']
+    list_display = ('name', 'layer_type', 'Theme_', 'order', 'data_publish_date', 'data_source', 'primary_site', 'preview_site', 'url')
+    search_fields = ['name', 'layer_type', 'url', 'data_source']
     ordering = ('name',)
     exclude = ('slug_name',)
 

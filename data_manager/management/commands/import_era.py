@@ -3,6 +3,10 @@ import sys
 
 import requests
 
+# Ignore the nasty SNIMissingWarning and the InsecurePlatformWarning
+import urllib3
+urllib3.disable_warnings()
+
 # Identify and break up name and dimension/value dict
 # Only deal with strings, finding and creating dimensions/associations done elsewhere
 def parseLayerName(sublayer_name):
@@ -10,6 +14,7 @@ def parseLayerName(sublayer_name):
         'allSp': 'all species',
         'nefsc': '(NEFSC)',
         'neamap': '(NEAMAP)',
+        'chla': 'Chlorophyll-a',
     }
     value_lookup = {
         # TODO: determine if annual is dimension 'month' or 'season'
@@ -145,7 +150,7 @@ def parseLayerName(sublayer_name):
               'dimension_label': 'season',
               'value': '02',
               'name': 'spring',
-              'label': 'spr',
+              'label': 'Spr',
               'order': 3
         },
         'season03': {
@@ -154,7 +159,7 @@ def parseLayerName(sublayer_name):
               'dimension_label': 'season',
               'value': '03',
               'name': 'summer',
-              'label': 'sum',
+              'label': 'Sum',
               'order': 4
         },
         'season04': {
@@ -163,7 +168,7 @@ def parseLayerName(sublayer_name):
               'dimension_label': 'season',
               'value': '04',
               'name': 'fall',
-              'label': 'fall',
+              'label': 'Fall',
               'order': 5
         },
         'original': {
@@ -172,7 +177,7 @@ def parseLayerName(sublayer_name):
               'dimension_label': 'threshold',
               'value': 'original',
               'name': 'all',
-              'label': 'all',
+              'label': 'All',
               'order': 1
         },
         'top50pctl': {
@@ -216,7 +221,7 @@ def parseLayerName(sublayer_name):
         if part in value_lookup.keys():
             val_dict = value_lookup[part]
             dimensions_dict[val_dict['dimension_type']] = val_dict
-    name = 'ERA: %s' % ' '.join([x.capitalize() for x in name_parts_clean])
+    name = ' '.join([x.capitalize() for x in name_parts_clean])
 
     return {
         'name':name,
@@ -351,6 +356,8 @@ class Command(BaseCommand):
         #############
         #############
 
+        count = 0
+
         # Get companion theme (used to hide multilayer sublayers)
         companion_theme = Theme.objects.get(name='companion')
 
@@ -365,7 +372,7 @@ class Command(BaseCommand):
         services_json = '%s%s/?f=pjson' % (ENDPOINT,SERVICE_ROOT)
         services_request = requests.get(services_json)
         services = services_request.json()['services']
-        for service_dict in services:
+        for service_count, service_dict in enumerate(services):
             service = service_dict['name']
             service_endpoint = '%s%s/MapServer' % (ENDPOINT, service)
             # test if service matches given ERA_CATEGORIES
@@ -388,7 +395,7 @@ class Command(BaseCommand):
                 service_json = '%s?f=pjson' % (service_endpoint)
                 layers_request = requests.get(service_json)
                 layers = layers_request.json()['layers']
-                for layer in layers:
+                for layer_count, layer in enumerate(layers):
                     if layer['parentLayerId'] == -1:
                         # Parent Layer
                         if layer['subLayerIds'] == 0:
@@ -410,8 +417,10 @@ class Command(BaseCommand):
                                     multilayer_parent.site.add(site)
                             multilayer_parent.data_source = LAYER_SOURCE
                             multilayer_parent.save()
+                            count += 1
+                            print('Service: %d, Layer: %d, Total: %d' % (service_count, layer_count, count))
                             if layer['subLayerIds']:
-                                for sublayer_id in layer['subLayerIds']:
+                                for sublayer_count, sublayer_id in enumerate(layer['subLayerIds']):
                                     sublayer_json = '%s/%s/?f=pjson' % (service_endpoint, sublayer_id)
                                     sublayer_request = requests.get(sublayer_json)
                                     sublayer = sublayer_request.json()
@@ -440,7 +449,7 @@ class Command(BaseCommand):
                                         (dimensionValue, dimension_value_created) = MultilayerDimensionValue.objects.get_or_create(
                                             dimension=dimension,
                                             value=dimension_value_dict['name'],
-                                            label=dimension_value_dict['label'],
+                                            label=dimension_value_dict['label'],  # Capitalizing this creates dupes if not matching 'label' in value_lookup
                                             order=dimension_value_dict['order']
                                         )
                                         dimensionValue.save()
@@ -450,7 +459,11 @@ class Command(BaseCommand):
                                     # set cache
                                     sublayer_record.data_source = LAYER_SOURCE
                                     sublayer_record.save()
+                                    count += 1
+                                    print('Service: %d, Layer: %d, Sublayer: %d, Total: %d' % (service_count, layer_count, sublayer_count, count))
                             multilayer_parent.save()
+                            for site in Site.objects.all():
+                                multilayer_parent.toDict(site.pk)
                     else:
                         # Child Layer
                         pass        # Handle this in loop of parent layer
