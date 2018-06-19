@@ -186,7 +186,7 @@ def parseLayerName(sublayer_name):
               'dimension_label': 'threshold',
               'value': '50',
               'name': '50',
-              'label': '50',
+              'label': 'Top&nbsp50%',
               'order': 2
         },
         'top25pctl': {
@@ -195,7 +195,7 @@ def parseLayerName(sublayer_name):
               'dimension_label': 'threshold',
               'value': '25',
               'name': '25',
-              'label': '25',
+              'label': 'Top&nbsp25%',
               'order': 3
         },
         'top10pctl': {
@@ -204,7 +204,7 @@ def parseLayerName(sublayer_name):
               'dimension_label': 'threshold',
               'value': '10',
               'name': '10',
-              'label': '10',
+              'label': 'Top&nbsp10%',
               'order': 4
         },
     }
@@ -451,12 +451,23 @@ class Command(BaseCommand):
                                         if dimension_created:
                                             # Save some time
                                             dimension.save()
+                                        # Fix issue of old associations being duplicated
+                                        # matching_dimension_values = MultilayerDimensionValue.objects.filter(dimension=dimension,value=dimension_value_dict['name'],order=dimension_value_dict['order'])
+                                        matching_dimension_values = dimension.multilayerdimensionvalue_set.filter(value=dimension_value_dict['name'],order=dimension_value_dict['order'])
+                                        cleanup_count = 0
+                                        while len(matching_dimension_values) > 1:
+                                            cleanup_count += 1
+                                            #weird bug where many have no id yet
+                                            matching_dimension_values[1].save()
+                                            matching_dimension_values[1].delete()
+                                            matching_dimension_values = dimension.multilayerdimensionvalue_set.filter(value=dimension_value_dict['name'],order=dimension_value_dict['order'])
+                                            print('cleanup values count: %s' % cleanup_count)
                                         (dimensionValue, dimension_value_created) = MultilayerDimensionValue.objects.get_or_create(
                                             dimension=dimension,
                                             value=dimension_value_dict['name'],
-                                            label=dimension_value_dict['label'],  # Capitalizing this creates dupes if not matching 'label' in value_lookup
                                             order=dimension_value_dict['order']
                                         )
+                                        dimensionValue.label = dimension_value_dict['label']  # Capitalizing this creates dupes if not matching 'label' in value_lookup
                                         dimensionValue.save()
                                         sublayerDimensionValues.append(dimensionValue)
                                     # Create Association
