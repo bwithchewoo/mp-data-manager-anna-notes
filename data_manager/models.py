@@ -716,9 +716,15 @@ class MultilayerDimensionValue(models.Model):
             if kwargs['last']:
                 delete_all = True
             kwargs.pop('last', None)
-        for association in self.associations.all():
-            if delete_all or len(self.dimension.multilayerdimensionvalue_set.all()) > 1 or len(self.dimension.layer.parent_layer.all()) == 1:
-                association.multilayerdimensionvalue_set.clear()
-                association.delete()
+        try:
+            for association in self.associations.all():
+                if delete_all or len(self.dimension.multilayerdimensionvalue_set.all()) > 1 or len(self.dimension.layer.parent_layer.all()) == 1:
+                    association.multilayerdimensionvalue_set.clear()
+                    association.delete()
+        except ValueError:
+            # ValueError: "<MultilayerDimensionValue: Threshold: 10>" needs to have a value for field "multilayerdimensionvalue" before this many-to-many relationship can be used.
+            pass
 
-        super(MultilayerDimensionValue, self).delete(*args, **kwargs)
+        if self.id:
+            # AssertionError: MultilayerDimensionValue object can't be deleted because its id attribute is set to None.
+            super(MultilayerDimensionValue, self).delete(*args, **kwargs)
