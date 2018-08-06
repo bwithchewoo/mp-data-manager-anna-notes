@@ -21,6 +21,7 @@ def get_domain(port=8010):
 def reset_cache(sites):
     from django.core.cache import cache
     import requests
+    from requests.exceptions import ConnectionError
     for site in sites:
         cache.delete('data_manager_json_site_%s' % site.pk)
         from marco.settings import DEBUG
@@ -28,7 +29,11 @@ def reset_cache(sites):
             url = "http://%s:8000/data_manager/get_json" % site.domain[:site.domain.index(':')]
         else:
             url = "http://%s/data_manager/get_json" % site.domain
-        requests.get(url)
+        try:
+            requests.get(url)
+        except ConnectionError:
+            #sometimes testing overdoes this a bit and we get 'Max retries exceeded'
+            pass
 
 class SiteFlags(object):#(models.Model):
     """Add-on class for displaying sites in the list_display
@@ -93,10 +98,15 @@ class Theme(models.Model, SiteFlags):
         return themes_dict
 
     def save(self, *args, **kwargs):
+        try:
+            if not 'recache' in kwargs.keys() or kwargs['recache'] == True:
+                from threading import Thread
+                Thread(target=reset_cache, args=(self.site.all(),)).start()
+            if 'recache' in kwargs.keys():
+                kwargs.pop('recache', None)
+        except:
+            pass
         super(Theme, self).save(*args, **kwargs)
-        from threading import Thread
-        Thread(target=reset_cache, args=(self.site.all(),)).start()
-
 
 class Layer(models.Model, SiteFlags):
     TYPE_CHOICES = (
@@ -486,9 +496,15 @@ class Layer(models.Model, SiteFlags):
 
     def save(self, *args, **kwargs):
         self.slug_name = self.slug
+        try:
+            if not 'recache' in kwargs.keys() or kwargs['recache'] == True:
+                from threading import Thread
+                Thread(target=reset_cache, args=(self.site.all(),)).start()
+            if 'recache' in kwargs.keys():
+                kwargs.pop('recache', None)
+        except:
+            pass
         super(Layer, self).save(*args, **kwargs)
-        from threading import Thread
-        Thread(target=reset_cache, args=(self.site.all(),)).start()
 
 
 class AttributeInfo(models.Model):
