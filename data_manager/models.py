@@ -217,7 +217,10 @@ class Layer(models.Model, SiteFlags):
     @property
     def parent(self):
         if self.is_sublayer:
-            return self.sublayers.all()[0]
+            if self.sublayers.all().count() > 0:
+                return self.sublayers.all()[0]
+            else:
+                return None
         return self
 
     def get_absolute_url(self):
