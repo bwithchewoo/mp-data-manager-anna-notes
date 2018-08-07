@@ -271,7 +271,7 @@ class Layer(models.Model, SiteFlags):
     def data_download_link(self):
         if self.data_download and self.data_download.lower() == 'none':
             return None
-        if not self.data_download and self.is_sublayer:
+        if self.parent and not self.data_download and self.is_sublayer:
             return self.parent.data_download
         else:
             return self.data_download
