@@ -262,15 +262,31 @@ class Layer(models.Model, SiteFlags):
 
     @property
     def bookmark_link(self):
-        if self.bookmark:
+        if self.bookmark and "%%5D=%d&" % self.id in self.bookmark:
             return self.bookmark
 
-        if self.is_sublayer and self.parent.bookmark:
+        if self.is_sublayer and self.parent.bookmark and len(self.parent.bookmark) > 0:
             return self.parent.bookmark.replace('<layer_id>', str(self.id))
 
         if self.is_parent:
             for theme in self.themes.all():
                 return theme.url()
+
+        root_str = '/visualize/#x=-73.24&y=38.93&z=7&logo=true&controls=true&basemap=Ocean'
+        layer_str = '&dls%%5B%%5D=true&dls%%5B%%5D=%s&dls%%5B%%5D=%d' % (str(self.opacity), self.id)
+        companion_str = ''
+        if self.has_companion:
+            for companion in self.connect_companion_layers_to.all():
+                companion_str += '&dls%%5B%%5D=false&dls%%5B%%5D=%s&dls%%5B%%5D=%d' % (str(companion.opacity), companion.id)
+        themes_str = ''
+        if self.themes.all().count() > 0:
+            for theme in self.themes.all():
+                themes_str = '&themes%%5Bids%%5D%%5B%%5D=%d' % theme.id
+
+        panel_str = '&tab=data&legends=false&layers=true'
+
+        return "%s%s%s%s%s" % (root_str, layer_str, companion_str, themes_str, panel_str)
+
 
     @property
     def data_download_link(self):
