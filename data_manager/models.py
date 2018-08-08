@@ -128,7 +128,7 @@ class Layer(models.Model, SiteFlags):
     site = models.ManyToManyField(Site)
     name = models.CharField(max_length=100)
     order = models.PositiveSmallIntegerField(default=10, blank=True, null=True, help_text='input an integer to determine the priority/order of the layer being displayed (1 being the highest)')
-    slug_name = models.CharField(max_length=100, blank=True, null=True)
+    slug_name = models.CharField(max_length=200, blank=True, null=True)
     layer_type = models.CharField(max_length=50, choices=TYPE_CHOICES, help_text='use placeholder to temporarily remove layer from TOC')
     url = models.CharField(max_length=255, blank=True, null=True)
     shareable_url = models.BooleanField(default=True, help_text='Indicates whether the data layer (e.g. map tiles) can be shared with others (through the Map Tiles Link)')
@@ -272,6 +272,8 @@ class Layer(models.Model, SiteFlags):
             for theme in self.themes.all():
                 return theme.url()
 
+        # RDH: Most Marine Life layers seem to have bogus bookmarks. If the first line of this def
+        #   isn't true, then we likely need to give users something that will work. This should do it.
         root_str = '/visualize/#x=-73.24&y=38.93&z=7&logo=true&controls=true&basemap=Ocean'
         layer_str = '&dls%%5B%%5D=true&dls%%5B%%5D=%s&dls%%5B%%5D=%d' % (str(self.opacity), self.id)
         companion_str = ''

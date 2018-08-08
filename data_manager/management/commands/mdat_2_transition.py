@@ -47,11 +47,11 @@ class Command(BaseCommand):
 
         services = ['avian', 'mammal', 'fish']
 
-        avian_v1_parent = Layer.all_objects.get(url='', name='Birds', layer_type='checkbox')
+        avian_v1_parent = Layer.all_objects.get(url='', name='Birds - V1', layer_type='checkbox')
         avian_parent_dict =  model_to_dict(avian_v1_parent)
-        mammal_v1_parent = Layer.all_objects.get(url='', name='Marine Mammals', layer_type='checkbox')
+        mammal_v1_parent = Layer.all_objects.get(url='', name='Marine Mammals - V1', layer_type='checkbox')
         mammal_parent_dict =  model_to_dict(avian_v1_parent)
-        fish_v1_parent = Layer.all_objects.get(url='', name='Fish', layer_type='checkbox')
+        fish_v1_parent = Layer.all_objects.get(url='', name='Fish - V1', layer_type='checkbox')
         fish_parent_dict =  model_to_dict(avian_v1_parent)
 
         for parent_dict in [avian_parent_dict, mammal_parent_dict, fish_parent_dict]:
@@ -65,9 +65,9 @@ class Command(BaseCommand):
                     pass
 
         # Set metadata links
-        avian_parent_dict['metadata'] = 'http://seamap.env.duke.edu/models/mdat/Avian/MDAT_v2_Avian_Summary_of_Changes.PDF'
-        mammal_parent_dict['metadata'] = 'http://seamap.env.duke.edu/models/mdat/Mammal/MDAT_v2_Mammal_Summary_of_Changes.PDF'
-        fish_parent_dict['metadata'] = 'http://seamap.env.duke.edu/models/mdat/Fish/MDAT_v2_Fish_Summary_of_Changes.PDF'
+        avian_parent_dict['metadata'] = 'http://seamap.env.duke.edu/models/mdat/Avian/MDAT_Avian_Summary_Products_Metadata.pdf'
+        mammal_parent_dict['metadata'] = 'http://seamap.env.duke.edu/models/mdat/Mammal/MDAT_Mammal_Summary_Products_Metadata.pdf'
+        fish_parent_dict['metadata'] = 'http://seamap.env.duke.edu/models/mdat/Fish/MDAT_NEFSC_Fish_Summary_Products_Metadata.pdf'
 
         # create 2 parent layers for each service:
         #       one to point at dev server
@@ -76,25 +76,43 @@ class Command(BaseCommand):
         if created:
             for key in avian_parent_dict.keys():
                 setattr(avian_stage_parent, key, avian_parent_dict[key])
-        (avian_prod_parent, created) = Layer.all_objects.get_or_create(name='Birds - Prod V2')
+        else:
+            for key in ['metadata']:
+                setattr(avian_stage_parent, key, avian_parent_dict[key])
+        (avian_prod_parent, created) = Layer.all_objects.get_or_create(name='Birds')
         if created:
             for key in avian_parent_dict.keys():
+                setattr(avian_prod_parent, key, avian_parent_dict[key])
+        else:
+            for key in ['metadata']:
                 setattr(avian_prod_parent, key, avian_parent_dict[key])
         (mammal_stage_parent, created) = Layer.all_objects.get_or_create(name='Marine Mammals - Stage V2')
         if created:
             for key in mammal_parent_dict.keys():
                 setattr(mammal_stage_parent, key, mammal_parent_dict[key])
-        (mammal_prod_parent, created) = Layer.all_objects.get_or_create(name='Marine Mammals - Prod V2')
+        else:
+            for key in ['metadata']:
+                setattr(mammal_stage_parent, key, mammal_parent_dict[key])
+        (mammal_prod_parent, created) = Layer.all_objects.get_or_create(name='Marine Mammals')
         if created:
             for key in mammal_parent_dict.keys():
+                setattr(mammal_prod_parent, key, mammal_parent_dict[key])
+        else:
+            for key in ['metadata']:
                 setattr(mammal_prod_parent, key, mammal_parent_dict[key])
         (fish_stage_parent, created) = Layer.all_objects.get_or_create(name='Fish - Stage V2')
         if created:
             for key in fish_parent_dict.keys():
                 setattr(fish_stage_parent, key, fish_parent_dict[key])
-        (fish_prod_parent, created) = Layer.all_objects.get_or_create(name='Fish - Prod V2')
+        else:
+            for key in ['metadata']:
+                setattr(fish_stage_parent, key, fish_parent_dict[key])
+        (fish_prod_parent, created) = Layer.all_objects.get_or_create(name='Fish')
         if created:
             for key in fish_parent_dict.keys():
+                setattr(fish_prod_parent, key, fish_parent_dict[key])
+        else:
+            for key in ['metadata']:
                 setattr(fish_prod_parent, key, fish_parent_dict[key])
 
         parent_layers = [
@@ -174,27 +192,28 @@ class Command(BaseCommand):
         }
 
         for service in services:
-            print("Getting V1 layers for %s" % service)
-            # query v1.1 prod for layernames (to be used to lookup and modify fields as needed to preserve work)
-            v1_json_url = '%s/?f=pjson' % (service_value_lookup[service]['url']['v1'])
-            v1_json = requests.get(v1_json_url)
-            v1_layers = v1_json.json()['layers']
-            if not v1_layers or len(v1_layers) < 1:
-                print('ERROR: Did not get layers for V1 %s' % service)
-                import ipdb; ipdb.set_trace()
-
-            # print('Found %d layers for V1 %s' % (len(v1_layers),service))
-
-            layer_name_lookup = {}
-            for layer in v1_layers:
-                v1_matches = Layer.all_objects.filter(url="%s/export" % service_value_lookup[service]['url']['v1'], arcgis_layers=str(layer['id']))
-                # #   if layer exists for v1.1 in db
-                if v1_matches.count() == 1:
-                    layer_name_lookup[layer['name']] = v1_matches[0]
-                elif v1_matches.count() > 0:
-                    print('Multiple matches for %s. Please pick the match you want from v1_matches for the layer_name_lookup, or set to None to skip' % layer['name'])
-                    layer_name_lookup[layer['name']] = v1_matches[0]
-                    import ipdb; ipdb.set_trace()
+            # RDH: V1 services are no longer available
+            # print("Getting V1 layers for %s" % service)
+            # # query v1.1 prod for layernames (to be used to lookup and modify fields as needed to preserve work)
+            # v1_json_url = '%s/?f=pjson' % (service_value_lookup[service]['url']['v1'])
+            # v1_json = requests.get(v1_json_url)
+            # v1_layers = v1_json.json()['layers']
+            # if not v1_layers or len(v1_layers) < 1:
+            #     print('ERROR: Did not get layers for V1 %s' % service)
+            #     import ipdb; ipdb.set_trace()
+            #
+            # # print('Found %d layers for V1 %s' % (len(v1_layers),service))
+            #
+            # layer_name_lookup = {}
+            # for layer in v1_layers:
+            #     v1_matches = Layer.all_objects.filter(url="%s/export" % service_value_lookup[service]['url']['v1'], arcgis_layers=str(layer['id']))
+            #     # #   if layer exists for v1.1 in db
+            #     if v1_matches.count() == 1:
+            #         layer_name_lookup[layer['name']] = v1_matches[0]
+            #     elif v1_matches.count() > 0:
+            #         print('Multiple matches for %s. Please pick the match you want from v1_matches for the layer_name_lookup, or set to None to skip' % layer['name'])
+            #         layer_name_lookup[layer['name']] = v1_matches[0]
+            #         import ipdb; ipdb.set_trace()
 
             for server in ['staging', 'prod']:
                 all_service_dict = {
@@ -279,9 +298,9 @@ class Command(BaseCommand):
                                 if lookup_table and not new_layer.lookup_table.all() == lookup_table:
                                     for lookup in lookup_table:
                                         new_layer.lookup_table.add(lookup)
-                            # else:
-                            #     for key in ['metadata']:
-                            #         setattr(new_layer, key, all_service_dict[key])
+                            else:
+                                for key in ['metadata']:
+                                    setattr(new_layer, key, all_service_dict[key])
                             new_layer.save(recache=False,slug_name="%s-v2-%s" % (new_layer.slug,server))
                             layers_saved += 1
                     else:
