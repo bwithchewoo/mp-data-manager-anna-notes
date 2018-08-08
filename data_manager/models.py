@@ -232,6 +232,11 @@ class Layer(models.Model, SiteFlags):
 
     @property
     def slug(self):
+        # RDH Hack for MDAT v2 transition 8/8/2018.
+        # Slug just takes name, but if name is the same then multiple layers have same slug. Should slug include ID?
+        if self.slug_name and ('-v2-prod' in self.slug_name or '-v2-staging' in self.slug_name):
+            slug_string = "%s-v2%s" % (slugify(self.name),self.slug_name.split('v2')[1])
+            return slug_string
         return slugify(self.name)
 
     @property
@@ -498,7 +503,11 @@ class Layer(models.Model, SiteFlags):
         return layers_dict
 
     def save(self, *args, **kwargs):
-        self.slug_name = self.slug
+        if 'slug_name' in kwargs.keys():
+            self.slug_name = kwargs['slug_name']
+            kwargs.pop('slug_name', None)
+        else:
+            self.slug_name = self.slug
         try:
             if not 'recache' in kwargs.keys() or kwargs['recache'] == True:
                 from threading import Thread

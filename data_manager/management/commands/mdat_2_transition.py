@@ -42,8 +42,8 @@ class Command(BaseCommand):
         fish_v2_service = 'Fish_SummaryProducts_NEFSC'
 
         # Delete previously imported layers
-        print("Deleting previously imported MDAT V2 layers")
-        Layer.objects.filter(data_source=data_source,is_sublayer=True,data_publish_date=date(2018,8,8)).delete()
+        # print("Deleting previously imported MDAT V2 layers")
+        # Layer.objects.filter(data_source=data_source,is_sublayer=True,data_publish_date=date(2018,8,8)).delete()
 
         services = ['avian', 'mammal', 'fish']
 
@@ -218,59 +218,71 @@ class Command(BaseCommand):
                 for layer in v2_layers:
                     if (not layer['subLayerIds'] or len(layer['subLayerIds']) == 0) and not any(x.lower() in layer['name'].lower() for x in service_value_lookup[service]['exclude_words']):
                         current_layer = False
-                        new_layer = False
-                        existing_match = False
-                        db_clones = False
-                        companion_layers = False
-                        attribute_fields = False
-                        lookup_table = False
-                        if layer['name'] in layer_name_lookup.keys():
-                            # print('Match found, new layer name SHOULD be "%s"' % layer_name_lookup[layer['name']])
-                            # existing_matches = Layer.all_objects.filter(arcgis_layers=str(layer['id']),url=all_service_dict['url'],name=current_layer.name,order=current_layer.order)
-                            current_layer = layer_name_lookup[layer['name']]
-                            # EXISTING_MATCHES should in this case be a queryset of a single existing v1 record - the match
-                            existing_match = Layer.all_objects.get(id=current_layer.id)
-                            # DB_CLONES are already created v2 layers matching old v1 layers
-                            db_clones = Layer.all_objects.filter(name=current_layer.name,**all_service_dict)
-                        if existing_match and not db_clones.count() > 0:
-                            companion_layers = existing_match.connect_companion_layers_to.all()
-                            attribute_fields = existing_match.attribute_fields.all()
-                            lookup_table = existing_match.lookup_table.all()
-                            new_layer = existing_match
-                            new_layer.pk = None
-                            new_layer.bookmark = None
-                            new_layer.arcgis_layers=str(layer['id'])
+                        new_layer = False           # really bad var name for 'layer we wish to update'
+                        existing_match = False      # 'a counterpart of this layer has been located from v1'
+                        db_clones = False           # 'one or more nearly identical layers have already been created'
+                        companion_layers = False    # v1 layer companion layers that need to be hooked up to new layer
+                        attribute_fields = False    # v1 layer attribute fileds to copy over
+                        lookup_table = False        # v1 layer lookup_table to copy over
+                        created = True              # a new layer is being created
+                        try:
+                            new_layer = Layer.objects.get(arcgis_layers=str(layer['id']),url=all_service_dict['url'])
+                            created = False
+                        except:
+                            pass
+                        if not new_layer:
+                            if layer['name'] in layer_name_lookup.keys():
+                                # print('Match found, new layer name SHOULD be "%s"' % layer_name_lookup[layer['name']])
+                                # existing_matches = Layer.all_objects.filter(arcgis_layers=str(layer['id']),url=all_service_dict['url'],name=current_layer.name,order=current_layer.order)
+                                current_layer = layer_name_lookup[layer['name']]
+                                # EXISTING_MATCHES should in this case be a queryset of a single existing v1 record - the match
+                                existing_match = Layer.all_objects.get(id=current_layer.id)
+                                # DB_CLONES are already created v2 layers matching old v1 layers
+                                db_clones = Layer.all_objects.filter(name=current_layer.name,**all_service_dict)
+                            if existing_match and not db_clones.count() > 0:
+                                companion_layers = existing_match.connect_companion_layers_to.all()
+                                attribute_fields = existing_match.attribute_fields.all()
+                                lookup_table = existing_match.lookup_table.all()
+                                new_layer = existing_match
+                                new_layer.pk = None
+                                new_layer.bookmark = None
+                                new_layer.arcgis_layers=str(layer['id'])
 
-                        else:
-                            try:
-                                (new_layer, created) = Layer.all_objects.get_or_create(arcgis_layers=str(layer['id']),**all_service_dict)
-                            except:
-                                import ipdb; ipdb.set_trace()
-                            if created:
-                                new_layer.name = layer['name']
-                                new_layer.order = layer['id']
+                            else:
+                                try:
+                                    (new_layer, created) = Layer.all_objects.get_or_create(arcgis_layers=str(layer['id']),**all_service_dict)
+                                    if created:
+                                        new_layer.name = layer['name']
+                                        new_layer.order = layer['id']
+                                except:
+                                    import ipdb; ipdb.set_trace()
 
                         if new_layer:
-                            for key in all_service_dict.keys():
-                                setattr(new_layer, key, all_service_dict[key])
-                            new_layer.save(recache=False)
-                            new_layer.site.add(django_prod_site)
-                            new_layer.site.add(django_stage_site)
-                            new_layer.themes.add(parent_theme)
-                            new_layer.sublayers.add(service_value_lookup[service]['parent_layer'][server])
-                            if current_layer and not current_layer.name == new_layer.name:
-                                print("Name attribute did not copy from old to new layer. Investigate.")
-                                import ipdb; ipdb.set_trace()
-                            if companion_layers and not new_layer.connect_companion_layers_to.all() == companion_layers:
-                                for companion_layer in companion_layers:
-                                    new_layer.connect_companion_layers_to.add(companion_layer)
-                            if attribute_fields and not new_layer.attribute_fields.all() == attribute_fields:
-                                for attribute_field in attribute_fields:
-                                    new_layer.attribute_fields.add(attribute_field)
-                            if lookup_table and not new_layer.lookup_table.all() == lookup_table:
-                                for lookup in lookup_table:
-                                    new_layer.lookup_table.add(lookup)
-                            new_layer.save(recache=False)
+                            if created:
+                                for key in all_service_dict.keys():
+                                    setattr(new_layer, key, all_service_dict[key])
+                                new_layer.save(recache=False)
+                                new_layer.site.add(django_prod_site)
+                                new_layer.site.add(django_stage_site)
+                                new_layer.themes.add(parent_theme)
+                                # new_layer.slug = "%s-v2-%s" % (new_layer.slug_name,server)
+                                new_layer.sublayers.add(service_value_lookup[service]['parent_layer'][server])
+                                if current_layer and not current_layer.name == new_layer.name:
+                                    print("Name attribute did not copy from old to new layer. Investigate.")
+                                    import ipdb; ipdb.set_trace()
+                                if companion_layers and not new_layer.connect_companion_layers_to.all() == companion_layers:
+                                    for companion_layer in companion_layers:
+                                        new_layer.connect_companion_layers_to.add(companion_layer)
+                                if attribute_fields and not new_layer.attribute_fields.all() == attribute_fields:
+                                    for attribute_field in attribute_fields:
+                                        new_layer.attribute_fields.add(attribute_field)
+                                if lookup_table and not new_layer.lookup_table.all() == lookup_table:
+                                    for lookup in lookup_table:
+                                        new_layer.lookup_table.add(lookup)
+                            # else:
+                            #     for key in ['metadata']:
+                            #         setattr(new_layer, key, all_service_dict[key])
+                            new_layer.save(recache=False,slug_name="%s-v2-%s" % (new_layer.slug,server))
                             layers_saved += 1
                     else:
                         layers_skipped += 1
