@@ -585,7 +585,7 @@ class Layer(models.Model, SiteFlags):
                 cache.delete('data_manager_theme_%d_%d' % (theme.id, site.pk))
                 theme.dictCache(site.pk)
 
-        reset_cache(Site.objects.all())
+        # reset_cache(Site.objects.all())
 
 
 class AttributeInfo(models.Model):
