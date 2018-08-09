@@ -19,17 +19,21 @@ class LayerViewSet(viewsets.ReadOnlyModelViewSet):
 def get_json(request):
     from django.core.cache import cache
     from django.contrib.sites import shortcuts
-    current_site = shortcuts.get_current_site(request)
-    data = cache.get('data_manager_json_site_%d' % current_site.pk)
+    if request.META['HTTP_HOST'] in ['localhost:8000', 'portal.midatlanticocean.org', 'midatlantic.webfactional.com']:
+        current_site_pk = 1
+    else:
+        current_site_pk = shortcuts.get_current_site(request).pk
+    data = cache.get('data_manager_json_site_%d' % current_site_pk)
+    print('=====getting data for site: %s=========' % current_site_pk)
     if not data:
         data = {
             "state": { "activeLayers": [] },
-            "layers": [layer.toDict for layer in Layer.objects.filter(is_sublayer=False).exclude(layer_type='placeholder').order_by('order')],
-            "themes": [theme.toDict for theme in Theme.objects.all().order_by('order')],
+            "layers": [layer.dictCache(current_site_pk) for layer in Layer.objects.filter(is_sublayer=False).exclude(layer_type='placeholder').order_by('order')],
+            "themes": [theme.dictCache(current_site_pk) for theme in Theme.objects.all().order_by('order')],
             "success": True
         }
         # Cache for 1 week, will be reset if layer data changes
-        cache.set('data_manager_json_site_%d' % current_site.pk, data, 60*60*24*7)
+        cache.set('data_manager_json_site_%d' % current_site_pk, data, 60*60*24*7)
     return JsonResponse(data)
 
 

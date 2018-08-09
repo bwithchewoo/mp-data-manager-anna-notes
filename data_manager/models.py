@@ -33,7 +33,7 @@ def reset_cache(sites):
             requests.get(url)
         except ConnectionError:
             #sometimes testing overdoes this a bit and we get 'Max retries exceeded'
-            pass
+            print('recache error - either port isn\'t listening or you\'ve maxed out your retries')
 
 class SiteFlags(object):#(models.Model):
     """Add-on class for displaying sites in the list_display
@@ -83,8 +83,24 @@ class Theme(models.Model, SiteFlags):
         domain = get_domain(8000)
         return '%s/learn/%s' %(domain, self.name)
 
+    def dictCache(self, site_id=None):
+        from django.core.cache import cache
+        themes_dict = False
+        if site_id:
+            themes_dict = cache.get('data_manager_theme_%d_%d' % (self.id, site_id))
+        if not themes_dict:
+            themes_dict = self.toDict
+            if site_id:
+                # Cache for 1 week, will be reset if layer data changes
+                cache.set('data_manager_theme_%d_%d' % (self.id, site_id), themes_dict, 60*60*24*7)
+            else:
+                for site in Site.objects.all():
+                    cache.set('data_manager_theme_%d_%d' % (self.id, site.id), themes_dict, 60*60*24*7)
+        return themes_dict
+
+
     @property
-    def toDict(self):
+    def toDict(self, site_id=None):
         layers = [layer.id for layer in self.layer_set.filter(is_sublayer=False).exclude(layer_type='placeholder')]
         themes_dict = {
             'id': self.id,
@@ -95,18 +111,19 @@ class Theme(models.Model, SiteFlags):
             'layers': layers,
             'description': self.description
         }
+
         return themes_dict
 
     def save(self, *args, **kwargs):
-        try:
-            if not 'recache' in kwargs.keys() or kwargs['recache'] == True:
-                from threading import Thread
-                Thread(target=reset_cache, args=(self.site.all(),)).start()
-            if 'recache' in kwargs.keys():
-                kwargs.pop('recache', None)
-        except:
-            pass
+        from django.core.cache import cache
+        if 'recache' in kwargs.keys():
+            kwargs.pop('recache', None)
         super(Theme, self).save(*args, **kwargs)
+        for site in Site.objects.all():
+            cache.delete('data_manager_json_site_%s' % site.pk)
+            cache.delete('data_manager_theme_%d_%d' % (self.id, site.pk))
+            self.dictCache(site.pk)
+        reset_cache(Site.objects.all())
 
 class Layer(models.Model, SiteFlags):
     TYPE_CHOICES = (
@@ -370,8 +387,23 @@ class Layer(models.Model, SiteFlags):
                 return 'https://marinecadastre.gov/espis/#/search/%s' % urlencode(search_dict)
         return None
 
+    def dictCache(self, site_id=None):
+        from django.core.cache import cache
+        layers_dict = False
+        if site_id:
+            layers_dict = cache.get('data_manager_layer_%d_%d' % (self.id, site_id))
+        if not layers_dict:
+            layers_dict = self.toDict
+            if site_id:
+                # Cache for 1 week, will be reset if layer data changes
+                cache.set('data_manager_layer_%d_%d' % (self.id, site_id), layers_dict, 60*60*24*7)
+            else:
+                for site in Site.objects.all():
+                    cache.set('data_manager_layer_%d_%d' % (self.id, site.id), layers_dict, 60*60*24*7)
+        return layers_dict
+
     @property
-    def toDict(self):
+    def toDict(self, site_id=None):
         sublayers = [
             {
                 'id': layer.id,
@@ -518,23 +550,42 @@ class Layer(models.Model, SiteFlags):
             'disabled_message': self.disabled_message,
             'data_url': self.get_absolute_url()
         }
+
         return layers_dict
 
     def save(self, *args, **kwargs):
+        from django.core.cache import cache
         if 'slug_name' in kwargs.keys():
             self.slug_name = kwargs['slug_name']
             kwargs.pop('slug_name', None)
         else:
             self.slug_name = self.slug
-        try:
-            if not 'recache' in kwargs.keys() or kwargs['recache'] == True:
-                from threading import Thread
-                Thread(target=reset_cache, args=(self.site.all(),)).start()
-            if 'recache' in kwargs.keys():
-                kwargs.pop('recache', None)
-        except:
-            pass
+        if 'recache' in kwargs.keys():
+            kwargs.pop('recache', None)
         super(Layer, self).save(*args, **kwargs)
+        for site in Site.objects.all():
+            cache.delete('data_manager_json_site_%s' % site.pk)
+            cache.delete('data_manager_layer_%d_%d' % (self.id, site.pk))
+            self.dictCache(site.pk)
+            # Delete cache for all sublayers
+            for sublayer in self.sublayers.all():
+                cache.delete('data_manager_layer_%d_%d' % (sublayer.id, site.pk))
+                sublayer.dictCache(site.pk)
+            # Delete cache for parent layers (in case not double-linked)
+            if self.is_sublayer:
+                for parentlayer in Layer.objects.filter(sublayers__in=[self]):
+                    cache.delete('data_manager_layer_%d_%d' % (parentlayer.id, site.pk))
+                    parentlayer.dictCache(site.pk)
+            # Delete cache for companion layers
+            for companion in self.connect_companion_layers_to.all():
+                cache.delete('data_manager_layer_%d_%d' % (companion.id, site.pk))
+                companion.dictCache(site.pk)
+            # Delete cache for all themes
+            for theme in self.themes.all():
+                cache.delete('data_manager_theme_%d_%d' % (theme.id, site.pk))
+                theme.dictCache(site.pk)
+
+        reset_cache(Site.objects.all())
 
 
 class AttributeInfo(models.Model):
