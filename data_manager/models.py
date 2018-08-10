@@ -84,27 +84,15 @@ class Theme(models.Model, SiteFlags):
         return '%s/learn/%s' %(domain, self.name)
 
     def dictCache(self, site_id=None):
-        from django.core.cache import cache
         themes_dict = None
-        print("DictCache for %s:%d" % (self.name, self.id))
         if site_id in [x.id for x in self.site.all()]:
-            if site_id:
-                themes_dict = cache.get('data_manager_theme_%d_%d' % (self.id, site_id))
-            if not themes_dict:
-                themes_dict = self.toDict
-                themes_dict['layers'] = [layer.id for layer in Layer.all_objects.filter(site__in=[site_id],is_sublayer=False,themes__in=[self.id]).exclude(layer_type='placeholder')]
-                if site_id:
-                    # Cache for 1 week, will be reset if layer data changes
-                    cache.set('data_manager_theme_%d_%d' % (self.id, site_id), themes_dict, 60*60*24*7)
-                else:
-                    for site in Site.objects.all():
-                        cache.set('data_manager_theme_%d_%d' % (self.id, site.id), themes_dict, 60*60*24*7)
+            themes_dict = self.toDict
+            themes_dict['layers'] = [layer.id for layer in Layer.all_objects.filter(site__in=[site_id],is_sublayer=False,themes__in=[self.id]).exclude(layer_type='placeholder')]
         return themes_dict
 
 
     @property
     def toDict(self):
-        # layers = [layer.id for layer in self.layer_set.filter(is_sublayer=False).exclude(layer_type='placeholder')]
         layers = [layer.id for layer in Layer.objects.filter(is_sublayer=False,sublayers__in=[self.id]).exclude(layer_type='placeholder')]
         themes_dict = {
             'id': self.id,
@@ -123,11 +111,6 @@ class Theme(models.Model, SiteFlags):
         if 'recache' in kwargs.keys():
             kwargs.pop('recache', None)
         super(Theme, self).save(*args, **kwargs)
-        for site in Site.objects.all():
-            cache.delete('data_manager_json_site_%s' % site.pk)
-            cache.delete('data_manager_theme_%d_%d' % (self.id, site.pk))
-            self.dictCache(site.pk)
-        reset_cache(Site.objects.all())
 
 class Layer(models.Model, SiteFlags):
     TYPE_CHOICES = (
@@ -577,20 +560,16 @@ class Layer(models.Model, SiteFlags):
                 cache.delete('data_manager_layer_%d_%d' % (sublayer.id, site.pk))
                 sublayer.dictCache(site.pk)
             # Delete cache for parent layers (in case not double-linked)
-            if self.is_sublayer:
-                for parentlayer in Layer.objects.filter(sublayers__in=[self]):
-                    cache.delete('data_manager_layer_%d_%d' % (parentlayer.id, site.pk))
-                    parentlayer.dictCache(site.pk)
+            for parentlayer in Layer.objects.filter(sublayers__in=[self]):
+                cache.delete('data_manager_layer_%d_%d' % (parentlayer.id, site.pk))
+                parentlayer.dictCache(site.pk)
             # Delete cache for companion layers
             for companion in self.connect_companion_layers_to.all():
                 cache.delete('data_manager_layer_%d_%d' % (companion.id, site.pk))
                 companion.dictCache(site.pk)
-            # Delete cache for all themes
-            for theme in self.themes.all():
-                cache.delete('data_manager_theme_%d_%d' % (theme.id, site.pk))
-                theme.dictCache(site.pk)
-
-        # reset_cache(Site.objects.all())
+            for companion in Layer.objects.filter(connect_companion_layers_to__in=[self]):
+                cache.delete('data_manager_layer_%d_%d' % (companion.id, site.pk))
+                companion.dictCache(site.pk)
 
 
 class AttributeInfo(models.Model):
