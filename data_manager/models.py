@@ -85,23 +85,27 @@ class Theme(models.Model, SiteFlags):
 
     def dictCache(self, site_id=None):
         from django.core.cache import cache
-        themes_dict = False
-        if site_id:
-            themes_dict = cache.get('data_manager_theme_%d_%d' % (self.id, site_id))
-        if not themes_dict:
-            themes_dict = self.toDict
+        themes_dict = None
+        print("DictCache for %s:%d" % (self.name, self.id))
+        if site_id in [x.id for x in self.site.all()]:
             if site_id:
-                # Cache for 1 week, will be reset if layer data changes
-                cache.set('data_manager_theme_%d_%d' % (self.id, site_id), themes_dict, 60*60*24*7)
-            else:
-                for site in Site.objects.all():
-                    cache.set('data_manager_theme_%d_%d' % (self.id, site.id), themes_dict, 60*60*24*7)
+                themes_dict = cache.get('data_manager_theme_%d_%d' % (self.id, site_id))
+            if not themes_dict:
+                themes_dict = self.toDict
+                themes_dict['layers'] = [layer.id for layer in Layer.all_objects.filter(site__in=[site_id],is_sublayer=False,themes__in=[self.id]).exclude(layer_type='placeholder')]
+                if site_id:
+                    # Cache for 1 week, will be reset if layer data changes
+                    cache.set('data_manager_theme_%d_%d' % (self.id, site_id), themes_dict, 60*60*24*7)
+                else:
+                    for site in Site.objects.all():
+                        cache.set('data_manager_theme_%d_%d' % (self.id, site.id), themes_dict, 60*60*24*7)
         return themes_dict
 
 
     @property
-    def toDict(self, site_id=None):
-        layers = [layer.id for layer in self.layer_set.filter(is_sublayer=False).exclude(layer_type='placeholder')]
+    def toDict(self):
+        # layers = [layer.id for layer in self.layer_set.filter(is_sublayer=False).exclude(layer_type='placeholder')]
+        layers = [layer.id for layer in Layer.objects.filter(is_sublayer=False,sublayers__in=[self.id]).exclude(layer_type='placeholder')]
         themes_dict = {
             'id': self.id,
             'name': self.name,
@@ -389,17 +393,18 @@ class Layer(models.Model, SiteFlags):
 
     def dictCache(self, site_id=None):
         from django.core.cache import cache
-        layers_dict = False
-        if site_id:
-            layers_dict = cache.get('data_manager_layer_%d_%d' % (self.id, site_id))
-        if not layers_dict:
-            layers_dict = self.toDict
+        layers_dict = None
+        if site_id in [x.id for x in self.site.all()]:
             if site_id:
-                # Cache for 1 week, will be reset if layer data changes
-                cache.set('data_manager_layer_%d_%d' % (self.id, site_id), layers_dict, 60*60*24*7)
-            else:
-                for site in Site.objects.all():
-                    cache.set('data_manager_layer_%d_%d' % (self.id, site.id), layers_dict, 60*60*24*7)
+                layers_dict = cache.get('data_manager_layer_%d_%d' % (self.id, site_id))
+            if not layers_dict:
+                layers_dict = self.toDict
+                if site_id:
+                    # Cache for 1 week, will be reset if layer data changes
+                    cache.set('data_manager_layer_%d_%d' % (self.id, site_id), layers_dict, 60*60*24*7)
+                else:
+                    for site in Site.objects.all():
+                        cache.set('data_manager_layer_%d_%d' % (self.id, site.id), layers_dict, 60*60*24*7)
         return layers_dict
 
     @property
