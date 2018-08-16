@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('data_manager', '0020_multilayerassociation_multilayerdimension_multilayerdimensionvalue'),
+        ('data_manager', '0021_multilayerassociation_multilayerdimension_multilayerdimensionvalue'),
     ]
 
     operations = [

@@ -21,6 +21,7 @@ def get_domain(port=8010):
 def reset_cache(sites):
     from django.core.cache import cache
     import requests
+    from requests.exceptions import ConnectionError
     for site in sites:
         cache.delete('data_manager_json_site_%s' % site.pk)
         from marco.settings import DEBUG
@@ -28,7 +29,11 @@ def reset_cache(sites):
             url = "http://%s:8000/data_manager/get_json" % site.domain[:site.domain.index(':')]
         else:
             url = "http://%s/data_manager/get_json" % site.domain
-        requests.get(url)
+        try:
+            requests.get(url)
+        except ConnectionError:
+            #sometimes testing overdoes this a bit and we get 'Max retries exceeded'
+            print('recache error - either port isn\'t listening or you\'ve maxed out your retries')
 
 class SiteFlags(object):#(models.Model):
     """Add-on class for displaying sites in the list_display
@@ -78,9 +83,17 @@ class Theme(models.Model, SiteFlags):
         domain = get_domain(8000)
         return '%s/learn/%s' %(domain, self.name)
 
+    def dictCache(self, site_id=None):
+        themes_dict = None
+        if site_id in [x.id for x in self.site.all()]:
+            themes_dict = self.toDict
+            themes_dict['layers'] = [layer.id for layer in Layer.all_objects.filter(site__in=[site_id],is_sublayer=False,themes__in=[self.id]).exclude(layer_type='placeholder')]
+        return themes_dict
+
+
     @property
     def toDict(self):
-        layers = [layer.id for layer in self.layer_set.filter(is_sublayer=False).exclude(layer_type='placeholder')]
+        layers = [layer.id for layer in Layer.objects.filter(is_sublayer=False,sublayers__in=[self.id]).exclude(layer_type='placeholder')]
         themes_dict = {
             'id': self.id,
             'name': self.name,
@@ -90,13 +103,13 @@ class Theme(models.Model, SiteFlags):
             'layers': layers,
             'description': self.description
         }
+
         return themes_dict
 
     def save(self, *args, **kwargs):
+        if 'recache' in kwargs.keys():  #crufty - impacted when MDAT v2 import is run.
+            kwargs.pop('recache', None)
         super(Theme, self).save(*args, **kwargs)
-        # from threading import Thread
-        # Thread(target=reset_cache, args=(self.site.all(),)).start()
-
 
 class Layer(models.Model, SiteFlags):
     TYPE_CHOICES = (
@@ -118,7 +131,7 @@ class Layer(models.Model, SiteFlags):
     site = models.ManyToManyField(Site)
     name = models.CharField(max_length=100)
     order = models.PositiveSmallIntegerField(default=10, blank=True, null=True, help_text='input an integer to determine the priority/order of the layer being displayed (1 being the highest)')
-    slug_name = models.CharField(max_length=100, blank=True, null=True)
+    slug_name = models.CharField(max_length=200, blank=True, null=True)
     layer_type = models.CharField(max_length=50, choices=TYPE_CHOICES, help_text='use placeholder to temporarily remove layer from TOC')
     url = models.CharField(max_length=255, blank=True, null=True)
     shareable_url = models.BooleanField(default=True, help_text='Indicates whether the data layer (e.g. map tiles) can be shared with others (through the Map Tiles Link)')
@@ -207,7 +220,10 @@ class Layer(models.Model, SiteFlags):
     @property
     def parent(self):
         if self.is_sublayer:
-            return self.sublayers.all()[0]
+            if self.sublayers.all().count() > 0:
+                return self.sublayers.all()[0]
+            else:
+                return None
         return self
 
     def get_absolute_url(self):
@@ -219,6 +235,11 @@ class Layer(models.Model, SiteFlags):
 
     @property
     def slug(self):
+        # RDH Hack for MDAT v2 transition 8/8/2018.
+        # Slug just takes name, but if name is the same then multiple layers have same slug. Should slug include ID?
+        if self.slug_name and ('-v2-prod' in self.slug_name or '-v2-staging' in self.slug_name):
+            slug_string = "%s-v2%s" % (slugify(self.name),self.slug_name.split('v2')[1])
+            return slug_string
         return slugify(self.name)
 
     @property
@@ -244,21 +265,39 @@ class Layer(models.Model, SiteFlags):
 
     @property
     def bookmark_link(self):
-        if self.bookmark:
+        if self.bookmark and "%%5D=%d&" % self.id in self.bookmark:
             return self.bookmark
 
-        if self.is_sublayer and self.parent.bookmark:
+        if self.is_sublayer and self.parent.bookmark and len(self.parent.bookmark) > 0:
             return self.parent.bookmark.replace('<layer_id>', str(self.id))
 
         if self.is_parent:
             for theme in self.themes.all():
                 return theme.url()
 
+        # RDH: Most Marine Life layers seem to have bogus bookmarks. If the first line of this def
+        #   isn't true, then we likely need to give users something that will work. This should do it.
+        root_str = '/visualize/#x=-73.24&y=38.93&z=7&logo=true&controls=true&basemap=Ocean'
+        layer_str = '&dls%%5B%%5D=true&dls%%5B%%5D=%s&dls%%5B%%5D=%d' % (str(self.opacity), self.id)
+        companion_str = ''
+        if self.has_companion:
+            for companion in self.connect_companion_layers_to.all():
+                companion_str += '&dls%%5B%%5D=false&dls%%5B%%5D=%s&dls%%5B%%5D=%d' % (str(companion.opacity), companion.id)
+        themes_str = ''
+        if self.themes.all().count() > 0:
+            for theme in self.themes.all():
+                themes_str = '&themes%%5Bids%%5D%%5B%%5D=%d' % theme.id
+
+        panel_str = '&tab=data&legends=false&layers=true'
+
+        return "%s%s%s%s%s" % (root_str, layer_str, companion_str, themes_str, panel_str)
+
+
     @property
     def data_download_link(self):
         if self.data_download and self.data_download.lower() == 'none':
             return None
-        if not self.data_download and self.is_sublayer:
+        if self.parent and not self.data_download and self.is_sublayer:
             return self.parent.data_download
         else:
             return self.data_download
@@ -383,189 +422,219 @@ class Layer(models.Model, SiteFlags):
         else:
             return {}
 
-    def toDict(self, siteId):
+    def dictCache(self, site_id=None):
         from django.core.cache import cache
-        layers_dict = cache.get('data_manager_layer_dict_%d_site_%d' % (self.pk, siteId))
-        if not layers_dict:
-            sublayers = [
-                {
-                    'id': layer.id,
-                    'name': layer.name,
-                    'order': layer.order,
-                    'type': layer.layer_type,
-                    'url': layer.url,
-                    'arcgis_layers': layer.arcgis_layers,
-                    'disable_arcgis_attributes': layer.disable_arcgis_attributes,
-                    'wms_slug': layer.wms_slug,
-                    'wms_version': layer.wms_version,
-                    'wms_format': layer.wms_format,
-                    'wms_srs': layer.wms_srs,
-                    'wms_styles': layer.wms_styles,
-                    'wms_timing': layer.wms_timing,
-                    'wms_time_item': layer.wms_time_item,
-                    'wms_additional': layer.wms_additional,
-                    'utfurl': layer.utfurl,
-                    'parent': self.id,
-                    'legend': layer.legend,
-                    'legend_title': layer.legend_title,
-                    'legend_subtitle': layer.legend_subtitle,
-                    'description': layer.tooltip,
-                    'overview': layer.data_overview_text,
-                    'data_source': layer.data_source,
-                    'data_notes': layer.data_notes,
-                    'kml': layer.kml,
-                    'data_download': layer.data_download_link,
-                    'learn_more': layer.learn_more,
-                    'metadata': layer.metadata_link,
-                    'source': layer.source_link,
-                    'tiles': layer.tiles_link,
-                    'attributes': layer.serialize_attributes(),
-                    'lookups': layer.serialize_lookups,
-                    'outline_color': layer.vector_outline_color,
-                    'outline_opacity': layer.vector_outline_opacity,
-                    'point_radius': layer.point_radius,
-                    'color': layer.vector_color,
-                    'fill_opacity': layer.vector_fill,
-                    'graphic': layer.vector_graphic,
-                    'opacity': layer.opacity,
-                    'annotated': layer.is_annotated,
-                    'is_disabled': layer.is_disabled,
-                    'disabled_message': layer.disabled_message,
-                    'data_url': layer.get_absolute_url(),
-                    'has_companion': layer.has_companion,
-                    'is_multilayer': layer.isMultilayer,
-                    'is_multilayer_parent': layer.isMultilayerParent,
-                    'dimensions': layer.dimensions,
-                    'associated_multilayers': layer.associatedMultilayers
-                }
-                for layer in self.sublayers.all()
-            ]
-            connect_companion_layers_to = [
-                {
-                    'id': layer.id,
-                    'name': layer.name,
-                    'order': layer.order,
-                    'type': layer.layer_type,
-                    'url': layer.url,
-                    'arcgis_layers': layer.arcgis_layers,
-                    'disable_arcgis_attributes': layer.disable_arcgis_attributes,
-                    'wms_slug': layer.wms_slug,
-                    'wms_version': layer.wms_version,
-                    'wms_format': layer.wms_format,
-                    'wms_srs': layer.wms_srs,
-                    'wms_styles': layer.wms_styles,
-                    'wms_timing': layer.wms_timing,
-                    'wms_time_item': layer.wms_time_item,
-                    'wms_additional': layer.wms_additional,
-                    'utfurl': layer.utfurl,
-                    'parent': self.id,
-                    'legend': layer.legend,
-                    'legend_title': layer.legend_title,
-                    'legend_subtitle': layer.legend_subtitle,
-                    'description': layer.tooltip,
-                    'overview': layer.data_overview_text,
-                    'data_source': layer.data_source,
-                    'data_notes': layer.data_notes,
-                    'kml': layer.kml,
-                    'data_download': layer.data_download_link,
-                    'learn_more': layer.learn_more,
-                    'metadata': layer.metadata_link,
-                    'source': layer.source_link,
-                    'tiles': layer.tiles_link,
-                    'attributes': layer.serialize_attributes(),
-                    'lookups': layer.serialize_lookups,
-                    'outline_color': layer.vector_outline_color,
-                    'outline_opacity': layer.vector_outline_opacity,
-                    'point_radius': layer.point_radius,
-                    'color': layer.vector_color,
-                    'fill_opacity': layer.vector_fill,
-                    'graphic': layer.vector_graphic,
-                    'opacity': layer.opacity,
-                    'annotated': layer.is_annotated,
-                    'is_disabled': layer.is_disabled,
-                    'disabled_message': layer.disabled_message,
-                    'data_url': layer.get_absolute_url(),
-                    'has_companion': layer.has_companion,
-                    'is_multilayer': layer.isMultilayer,
-                    'is_multilayer_parent': layer.isMultilayerParent,
-                    'dimensions': layer.dimensions,
-                    'associated_multilayers': layer.associatedMultilayers
-                }
-                for layer in self.connect_companion_layers_to.all()
-            ]
-            layers_dict = {
-                'id': self.id,
-                'name': self.name,
-                'order': self.order,
-                'type': self.layer_type,
-                'url': self.url,
-                'arcgis_layers': self.arcgis_layers,
-                'disable_arcgis_attributes': self.disable_arcgis_attributes,
-                'wms_slug': self.wms_slug,
-                'wms_version': self.wms_version,
-                'wms_format': self.wms_format,
-                'wms_srs': self.wms_srs,
-                'wms_styles': self.wms_styles,
-                'wms_timing': self.wms_timing,
-                'wms_time_item': self.wms_time_item,
-                'wms_additional': self.wms_additional,
-                'utfurl': self.utfurl,
-                'subLayers': sublayers,
-                'companion_layers': connect_companion_layers_to,
-                'has_companion': self.has_companion,
-                'queryable': self.search_query,
-                'legend': self.legend,
-                'legend_title': self.legend_title,
-                'legend_subtitle': self.legend_subtitle,
-                'description': self.description,
-                'overview': self.data_overview,
-                'data_source': self.data_source,
-                'data_notes': self.data_notes,
-                'kml': self.kml,
-                'data_download': self.data_download_link,
-                'learn_more': self.learn_more,
-                'metadata': self.metadata_link,
-                'source': self.source_link,
-                'tiles': self.tiles_link,
-                'attributes': self.serialize_attributes(),
-                'lookups': self.serialize_lookups,
-                'outline_color': self.vector_outline_color,
-                'outline_opacity': self.vector_outline_opacity,
-                'point_radius': self.point_radius,
-                'color': self.vector_color,
-                'fill_opacity': self.vector_fill,
-                'graphic': self.vector_graphic,
-                'opacity': self.opacity,
-                'annotated': self.is_annotated,
-                'is_disabled': self.is_disabled,
-                'disabled_message': self.disabled_message,
-                'data_url': self.get_absolute_url(),
-                'is_multilayer': self.isMultilayer,
-                'is_multilayer_parent': self.isMultilayerParent,
-                'dimensions': self.dimensions,
-                'associated_multilayers': self.associatedMultilayers
+        layers_dict = None
+        if site_id in [x.id for x in self.site.all()]:
+            if site_id:
+                layers_dict = cache.get('data_manager_layer_%d_%d' % (self.id, site_id))
+            if not layers_dict:
+                layers_dict = self.toDict
+                if site_id:
+                    # Cache for 1 week, will be reset if layer data changes
+                    cache.set('data_manager_layer_%d_%d' % (self.id, site_id), layers_dict, 60*60*24*7)
+                else:
+                    for site in Site.objects.all():
+                        cache.set('data_manager_layer_%d_%d' % (self.id, site.id), layers_dict, 60*60*24*7)
+        return layers_dict
+
+    @property
+    def toDict(self, site_id=None):
+        sublayers = [
+            {
+                'id': layer.id,
+                'name': layer.name,
+                'order': layer.order,
+                'type': layer.layer_type,
+                'url': layer.url,
+                'arcgis_layers': layer.arcgis_layers,
+                'disable_arcgis_attributes': layer.disable_arcgis_attributes,
+                'wms_slug': layer.wms_slug,
+                'wms_version': layer.wms_version,
+                'wms_format': layer.wms_format,
+                'wms_srs': layer.wms_srs,
+                'wms_styles': layer.wms_styles,
+                'wms_timing': layer.wms_timing,
+                'wms_time_item': layer.wms_time_item,
+                'wms_additional': layer.wms_additional,
+                'utfurl': layer.utfurl,
+                'parent': self.id,
+                'legend': layer.legend,
+                'legend_title': layer.legend_title,
+                'legend_subtitle': layer.legend_subtitle,
+                'description': layer.tooltip,
+                'overview': layer.data_overview_text,
+                'data_source': layer.data_source,
+                'data_notes': layer.data_notes,
+                'kml': layer.kml,
+                'data_download': layer.data_download_link,
+                'learn_more': layer.learn_more,
+                'metadata': layer.metadata_link,
+                'source': layer.source_link,
+                'tiles': layer.tiles_link,
+                'attributes': layer.serialize_attributes(),
+                'lookups': layer.serialize_lookups,
+                'outline_color': layer.vector_outline_color,
+                'outline_opacity': layer.vector_outline_opacity,
+                'point_radius': layer.point_radius,
+                'color': layer.vector_color,
+                'fill_opacity': layer.vector_fill,
+                'graphic': layer.vector_graphic,
+                'opacity': layer.opacity,
+                'annotated': layer.is_annotated,
+                'is_disabled': layer.is_disabled,
+                'disabled_message': layer.disabled_message,
+                'data_url': layer.get_absolute_url(),
+                'has_companion': layer.has_companion,
+                'is_multilayer': layer.isMultilayer,
+                'is_multilayer_parent': layer.isMultilayerParent,
+                'dimensions': layer.dimensions,
+                'associated_multilayers': layer.associatedMultilayers
             }
-            # Cache for 1 week, will be reset if layer data changes
-            cache.set('data_manager_layer_dict_%d_site_%d' % (self.pk, siteId), layers_dict, 60*60*24*7)
+            for layer in self.sublayers.all()
+        ]
+        connect_companion_layers_to = [
+            {
+                'id': layer.id,
+                'name': layer.name,
+                'order': layer.order,
+                'type': layer.layer_type,
+                'url': layer.url,
+                'arcgis_layers': layer.arcgis_layers,
+                'disable_arcgis_attributes': layer.disable_arcgis_attributes,
+                'wms_slug': layer.wms_slug,
+                'wms_version': layer.wms_version,
+                'wms_format': layer.wms_format,
+                'wms_srs': layer.wms_srs,
+                'wms_styles': layer.wms_styles,
+                'wms_timing': layer.wms_timing,
+                'wms_time_item': layer.wms_time_item,
+                'wms_additional': layer.wms_additional,
+                'utfurl': layer.utfurl,
+                'parent': self.id,
+                'legend': layer.legend,
+                'legend_title': layer.legend_title,
+                'legend_subtitle': layer.legend_subtitle,
+                'description': layer.tooltip,
+                'overview': layer.data_overview_text,
+                'data_source': layer.data_source,
+                'data_notes': layer.data_notes,
+                'kml': layer.kml,
+                'data_download': layer.data_download_link,
+                'learn_more': layer.learn_more,
+                'metadata': layer.metadata_link,
+                'source': layer.source_link,
+                'tiles': layer.tiles_link,
+                'attributes': layer.serialize_attributes(),
+                'lookups': layer.serialize_lookups,
+                'outline_color': layer.vector_outline_color,
+                'outline_opacity': layer.vector_outline_opacity,
+                'point_radius': layer.point_radius,
+                'color': layer.vector_color,
+                'fill_opacity': layer.vector_fill,
+                'graphic': layer.vector_graphic,
+                'opacity': layer.opacity,
+                'annotated': layer.is_annotated,
+                'is_disabled': layer.is_disabled,
+                'disabled_message': layer.disabled_message,
+                'data_url': layer.get_absolute_url(),
+                'has_companion': layer.has_companion,
+                'is_multilayer': layer.isMultilayer,
+                'is_multilayer_parent': layer.isMultilayerParent,
+                'dimensions': layer.dimensions,
+                'associated_multilayers': layer.associatedMultilayers
+            }
+            for layer in self.connect_companion_layers_to.all()
+        ]
+        layers_dict = {
+            'id': self.id,
+            'name': self.name,
+            'order': self.order,
+            'type': self.layer_type,
+            'url': self.url,
+            'arcgis_layers': self.arcgis_layers,
+            'disable_arcgis_attributes': self.disable_arcgis_attributes,
+            'wms_slug': self.wms_slug,
+            'wms_version': self.wms_version,
+            'wms_format': self.wms_format,
+            'wms_srs': self.wms_srs,
+            'wms_styles': self.wms_styles,
+            'wms_timing': self.wms_timing,
+            'wms_time_item': self.wms_time_item,
+            'wms_additional': self.wms_additional,
+            'utfurl': self.utfurl,
+            'subLayers': sublayers,
+            'companion_layers': connect_companion_layers_to,
+            'has_companion': self.has_companion,
+            'queryable': self.search_query,
+            'legend': self.legend,
+            'legend_title': self.legend_title,
+            'legend_subtitle': self.legend_subtitle,
+            'description': self.description,
+            'overview': self.data_overview,
+            'data_source': self.data_source,
+            'data_notes': self.data_notes,
+            'kml': self.kml,
+            'data_download': self.data_download_link,
+            'learn_more': self.learn_more,
+            'metadata': self.metadata_link,
+            'source': self.source_link,
+            'tiles': self.tiles_link,
+            'attributes': self.serialize_attributes(),
+            'lookups': self.serialize_lookups,
+            'outline_color': self.vector_outline_color,
+            'outline_opacity': self.vector_outline_opacity,
+            'point_radius': self.point_radius,
+            'color': self.vector_color,
+            'fill_opacity': self.vector_fill,
+            'graphic': self.vector_graphic,
+            'opacity': self.opacity,
+            'annotated': self.is_annotated,
+            'is_disabled': self.is_disabled,
+            'disabled_message': self.disabled_message,
+            'data_url': self.get_absolute_url(),
+            'is_multilayer': self.isMultilayer,
+            'is_multilayer_parent': self.isMultilayerParent,
+            'dimensions': self.dimensions,
+            'associated_multilayers': self.associatedMultilayers
+        }
+
         return layers_dict
 
     def save(self, *args, **kwargs):
-        self.slug_name = self.slug
+        from django.core.cache import cache
+        if 'slug_name' in kwargs.keys():
+            self.slug_name = kwargs['slug_name']
+            kwargs.pop('slug_name', None)
+        else:
+            self.slug_name = self.slug
         if self.url == None:
             self.url = ''
+        if 'recache' in kwargs.keys():
+            kwargs.pop('recache', None)
         super(Layer, self).save(*args, **kwargs)
-        from django.core.cache import cache
-        for site in self.site.all():
-            cache.delete('data_manager_layer_dict_%s_site_%d' % (self.pk, site.id))
-        if self.is_sublayer:
-            for parent_layer in self.sublayers.all():
-                for site in parent_layer.site.all():
-                    cache.delete('data_manager_layer_dict_%s_site_%d' % (parent_layer.pk, site.id))
-        for association in self.associated_layer.all():
-            for site in association.parentLayer.site.all():
-                cache.delete('data_manager_layer_dict_%s_site_%d' % (association.parentLayer.pk, site.id))
-        # from threading import Thread
-        # Thread(target=reset_cache, args=(self.site.all(),)).start()
+        for site in Site.objects.all():
+            cache.delete('data_manager_json_site_%s' % site.pk)
+            cache.delete('data_manager_layer_%d_%d' % (self.id, site.pk))
+            self.dictCache(site.pk)
+            # Delete cache for all sublayers
+            for sublayer in self.sublayers.all():
+                cache.delete('data_manager_layer_%d_%d' % (sublayer.id, site.pk))
+                sublayer.dictCache(site.pk)
+            # Delete cache for parent layers (in case not double-linked)
+            for parentlayer in Layer.objects.filter(sublayers__in=[self]):
+                cache.delete('data_manager_layer_%d_%d' % (parentlayer.id, site.pk))
+                parentlayer.dictCache(site.pk)
+            # Delete cache for companion layers
+            for companion in self.connect_companion_layers_to.all():
+                cache.delete('data_manager_layer_%d_%d' % (companion.id, site.pk))
+                companion.dictCache(site.pk)
+            for companion in Layer.objects.filter(connect_companion_layers_to__in=[self]):
+                cache.delete('data_manager_layer_%d_%d' % (companion.id, site.pk))
+                companion.dictCache(site.pk)
+            for association in self.associated_layer.all():
+                cache.delete('data_manager_layer_%d_%d' % (association.parentLayer.pk, site.pk))
+                association.dictCache(site.pk)
 
 
 class AttributeInfo(models.Model):
