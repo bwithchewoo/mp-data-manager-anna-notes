@@ -231,7 +231,7 @@ class Layer(models.Model, SiteFlags):
         if theme:
             theme_url = reverse('portal.data_catalog.views.theme', args=[theme.name])
             if theme_url:
-                return "{0}#layer-info-{1}".format(theme_url, self.slug)
+                return "{0}#layer-info-{1}".format(theme_url, self.slug_name)
 
     @property
     def slug(self):
@@ -330,13 +330,13 @@ class Layer(models.Model, SiteFlags):
     def description_link(self):
         theme_name = self.themes.all()[0].name
         domain = get_domain(8000)
-        return '%s/learn/%s#%s' %(domain, theme_name, self.slug)
+        return '%s/learn/%s#%s' %(domain, theme_name, self.slug_name)
 
     @property
     def tiles_link(self):
         if self.is_shareable and self.layer_type in ['XYZ', 'ArcRest', 'WMS']:
             domain = get_domain(8000)
-            return self.slug
+            return self.slug_name
         return None
 
     @property
