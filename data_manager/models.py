@@ -306,8 +306,11 @@ class Layer(models.Model, SiteFlags):
     def metadata_link(self):
         if self.metadata and self.metadata.lower() == 'none':
             return None
-        if not self.metadata and self.is_sublayer:
-            return self.parent.metadata
+        if not self.metadata:
+            if self.is_sublayer and self.parent:
+                return self.parent.metadata
+            else:
+                return None
         else:
             return self.metadata
 
@@ -315,8 +318,11 @@ class Layer(models.Model, SiteFlags):
     def source_link(self):
         if self.source and self.source.lower() == 'none':
             return None
-        if not self.source and self.is_sublayer:
-            return self.parent.source
+        if not self.source:
+            if self.is_sublayer and self.parent:
+                return self.parent.source
+            else:
+                return None
         else:
             return self.source
 
