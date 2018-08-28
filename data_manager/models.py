@@ -634,7 +634,7 @@ class Layer(models.Model, SiteFlags):
                 companion.dictCache(site.pk)
             for association in self.associated_layer.all():
                 cache.delete('data_manager_layer_%d_%d' % (association.parentLayer.pk, site.pk))
-                association.dictCache(site.pk)
+                association.layer.dictCache(site.pk)
 
 
 class AttributeInfo(models.Model):
