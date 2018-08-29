@@ -613,7 +613,10 @@ class Layer(models.Model, SiteFlags):
             self.slug_name = kwargs['slug_name']
             kwargs.pop('slug_name', None)
         else:
-            self.slug_name = '%s%d' % (self.slug, self.id)
+            if self.id:
+                self.slug_name = '%s%d' % (self.slug, self.id)
+            else:
+                self.slug_name = '%s_new' % self.slug
         if self.url == None:
             self.url = ''
         if 'recache' in kwargs.keys():
