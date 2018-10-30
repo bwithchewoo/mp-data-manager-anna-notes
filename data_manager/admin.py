@@ -17,6 +17,16 @@ class ThemeAdmin(admin.ModelAdmin):
 
         return db_field.formfield(**kwargs)
 
+    def get_queryset(self, request):
+        # use our manager, rather than the default one
+        qs = self.model.all_objects.get_queryset()
+
+        # we need this from the superclass method
+        ordering = self.ordering or () # otherwise we might try to *None, which is bad ;)
+        if ordering:
+            qs = qs.order_by(*ordering)
+        return qs
+
 class NestedMultilayerDimensionValueInline(nested_admin.NestedTabularInline):
     model = MultilayerDimensionValue
     fields = ('value', 'label', 'order')
@@ -209,6 +219,16 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
     def change_view(self, request, id=None, extra_context={}):
         # extra_context['test'] = 'BAR'
         return super(LayerAdmin, self).change_view(request, id, extra_context=extra_context)
+
+    def get_queryset(self, request):
+        # use our manager, rather than the default one
+        qs = self.model.all_objects.get_queryset()
+
+        # we need this from the superclass method
+        ordering = self.ordering or () # otherwise we might try to *None, which is bad ;)
+        if ordering:
+            qs = qs.order_by(*ordering)
+        return qs
 
 class AttributeInfoAdmin(admin.ModelAdmin):
     list_display = ('field_name', 'display_name', 'precision', 'order')
