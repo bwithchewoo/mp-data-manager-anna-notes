@@ -71,8 +71,20 @@ class LayerResource(resources.ModelResource):
     class Meta:
         model = Layer
 
+class LayerForm(forms.ModelForm):
+    class Meta:
+        model = Layer
+        widgets = {
+            'themes': admin.widgets.FilteredSelectMultiple('Themes', False),
+            'sublayers': admin.widgets.FilteredSelectMultiple('Sublayers', False),
+            'connect_companion_layers_to': admin.widgets.FilteredSelectMultiple('Connect companion layers to', False),
+            'attribute_fields': admin.widgets.FilteredSelectMultiple('Attribute fields', False),
+            'lookup_table': admin.widgets.FilteredSelectMultiple('Lookup table', False),
+        }
+
 class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
     resource_class = LayerResource
+    form = LayerForm
     list_display = ('name', 'layer_type', 'Theme_', 'order', 'data_publish_date', 'data_source', 'primary_site', 'preview_site', 'url')
     search_fields = ['name', 'layer_type', 'url', 'data_source']
     ordering = ('name',)
@@ -88,7 +100,7 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
         }),
         ('LAYER ORGANIZATION', {
             'fields': (
-                ('themes','order'),
+                ('order','themes'),
                 ('is_sublayer','sublayers'),
                 ('has_companion','connect_companion_layers_to'),
                 ('is_disabled','disabled_message')
