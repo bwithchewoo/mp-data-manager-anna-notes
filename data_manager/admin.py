@@ -72,7 +72,9 @@ class LayerResource(resources.ModelResource):
         model = Layer
 
 class LayerForm(forms.ModelForm):
+    exclude = ('slug_name',)
     class Meta:
+        exclude = ('slug_name',)
         model = Layer
         widgets = {
             'themes': admin.widgets.FilteredSelectMultiple('Themes', False),
