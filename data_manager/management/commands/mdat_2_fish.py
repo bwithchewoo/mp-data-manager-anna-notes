@@ -42,8 +42,19 @@ class Command(BaseCommand):
         old_layer_type = 'checkbox'
         old_theme_name = 'conservation'
         old_data_source = 'Marine Life Data and Analysis Team V2'
-        parent_theme = Theme.objects.get(name='conservation')
-        fish_parent = Layer.objects.get(name__iexact=old_layer_name, layer_type=old_layer_type, themes=parent_theme, data_source=old_data_source)
+        parent_theme = Theme.all_objects.get(name='conservation')
+        try:
+            fish_parent = Layer.all_objects.get(name__iexact=old_layer_name, layer_type=old_layer_type, themes=parent_theme, data_source=old_data_source)
+        except Exception as e:
+            parent_layer_dict = {
+              'data_source': u'Marine Life Data and Analysis Team V2',
+              'layer_type': u'checkbox',
+              'metadata': u'http://seamap.env.duke.edu/models/mdat/Fish/MDAT_NEFSC_Fish_Summary_Products_Metadata.pdf',
+              'name': u'Fish',
+              'order': 10,
+              'source': u'http://seamap.env.duke.edu/models/mdat/',
+            }
+            fish_parent = Layer.all_objects.create(**parent_layer_dict)
 
         ##############################################
         # VALIDATE USAGE
@@ -60,7 +71,7 @@ class Command(BaseCommand):
         django_stage_site = Site.objects.get(pk=2)
 
         try:
-            parent_theme = Theme.objects.get(name='conservation')
+            parent_theme = Theme.all_objects.get(name='conservation')
         except:
             print("Parent Theme 'conservation' not found. Please set parent_theme.")
             import ipdb; ipdb.set_trace()
@@ -208,7 +219,7 @@ class Command(BaseCommand):
                             time_value = layer_name_parts[2].strip(' ')
                             if topic_value in topic_layer_map.keys() and topic_layer_map[topic_value]:
                                 existing_layer_name = "%s: %s" % (parent_layer_map[parent_value], topic_layer_map[topic_value])
-                                new_layer = Layer.objects.get(name__iexact=existing_layer_name, data_source=old_data_source, sublayers=fish_parent)
+                                new_layer = Layer.all_objects.get(name__iexact=existing_layer_name, data_source=old_data_source, sublayers=fish_parent)
                         except Exception as e:
                             pass
                         if time_value:
@@ -248,7 +259,7 @@ class Command(BaseCommand):
                               'sublayers': [parent.pk],
                               'espis_region': u'Mid Atlantic',
                             }
-                            new_layer = Layer.objects.create(**new_layer_dict)
+                            new_layer = Layer.all_objects.create(**new_layer_dict)
                             new_layer.site.add(django_stage_site)
                             new_layer.site.add(django_prod_site)
                             new_layer.themes.add(parent_theme.pk)
@@ -269,7 +280,7 @@ class Command(BaseCommand):
                             new_layer_dict['order'] = layer['id']
                             for key in ['metadata', 'url']:
                                 new_layer_dict[key] = all_service_dict[key]
-                            new_layer = Layer.objects.create(**new_layer_dict)
+                            new_layer = Layer.all_objects.create(**new_layer_dict)
                             new_layer.site.add(django_stage_site)
                             new_layer.site.add(django_prod_site)
                             new_layer.themes.add(parent_theme.pk)
