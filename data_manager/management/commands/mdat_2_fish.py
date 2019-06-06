@@ -256,7 +256,7 @@ class Command(BaseCommand):
                               'url': all_service_dict['url'],
                               'arcgis_layers': layer['id'],
                               'order': layer['id'],
-                              'sublayers': [parent.pk],
+                              # 'sublayers': [parent.pk],
                               'espis_region': u'Mid Atlantic',
                             }
                             new_layer = Layer.all_objects.create(**new_layer_dict)
