@@ -241,7 +241,7 @@ class Command(BaseCommand):
                             else:
                                 new_layer_name = "%s%s" % (layer['name'], name_suffix)
                             new_layer_dict = {
-                              'layer_type': all_layer_dict['ArcRest'],
+                              'layer_type': all_layer_dict['layer_type'],
                               'data_publish_date': all_layer_dict['data_publish_date'],
                               # 'site': [django_stage_site.pk],
                               # 'themes': [parent_theme.pk],
