@@ -244,7 +244,7 @@ class Layer(models.Model, SiteFlags):
 
     @property
     def data_overview_text(self):
-        if not self.data_overview and self.is_sublayer:
+        if not self.data_overview and self.is_sublayer and self.parent:
             return self.parent.data_overview
         else:
             return self.data_overview
@@ -343,7 +343,7 @@ class Layer(models.Model, SiteFlags):
     def tooltip(self):
         if self.description and self.description.strip() != '':
             return self.description
-        elif self.parent.description and self.parent.description.strip() != '':
+        elif self.parent and self.parent.description and self.parent.description.strip() != '':
             return self.parent.description
         else:
             return self.data_overview_text
