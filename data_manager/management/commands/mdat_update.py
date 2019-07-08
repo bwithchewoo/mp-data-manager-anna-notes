@@ -16,27 +16,27 @@ class Command(BaseCommand):
 
         #grab all parent service directories for enpoint
         r = requests.get(mdat_rest_path+'MDAT?f=json')
-        
+
         if r.status_code != 200:
             return
         #request status is OK
         else:
-            print "**** Request 200 - is OK *****"
+            print("**** Request 200 - is OK *****")
             parent_json = r.json()
             mdat_dirs = parent_json['services']
 
             #loop through mdat service *parent* directory array
             for directory in mdat_dirs:
-                print "***** Entering %s *****" % directory['name']
+                print("***** Entering %s *****" % directory['name'])
                 #defaults for parent directories
-                parent_defaults = { 
-                    'name':directory['name'], 
+                parent_defaults = {
+                    'name':directory['name'],
                     'layer_type':'checkbox',
                 }
 
                 synthetic_list = [
-                    'MDAT/AvianModels_SyntheticProducts', 
-                    'MDAT/Fish_NEFSC_SyntheticProducts', 
+                    'MDAT/AvianModels_SyntheticProducts',
+                    'MDAT/Fish_NEFSC_SyntheticProducts',
                     'MDAT/Mammal_SyntheticProducts'
                 ]
 
@@ -58,7 +58,7 @@ class Command(BaseCommand):
                 ]
 
                 if directory['type'] != 'MapServer':
-                    print "***** %s is not a MapServer Layer" % directory['name']
+                    print("***** %s is not a MapServer Layer" % directory['name'])
                     return
                 #continue on if it's a MapServer layer && a synthetic product
                 elif directory['name'] in synthetic_list:
@@ -67,7 +67,7 @@ class Command(BaseCommand):
                         obj = Layer.objects.get(themes=mdat, name=directory['name'])
                     #create parent layer/directory - if not
                     except Layer.DoesNotExist:
-                        print "***** Adding %s *****" % directory['name']
+                        print("***** Adding %s *****" % directory['name'])
                         obj = Layer.objects.create(**parent_defaults)
                         obj.site = [1,2]
                         obj.themes = [mdat_id]
@@ -87,7 +87,7 @@ class Command(BaseCommand):
 
                     #loop through layers within parent directory array
                     for layer in mdat_layers:
-                        print "***** Looping through %s *****" % layer['name']
+                        print("***** Looping through %s *****" % layer['name'])
                         layer_defaults = {
                             'name':layer['name'],
                             'layer_type':'ArcRest',
@@ -102,18 +102,16 @@ class Command(BaseCommand):
                                 #update name, just incase it changed
                                 lyr.name = layer['name']
                                 lyr.save()
-                                print "***** Layer %s exists *****" % layer['name']
+                                print("***** Layer %s exists *****" % layer['name'])
                             #create layers of parent directory - if they don't exist
                             except Layer.DoesNotExist:
-                                print "***** Adding %s *****" % layer['name']
+                                print("***** Adding %s *****" % layer['name'])
                                 lyr = Layer.objects.create(**layer_defaults)
                                 lyr.site = [1,2]
-                                lyr.themes = [mdat_id]                              
+                                lyr.themes = [mdat_id]
                                 lyr.sublayers = [layer_id]
                                 lyr.save()
 
                                 #sublayer fields need to be filled with pks for parent dir
                                 obj.sublayers.add(lyr.pk)
                                 obj.save()
-
-
