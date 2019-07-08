@@ -2,7 +2,7 @@ from django.contrib.sites.managers import CurrentSiteManager
 from django.contrib.sites.models import Site
 from django.db import models
 from django.template.defaultfilters import slugify
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 #from sorl.thumbnail import ImageField
 
 # From MARCO/utils.py
