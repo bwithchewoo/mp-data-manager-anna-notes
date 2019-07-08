@@ -697,7 +697,7 @@ class MultilayerDimension(models.Model):
     label = models.CharField(max_length=50, help_text='label to be used in mapping tool slider')
     order = models.IntegerField(default=100, help_text='the order in which this dimension will be presented among other dimensions on this layer')
     animated = models.BooleanField(default=False, help_text='enable auto-toggling of layers across this dimension')
-    layer = models.ForeignKey(Layer)
+    layer = models.ForeignKey(Layer, on_delete=models.CASCADE)
 
     def __unicode__(self):
         return self.name
@@ -722,8 +722,11 @@ class MultilayerDimension(models.Model):
 
 class MultilayerAssociation(models.Model):
     name = models.CharField(max_length=200)
-    parentLayer = models.ForeignKey(Layer, related_name="parent_layer", db_column='parentlayer')
-    layer = models.ForeignKey(Layer, null=True, blank=True, default=None, related_name="associated_layer", db_column='associatedlayer')
+    parentLayer = models.ForeignKey(Layer, related_name="parent_layer",
+            db_column='parentlayer', on_delete=models.CASCADE)
+    layer = models.ForeignKey(Layer, null=True, blank=True, default=None,
+            related_name="associated_layer", db_column='associatedlayer',
+            on_delete=models.SET_NULL)
 
     def __unicode__(self):
         return self.name
@@ -740,7 +743,7 @@ class MultilayerAssociation(models.Model):
     #     print("Association: %s ---DELETED---" % str(self))
 
 class MultilayerDimensionValue(models.Model):
-    dimension = models.ForeignKey(MultilayerDimension)
+    dimension = models.ForeignKey(MultilayerDimension, on_delete=models.CASCADE)
     value = models.CharField(max_length=200, help_text="Actual value of selection")
     label = models.CharField(max_length=50, help_text="Label for this selection seen in mapping tool slider")
     order = models.IntegerField(default=100)
