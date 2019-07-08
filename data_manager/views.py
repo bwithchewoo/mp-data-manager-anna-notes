@@ -5,7 +5,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.views.decorators.cache import cache_page
-from models import *
+from .models import *
 from .serializers import BriefLayerSerializer
 from rest_framework import viewsets
 
@@ -52,7 +52,7 @@ def create_layer(request):
                 layer.themes.add(theme)
             layer.save()
 
-        except Exception, e:
+        except Exception as e:
             return HttpResponse(e.message, status=500)
 
         result = layer_result(layer, message="Saved Successfully")
@@ -76,7 +76,7 @@ def update_layer(request, layer_id):
                 layer.themes.add(theme)
             layer.save()
 
-        except Exception, e:
+        except Exception as e:
             return HttpResponse(e.message, status=500)
 
         result = layer_result(layer, message="Edited Successfully")

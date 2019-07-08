@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django import forms
-from models import *
+from .models import *
 import nested_admin
 
 from import_export import fields, resources
