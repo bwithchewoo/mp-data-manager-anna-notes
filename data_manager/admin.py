@@ -198,6 +198,7 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
         NestedMultilayerDimensionInline,
     ]
 
+    from django.conf import settings
     from settings import BASE_DIR
     add_form_template = '%s/data_manager/templates/admin/LayerForm.html' % BASE_DIR
     change_form_template = '%s/data_manager/templates/admin/LayerForm.html' % BASE_DIR
