@@ -147,11 +147,11 @@ class Layer(models.Model, SiteFlags):
     wms_time_item = models.CharField(max_length=255, blank=True, null=True, help_text='Time Attribute Field, if different from "TIME". Proxy only.', verbose_name='WMS Time Field')
     wms_additional = models.TextField(blank=True, null=True, help_text='additional WMS key-value pairs: &key=value...', verbose_name='WMS Additional Fields')
     is_sublayer = models.BooleanField(default=False)
-    sublayers = models.ManyToManyField('self', blank=True, null=True)
-    themes = models.ManyToManyField("Theme", blank=True, null=True)
+    sublayers = models.ManyToManyField('self', blank=True)
+    themes = models.ManyToManyField("Theme", blank=True)
     search_query = models.BooleanField(default=False, help_text='Select when layers are queryable - e.g. MDAT and CAS')
     has_companion = models.BooleanField(default=False, help_text='Check if this layer has a companion layer')
-    connect_companion_layers_to = models.ManyToManyField('self', blank=True, null=True, help_text='Select which main layer(s) you would like to use in conjuction with this companion layer.')
+    connect_companion_layers_to = models.ManyToManyField('self', blank=True, help_text='Select which main layer(s) you would like to use in conjuction with this companion layer.')
     is_disabled = models.BooleanField(default=False, help_text='when disabled, the layer will still appear in the TOC, only disabled')
     disabled_message = models.CharField(max_length=255, blank=True, null=True)
     legend = models.CharField(max_length=255, blank=True, null=True, help_text='URL or path to the legend image file')
@@ -183,12 +183,12 @@ class Layer(models.Model, SiteFlags):
         ('click', 'click'),
         ('mouseover', 'mouseover')
     )
-    attribute_fields = models.ManyToManyField('AttributeInfo', blank=True, null=True)
+    attribute_fields = models.ManyToManyField('AttributeInfo', blank=True)
     compress_display = models.BooleanField(default=False)
     attribute_event = models.CharField(max_length=35, choices=EVENT_CHOICES, default='click')
     mouseover_field = models.CharField(max_length=75, blank=True, null=True, help_text='feature level attribute used in mouseover display')
     lookup_field = models.CharField(max_length=255, blank=True, null=True)
-    lookup_table = models.ManyToManyField('LookupInfo', blank=True, null=True)
+    lookup_table = models.ManyToManyField('LookupInfo', blank=True)
     is_annotated = models.BooleanField(default=False)
     vector_outline_color = models.CharField(max_length=7, blank=True, null=True)
     vector_outline_opacity = models.FloatField(blank=True, null=True)
@@ -683,7 +683,7 @@ class DataNeed(models.Model):
     contact_email = models.CharField(max_length=255, blank=True, null=True)
     expected_date = models.CharField(max_length=255, blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
-    themes = models.ManyToManyField("Theme", blank=True, null=True)
+    themes = models.ManyToManyField("Theme", blank=True)
 
     @property
     def html_name(self):
