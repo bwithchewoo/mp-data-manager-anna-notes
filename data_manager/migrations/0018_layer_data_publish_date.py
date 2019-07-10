@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='layer',
             name='data_publish_date',
-            field=models.DateField(default=None, null=True, verbose_name=b'Date created/published', blank=True),
+            field=models.DateField(default=None, null=True, verbose_name='Date created/published', blank=True),
             preserve_default=True,
         ),
     ]

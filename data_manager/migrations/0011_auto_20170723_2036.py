@@ -20,13 +20,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='layer',
             name='espis_region',
-            field=models.CharField(blank=True, max_length=100, null=True, help_text=b'Region to search within', choices=[(b'Mid Atlantic', b'Mid Atlantic')]),
+            field=models.CharField(blank=True, max_length=100, null=True, help_text='Region to search within', choices=[('Mid Atlantic', 'Mid Atlantic')]),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='layer',
             name='espis_search',
-            field=models.CharField(help_text=b'keyphrase search for ESPIS Link', max_length=255, null=True, blank=True),
+            field=models.CharField(help_text='keyphrase search for ESPIS Link', max_length=255, null=True, blank=True),
             preserve_default=True,
         ),
     ]

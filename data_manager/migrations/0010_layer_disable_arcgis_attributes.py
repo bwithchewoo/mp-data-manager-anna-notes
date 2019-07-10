@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='layer',
             name='disable_arcgis_attributes',
-            field=models.BooleanField(default=False, help_text=b'Click to disable clickable ArcRest layers'),
+            field=models.BooleanField(default=False, help_text='Click to disable clickable ArcRest layers'),
             preserve_default=True,
         ),
     ]

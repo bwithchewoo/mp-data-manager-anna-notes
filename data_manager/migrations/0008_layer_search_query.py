@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='layer',
             name='search_query',
-            field=models.BooleanField(default=False, help_text=b'Select when layers are queryable - e.g. MDAT and CAS'),
+            field=models.BooleanField(default=False, help_text='Select when layers are queryable - e.g. MDAT and CAS'),
             preserve_default=True,
         ),
     ]

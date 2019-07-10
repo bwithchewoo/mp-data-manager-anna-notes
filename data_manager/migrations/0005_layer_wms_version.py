@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='layer',
             name='wms_version',
-            field=models.CharField(help_text=b'WMS Versioning - usually either 1.1.1 or 1.3.0', max_length=10, null=True, blank=True),
+            field=models.CharField(help_text='WMS Versioning - usually either 1.1.1 or 1.3.0', max_length=10, null=True, blank=True),
             preserve_default=True,
         ),
     ]

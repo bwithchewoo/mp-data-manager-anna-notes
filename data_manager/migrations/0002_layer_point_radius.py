@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='layer',
             name='point_radius',
-            field=models.IntegerField(help_text=b'Used only for for Point layers (default is 2)', null=True, blank=True),
+            field=models.IntegerField(help_text='Used only for for Point layers (default is 2)', null=True, blank=True),
             preserve_default=True,
         ),
     ]

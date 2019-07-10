@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import django.db.models.deletion
 
 def reverse_m2ms(apps, schema_editor):
     # Do nothing, the M2M table will be destroyed
@@ -42,8 +43,8 @@ class Migration(migrations.Migration):
             name='ThemeSite',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('site', models.ForeignKey(to='sites.Site')),
-                ('theme', models.ForeignKey(to='data_manager.Theme')),
+                ('site', models.ForeignKey(to='sites.Site', on_delete=django.db.models.deletion.CASCADE)),
+                ('theme', models.ForeignKey(to='data_manager.Theme', on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={},
             bases=(models.Model,),
@@ -65,8 +66,8 @@ class Migration(migrations.Migration):
             name='LayerSite',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('site', models.ForeignKey(to='sites.Site')),
-                ('layer', models.ForeignKey(to='data_manager.Layer')),
+                ('site', models.ForeignKey(to='sites.Site', on_delete=django.db.models.deletion.CASCADE)),
+                ('layer', models.ForeignKey(to='data_manager.Layer', on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={},
             bases=(models.Model,),
