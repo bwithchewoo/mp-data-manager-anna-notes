@@ -78,6 +78,9 @@ class Theme(models.Model, SiteFlags):
     def __unicode__(self):
         return unicode('%s' % (self.name))
 
+    def __str__(self):
+        return self.name
+
     @property
     def learn_link(self):
         domain = get_domain(8000)

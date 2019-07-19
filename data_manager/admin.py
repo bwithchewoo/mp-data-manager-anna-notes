@@ -198,8 +198,8 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
         NestedMultilayerDimensionInline,
     ]
 
-    from django.conf import settings
-    BASE_DIR = settings.BASE_DIR
+    from . import settings as data_manager_settings
+    BASE_DIR = data_manager_settings.DATA_MANAGER_BASE_DIR
     add_form_template = '%s/data_manager/templates/admin/LayerForm.html' % BASE_DIR
     change_form_template = '%s/data_manager/templates/admin/LayerForm.html' % BASE_DIR
 
@@ -231,9 +231,8 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
         return super(LayerAdmin, self).add_view(request, form_url, extra_context)
 
     # Edit Layer Form
-    def change_view(self, request, id=None, extra_context={}):
-        # extra_context['test'] = 'BAR'
-        return super(LayerAdmin, self).change_view(request, id, extra_context=extra_context)
+    def change_view(self, request, object_id, extra_context={}):
+        return super(LayerAdmin, self).change_view(request, object_id, extra_context=extra_context)
 
     def get_queryset(self, request):
         # use our manager, rather than the default one
