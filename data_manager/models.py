@@ -79,7 +79,7 @@ class Theme(models.Model, SiteFlags):
         return unicode('%s' % (self.name))
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
     @property
     def learn_link(self):
@@ -215,6 +215,9 @@ class Layer(models.Model, SiteFlags):
 
     def __unicode__(self):
         return unicode('%s' % (self.name))
+
+    def __str__(self):
+        return str(self.name)
 
     @property
     def is_parent(self):
@@ -658,6 +661,9 @@ class AttributeInfo(models.Model):
     def __unicode__(self):
         return unicode('%s' % (self.field_name))
 
+    def __str__(self):
+        return str(self.field_name)
+
 class LookupInfo(models.Model):
     DASH_CHOICES = (
         ('dot', 'dot'),
@@ -675,6 +681,9 @@ class LookupInfo(models.Model):
 
     def __unicode__(self):
         return unicode('%s' % (self.value))
+
+    def __str__(self):
+        return str(self.value)
 
 class DataNeed(models.Model):
     name = models.CharField(max_length=100)
@@ -695,6 +704,9 @@ class DataNeed(models.Model):
     def __unicode__(self):
         return unicode('%s' % (self.name))
 
+    def __str__(self):
+        return str(self.name)
+
 class MultilayerDimension(models.Model):
     name = models.CharField(max_length=200, help_text='name to be used for selection in admin tool forms')
     label = models.CharField(max_length=50, help_text='label to be used in mapping tool slider')
@@ -706,7 +718,7 @@ class MultilayerDimension(models.Model):
         return self.name
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
     class Meta:
         ordering = ('order',)
@@ -735,7 +747,7 @@ class MultilayerAssociation(models.Model):
         return self.name
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
     # def save(self, *args, **kwargs):
     #     super(MultilayerAssociation, self).save(*args, **kwargs)
