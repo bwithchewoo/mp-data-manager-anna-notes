@@ -161,6 +161,22 @@ def wms_get_capabilities(url):
                     if key in new_layer_dict.keys():
                         layers[key] = new_layer_dict[key]
 
+        available_formats = []
+        if root.find('Capability') and root.find('Capability').find('Request'):
+            getFeatureInfo = root.find('Capability').find('Request').find('GetFeatureInfo')
+            if getFeatureInfo:
+                accepted_formats = [
+                    'text/plain',
+                    'text/html',
+                    'text/xml',
+                    'image/png',
+                    'application/json',
+                    'text/javascript',  #JSONP
+                ]
+                for format_type in getFeatureInfo.findall('Format'):
+                    if format_type.text in accepted_formats:
+                        available_formats.append(format_type.text)
+
 
     except:
         # trouble parsing raw xml
@@ -207,13 +223,21 @@ def wms_get_capabilities(url):
             'field': timefield
         }
 
+    capabilities = {}
+    if available_formats and len(available_formats) > 0:
+        capabilities['featureInfo'] = {
+            'available': True,
+            'formats': available_formats
+        }
+
     result = {
-        'layers': layers.keys(),
+        'layers': list(layers.keys()),
         'formats': wms.getOperationByName('GetMap').formatOptions,
         'version': wms.version,
         'styles':  styles,
         'srs': srs_opts,
         'time': times,
+        'capabilities': capabilities,
     }
 
     return result

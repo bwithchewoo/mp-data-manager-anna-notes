@@ -93,7 +93,7 @@ show_layertype_form = function(layertype) {
               }
               style_html += '</select>';
               $('#id_wms_styles').replaceWith(style_html);
-              if (data.styles[slug_val].indexOf(style_val) >= 0) {
+              if (Object.keys(data.styles[slug_val]).indexOf(style_val) >= 0) {
                 $('#id_wms_styles').val(style_val);
               }
             }
@@ -117,6 +117,40 @@ show_layertype_form = function(layertype) {
                 }
                 wms_timing_positions_html += '</ul>';
                 $(wms_timing_positions_html).insertAfter('#wms_timing_position_label');
+              }
+            }
+
+            /* CAPABILITIES */
+            if (Object.keys(data.capabilities).length > 0) {
+              var info_bool_field = $('#id_wms_info');
+              var info_format_field = $('#id_wms_info_format');
+              if (data.capabilities.hasOwnProperty('featureInfo') && data.capabilities.featureInfo.available) {
+                $('.form-row.field-wms_info.field-wms_info_format').show();
+                info_format_field.prop('disabled', false);
+                info_bool_field.prop('disabled', false);
+
+                var info_formats = data.capabilities.featureInfo.formats;
+                var info_format_val = info_format_field.val();
+                var info_format_html = '<select id="id_wms_info_format" name="wms_info_format">';
+                info_format_html += '<option value="">None (no reporting)</option>';
+                for (var i = 0; i < info_formats.length; i++) {
+                  var opt_val = info_formats[i];
+                  info_format_html += '<option value="' + opt_val + '">' + opt_val + '</option>';
+                }
+                info_format_html += '</select>';
+                info_format_field.replaceWith(info_format_html);
+
+                if (info_formats.indexOf(info_format_val) >= 0) {
+                    $('#id_wms_info_format').val(info_format_val);
+                }
+
+              } else {
+                // set featureInfo to false, hide section
+                info_bool_field.prop('checked', false);
+                info_bool_field.prop('disabled', true);
+                info_format_field.val(null);
+                info_format_field.prop('disabled', true);
+                $('.form-row.field-wms_info.field-wms_info_format').hide();
               }
             }
 

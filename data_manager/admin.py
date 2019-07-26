@@ -150,6 +150,7 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
                 ('wms_format', 'wms_srs'),
                 ('wms_timing', 'wms_time_item'),
                 ('wms_styles', 'wms_additional'),
+                ('wms_info', 'wms_info_format'),
             )
         }),
         ('Dynamic Layers (MDAT & CAS)', {

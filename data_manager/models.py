@@ -149,6 +149,8 @@ class Layer(models.Model, SiteFlags):
     wms_timing = models.CharField(max_length=255, blank=True, null=True, help_text='http://docs.geoserver.org/stable/en/user/services/wms/time.html#specifying-a-time', verbose_name='WMS Time')
     wms_time_item = models.CharField(max_length=255, blank=True, null=True, help_text='Time Attribute Field, if different from "TIME". Proxy only.', verbose_name='WMS Time Field')
     wms_additional = models.TextField(blank=True, null=True, help_text='additional WMS key-value pairs: &key=value...', verbose_name='WMS Additional Fields')
+    wms_info = models.BooleanField(default=False, help_text='enable Feature Info requests on click')
+    wms_info_format = models.CharField(max_length=255, blank=True, null=True, default=None, help_text='Available supported feature info formats')
     is_sublayer = models.BooleanField(default=False)
     sublayers = models.ManyToManyField('self', blank=True)
     themes = models.ManyToManyField("Theme", blank=True)
@@ -469,6 +471,8 @@ class Layer(models.Model, SiteFlags):
                 'wms_timing': layer.wms_timing,
                 'wms_time_item': layer.wms_time_item,
                 'wms_additional': layer.wms_additional,
+                'wms_info': layer.wms_info,
+                'wms_info_format': layer.wms_info_format,
                 'utfurl': layer.utfurl,
                 'parent': self.id,
                 'legend': layer.legend,
@@ -522,6 +526,8 @@ class Layer(models.Model, SiteFlags):
                 'wms_timing': layer.wms_timing,
                 'wms_time_item': layer.wms_time_item,
                 'wms_additional': layer.wms_additional,
+                'wms_info': layer.wms_info,
+                'wms_info_format': layer.wms_info_format,
                 'utfurl': layer.utfurl,
                 'parent': self.id,
                 'legend': layer.legend,
@@ -574,6 +580,8 @@ class Layer(models.Model, SiteFlags):
             'wms_timing': self.wms_timing,
             'wms_time_item': self.wms_time_item,
             'wms_additional': self.wms_additional,
+            'wms_info': self.wms_info,
+            'wms_info_format': self.wms_info_format,
             'utfurl': self.utfurl,
             'subLayers': sublayers,
             'companion_layers': connect_companion_layers_to,
