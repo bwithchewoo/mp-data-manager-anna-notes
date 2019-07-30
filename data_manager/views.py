@@ -172,6 +172,7 @@ def wms_get_capabilities(url):
                     'image/png',
                     'application/json',
                     'text/javascript',  #JSONP
+                    'application/vnd.ogc.gml',
                 ]
                 for format_type in getFeatureInfo.findall('Format'):
                     if format_type.text in accepted_formats:
@@ -205,13 +206,13 @@ def wms_get_capabilities(url):
 
         if wms[layer].timepositions:
             positions = wms[layer].timepositions
-        elif layer_obj.has_key('positions'):
+        elif 'positions' in layer_obj.keys():
             positions = layer_obj['positions']
         else:
             positions = None
         if wms[layer].defaulttimeposition:
             defaulttimeposition = wms[layer].defaulttimeposition
-        elif layer_obj.has_key('default'):
+        elif 'default' in layer_obj.keys():
             defaulttimeposition = layer_obj['default']
         else:
             defaulttimeposition = None

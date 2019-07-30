@@ -138,17 +138,19 @@ class Layer(models.Model, SiteFlags):
     layer_type = models.CharField(max_length=50, choices=TYPE_CHOICES, help_text='use placeholder to temporarily remove layer from TOC')
     url = models.CharField(max_length=255, blank=True, null=True)
     shareable_url = models.BooleanField(default=True, help_text='Indicates whether the data layer (e.g. map tiles) can be shared with others (through the Map Tiles Link)')
+    # RDH: proxy_url does not appear to be used.
+    # proxy_url = models.BooleanField(default=False, help_text="proxy layer url through marine planner")
     arcgis_layers = models.CharField(max_length=255, blank=True, null=True, help_text='comma separated list of arcgis layer IDs')
     disable_arcgis_attributes = models.BooleanField(default=False, help_text='Click to disable clickable ArcRest layers')
     wms_help = models.BooleanField(default=False, help_text='Enable simple selection for WMS fields. Only supports WMS 1.1.1')
     wms_slug = models.CharField(max_length=255, blank=True, null=True, verbose_name='WMS Layer Name')
-    wms_version = models.CharField(max_length=10, blank=True, null=True, choices=WMS_VERSION_CHOICES, help_text='WMS Versioning - usually either 1.1.1 or 1.3.0')
-    wms_format = models.CharField(max_length=100, blank=True, null=True, help_text='most common: image/png. Only image types supported.', verbose_name='WMS Format')
-    wms_srs = models.CharField(max_length=100, blank=True, null=True, help_text='If not EPSG:3857 WMS requests will be proxied', verbose_name='WMS SRS')
-    wms_styles = models.CharField(max_length=255, blank=True, null=True, help_text='pre-determined styles, if exist', verbose_name='WMS Styles')
-    wms_timing = models.CharField(max_length=255, blank=True, null=True, help_text='http://docs.geoserver.org/stable/en/user/services/wms/time.html#specifying-a-time', verbose_name='WMS Time')
-    wms_time_item = models.CharField(max_length=255, blank=True, null=True, help_text='Time Attribute Field, if different from "TIME". Proxy only.', verbose_name='WMS Time Field')
-    wms_additional = models.TextField(blank=True, null=True, help_text='additional WMS key-value pairs: &key=value...', verbose_name='WMS Additional Fields')
+    wms_version = models.CharField(max_length=10, blank=True, null=True, default=None, choices=WMS_VERSION_CHOICES, help_text='WMS Versioning - usually either 1.1.1 or 1.3.0')
+    wms_format = models.CharField(max_length=100, blank=True, null=True, default=None, help_text='most common: image/png. Only image types supported.', verbose_name='WMS Format')
+    wms_srs = models.CharField(max_length=100, blank=True, null=True, default=None, help_text='If not EPSG:3857 WMS requests will be proxied', verbose_name='WMS SRS')
+    wms_styles = models.CharField(max_length=255, blank=True, null=True, default=None, help_text='pre-determined styles, if exist', verbose_name='WMS Styles')
+    wms_timing = models.CharField(max_length=255, blank=True, null=True, default=None, help_text='http://docs.geoserver.org/stable/en/user/services/wms/time.html#specifying-a-time', verbose_name='WMS Time')
+    wms_time_item = models.CharField(max_length=255, blank=True, null=True, default=None, help_text='Time Attribute Field, if different from "TIME". Proxy only.', verbose_name='WMS Time Field')
+    wms_additional = models.TextField(blank=True, null=True, default=None, help_text='additional WMS key-value pairs: &key=value...', verbose_name='WMS Additional Fields')
     wms_info = models.BooleanField(default=False, help_text='enable Feature Info requests on click')
     wms_info_format = models.CharField(max_length=255, blank=True, null=True, default=None, help_text='Available supported feature info formats')
     is_sublayer = models.BooleanField(default=False)
@@ -158,16 +160,28 @@ class Layer(models.Model, SiteFlags):
     has_companion = models.BooleanField(default=False, help_text='Check if this layer has a companion layer')
     connect_companion_layers_to = models.ManyToManyField('self', blank=True, help_text='Select which main layer(s) you would like to use in conjuction with this companion layer.')
     is_disabled = models.BooleanField(default=False, help_text='when disabled, the layer will still appear in the TOC, only disabled')
-    disabled_message = models.CharField(max_length=255, blank=True, null=True)
+    disabled_message = models.CharField(max_length=255, blank=True, null=True, default=None)
     legend = models.CharField(max_length=255, blank=True, null=True, help_text='URL or path to the legend image file')
     legend_title = models.CharField(max_length=255, blank=True, null=True, help_text='alternative to using the layer name')
     legend_subtitle = models.CharField(max_length=255, blank=True, null=True)
     utfurl = models.CharField(max_length=255, blank=True, null=True)
 
+    # RDH: utfjsonp does not appear to be used.
+    # utfjsonp = models.BooleanField(default=False)
+    # RDH: summarize_to_grid does not appear to be used.
+    # summarize_to_grid = models.BooleanField(default=False)
+    # RDH: filterable is used in planner.html and filters.html, regarding visibility
+    # TODO: need to identify how/why this is used and integrate into ocean_portal code base
+    #       Filterable is used for 'beach cleanup' and 'derelict gear' layers.
+    filterable = models.BooleanField(default=False)
+    # RDH: geoportal_id is used in data_manager view 'geoportal_ids', which is never used
+    geoportal_id = models.CharField(max_length=255, blank=True, null=True, default=None, help_text="GeoPortal UUID")
+    # RDH: proj does not appear to be used.
+    # proj = models.CharField(max_length=255, blank=True, null=True, help_text="will be EPSG:3857, if unspecified")
+
     #tooltip
     description = models.TextField(blank=True, null=True)
 
-    #data description (updated fact sheet) (now the Learn pages)
     data_overview = models.TextField(blank=True, null=True)
     data_source = models.CharField(max_length=255, blank=True, null=True)
     data_notes = models.TextField(blank=True, null=True)
@@ -177,33 +191,34 @@ class Layer(models.Model, SiteFlags):
     bookmark = models.CharField(max_length=755, blank=True, null=True, help_text='link to view data layer in the planner')
     kml = models.CharField(max_length=255, blank=True, null=True, help_text='link to download the KML')
     data_download = models.CharField(max_length=255, blank=True, null=True, help_text='link to download the data')
-    learn_more = models.CharField(max_length=255, blank=True, null=True, help_text='link to view description in the Learn section')
+    learn_more = models.CharField(max_length=255, blank=True, null=True, default=None, help_text='link to view description in the Learn section')
     metadata = models.CharField(max_length=255, blank=True, null=True, help_text='link to view/download the metadata')
     source = models.CharField(max_length=255, blank=True, null=True, help_text='link back to the data source')
     map_tiles = models.CharField(max_length=255, blank=True, null=True, help_text='internal link to a page that details how others might consume the data')
-    thumbnail = models.URLField(max_length=255, blank=True, null=True, help_text='not sure we are using this any longer...')
+    thumbnail = models.URLField(max_length=255, blank=True, null=True, default=None, help_text='not sure we are using this any longer...')
 
     #geojson javascript attribution
     EVENT_CHOICES = (
         ('click', 'click'),
         ('mouseover', 'mouseover')
     )
+    # RDH: Adds a 'title' to the serialize_attributes dict - not sure if that's used.
+    # attribute_title = models.CharField(max_length=255, blank=True, null=True)
     attribute_fields = models.ManyToManyField('AttributeInfo', blank=True)
     compress_display = models.BooleanField(default=False)
     attribute_event = models.CharField(max_length=35, choices=EVENT_CHOICES, default='click')
-    mouseover_field = models.CharField(max_length=75, blank=True, null=True, help_text='feature level attribute used in mouseover display')
+    mouseover_field = models.CharField(max_length=75, blank=True, null=True, default=True, help_text='feature level attribute used in mouseover display')
     lookup_field = models.CharField(max_length=255, blank=True, null=True)
     lookup_table = models.ManyToManyField('LookupInfo', blank=True)
     is_annotated = models.BooleanField(default=False)
-    vector_outline_color = models.CharField(max_length=7, blank=True, null=True)
-    vector_outline_opacity = models.FloatField(blank=True, null=True)
-    vector_color = models.CharField(max_length=7, blank=True, null=True)
-    vector_fill = models.FloatField(blank=True, null=True)
-    vector_graphic = models.CharField(max_length=255, blank=True, null=True)
-    point_radius = models.IntegerField(blank=True, null=True, help_text='Used only for for Point layers (default is 2)')
+    vector_outline_color = models.CharField(max_length=7, blank=True, null=True, default=True)
+    vector_outline_opacity = models.FloatField(blank=True, null=True, default=True)
+    vector_color = models.CharField(max_length=7, blank=True, null=True, default=True)
+    vector_fill = models.FloatField(blank=True, null=True, default=True)
+    vector_graphic = models.CharField(max_length=255, blank=True, null=True, default=True)
+    point_radius = models.IntegerField(blank=True, null=True, default=True, help_text='Used only for for Point layers (default is 2)')
     opacity = models.FloatField(default=.5, blank=True, null=True)
 
-    # objects = models.Manager()
     objects = CurrentSiteManager('site')
     all_objects = models.Manager()
 
@@ -212,8 +227,8 @@ class Layer(models.Model, SiteFlags):
         ('Mid Atlantic', 'Mid Atlantic'),
     )
     espis_enabled = models.BooleanField(default=False)
-    espis_search = models.CharField(max_length=255, blank=True, null=True, help_text="keyphrase search for ESPIS Link")
-    espis_region = models.CharField(max_length=100, blank=True, null=True, choices=ESPIS_REGION_CHOICES, help_text="Region to search within")
+    espis_search = models.CharField(max_length=255, blank=True, null=True, default=True, help_text="keyphrase search for ESPIS Link")
+    espis_region = models.CharField(max_length=100, blank=True, null=True, default=True, choices=ESPIS_REGION_CHOICES, help_text="Region to search within")
 
     def __unicode__(self):
         return unicode('%s' % (self.name))
