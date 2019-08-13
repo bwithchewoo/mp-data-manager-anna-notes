@@ -180,6 +180,7 @@ class Layer(models.Model, SiteFlags):
     legend = models.CharField(max_length=255, blank=True, null=True, help_text='URL or path to the legend image file')
     legend_title = models.CharField(max_length=255, blank=True, null=True, help_text='alternative to using the layer name')
     legend_subtitle = models.CharField(max_length=255, blank=True, null=True)
+    show_legend = models.BooleanField(default=True, help_text='show the legend for this layer if available')
     utfurl = models.CharField(max_length=255, blank=True, null=True)
 
     # RDH: utfjsonp does not appear to be used.
@@ -514,6 +515,7 @@ class Layer(models.Model, SiteFlags):
                 'legend': layer.legend,
                 'legend_title': layer.legend_title,
                 'legend_subtitle': layer.legend_subtitle,
+                'show_legend': layer.show_legend,
                 'description': layer.tooltip,
                 'overview': layer.data_overview_text,
                 'data_source': layer.data_source,
@@ -571,6 +573,7 @@ class Layer(models.Model, SiteFlags):
                 'legend': layer.legend,
                 'legend_title': layer.legend_title,
                 'legend_subtitle': layer.legend_subtitle,
+                'show_legend': layer.show_legend,
                 'description': layer.tooltip,
                 'overview': layer.data_overview_text,
                 'data_source': layer.data_source,
@@ -630,6 +633,7 @@ class Layer(models.Model, SiteFlags):
             'legend': self.legend,
             'legend_title': self.legend_title,
             'legend_subtitle': self.legend_subtitle,
+            'show_legend': self.show_legend,
             'description': self.description,
             'overview': self.data_overview,
             'data_source': self.data_source,
