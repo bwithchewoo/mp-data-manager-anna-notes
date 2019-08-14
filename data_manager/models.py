@@ -87,10 +87,20 @@ class Theme(models.Model, SiteFlags):
         return '%s/learn/%s' %(domain, self.name)
 
     def dictCache(self, site_id=None):
+        from django.core.cache import cache
         themes_dict = None
         if site_id in [x.id for x in self.site.all()]:
-            themes_dict = self.toDict
-            themes_dict['layers'] = [layer.id for layer in Layer.all_objects.filter(site__in=[site_id],is_sublayer=False,themes__in=[self.id]).exclude(layer_type='placeholder')]
+            if site_id:
+                themes_dict = cache.get('data_manager_theme_%d_%d' % (self.id, site_id))
+            if not themes_dict:
+                themes_dict = self.toDict
+                themes_dict['layers'] = [layer.id for layer in Layer.all_objects.filter(site__in=[site_id],is_sublayer=False,themes__in=[self.id]).exclude(layer_type='placeholder')]
+                if site_id:
+                    # Cache for 1 week, will be reset if layer data changes
+                    cache.set('data_manager_theme_%d_%d' % (self.id, site_id), themes_dict, 60*60*24*7)
+                else:
+                    for site in Site.objects.all():
+                        cache.set('data_manager_theme_%d_%d' % (self.id, site.id), themes_dict, 60*60*24*7)
         return themes_dict
 
 
@@ -110,8 +120,11 @@ class Theme(models.Model, SiteFlags):
         return themes_dict
 
     def save(self, *args, **kwargs):
-        if 'recache' in kwargs.keys():  #crufty - impacted when MDAT v2 import is run.
-            kwargs.pop('recache', None)
+        from django.core.cache import cache
+        for site in Site.objects.all():
+            cache.delete('data_manager_json_site_%s' % site.pk)
+            # 'data_manager_theme_%d_%d' % (self.id, site_id)
+            cache.delete('data_manager_theme_%d_%d' % (self.id, site.pk))
         super(Theme, self).save(*args, **kwargs)
 
 class Layer(models.Model, SiteFlags):
