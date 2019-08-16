@@ -124,7 +124,8 @@ class Theme(models.Model, SiteFlags):
         for site in Site.objects.all():
             cache.delete('data_manager_json_site_%s' % site.pk)
             # 'data_manager_theme_%d_%d' % (self.id, site_id)
-            cache.delete('data_manager_theme_%d_%d' % (self.id, site.pk))
+            if self.id:
+                cache.delete('data_manager_theme_%d_%d' % (self.id, site.pk))
         super(Theme, self).save(*args, **kwargs)
 
 class Layer(models.Model, SiteFlags):
