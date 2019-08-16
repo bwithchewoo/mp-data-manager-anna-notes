@@ -687,6 +687,9 @@ class Layer(models.Model, SiteFlags):
             for association in self.associated_layer.all():
                 cache.delete('data_manager_layer_%d_%d' % (association.parentLayer.pk, site.pk))
                 association.layer.dictCache(site.pk)
+            for theme in self.themes.all():
+                cache.delete('data_manager_theme_%d_%d' % (theme.pk, site.pk))
+                theme.dictCache(site.pk)
 
 
 class AttributeInfo(models.Model):
