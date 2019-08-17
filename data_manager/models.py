@@ -664,6 +664,10 @@ class Layer(models.Model, SiteFlags):
             self.url = ''
         if 'recache' in kwargs.keys():
             kwargs.pop('recache', None)
+        # TODO: determine all themes, companions, ancestors, and decendants prior to saving
+        #       clear all of their caches.
+        #       How do we do this thoroughly?
+        #       How do we avoid infinite loops? (companions)(recursion?)
         super(Layer, self).save(*args, **kwargs)
         for site in Site.objects.all():
             cache.delete('data_manager_json_site_%s' % site.pk)
@@ -687,6 +691,8 @@ class Layer(models.Model, SiteFlags):
             for association in self.associated_layer.all():
                 cache.delete('data_manager_layer_%d_%d' % (association.parentLayer.pk, site.pk))
                 association.layer.dictCache(site.pk)
+            # TODO: if len(self.themes.all() == 0): delete all theme caches?
+            #   On initial save, layers don't seem to know what themes they are associated with. :(
             for theme in self.themes.all():
                 cache.delete('data_manager_theme_%d_%d' % (theme.pk, site.pk))
                 theme.dictCache(site.pk)

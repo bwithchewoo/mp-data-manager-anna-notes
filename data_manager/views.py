@@ -128,6 +128,7 @@ def wms_get_capabilities(url):
         layers[layer] = {'dimensions':{}}
     styles = {}
     srs_opts = {}
+    queryable = []
     times = {}
     import xml.etree.ElementTree as ET
     root = ET.fromstring(wms.getServiceXML())
@@ -187,6 +188,12 @@ def wms_get_capabilities(url):
     for layer in layers.keys():
         styles[layer] = wms[layer].styles
         srs_opts[layer] = wms[layer].crsOptions
+        try:
+            if bool(wms[layer].queryable):
+                queryable.append(layer)
+        except Exception as e:
+            print(e)
+            pass
 
         dimensions = layers[layer]['dimensions']
         timefield = None
@@ -237,6 +244,7 @@ def wms_get_capabilities(url):
         'version': wms.version,
         'styles':  styles,
         'srs': srs_opts,
+        'queryable': queryable,
         'time': times,
         'capabilities': capabilities,
     }

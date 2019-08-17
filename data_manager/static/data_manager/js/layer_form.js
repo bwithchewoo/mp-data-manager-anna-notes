@@ -67,7 +67,7 @@ show_layertype_form = function(layertype) {
             }
 
             $('#id_wms_srs').change(function() {
-              if ($('#id_wms_srs').val() == 'EPSG:3857') {
+              if ($('#id_wms_srs').val().toLowerCase() == 'epsg:3857') {
                 $('#id_wms_time_item').prop('disabled', true);
                 $('#id_wms_additional').prop('disabled', false);
               } else {
@@ -153,7 +153,7 @@ show_layertype_form = function(layertype) {
                 $('.form-row.field-wms_info.field-wms_info_format').hide();
               }
             }
-
+            check_queryable(data.queryable);
           },
           error: function(data) {
             url = $('#id_url').val();
@@ -215,6 +215,29 @@ show_layertype_form = function(layertype) {
       default:
         break;
     }
+  }
+}
+
+check_queryable = function(queryable_layers) {
+  var selected_layer = $('#id_wms_slug').val();
+  if (queryable_layers.indexOf(selected_layer) >= 0) {
+    $('#id_wms_info').attr('disabled', false);
+    $('#id_wms_info_format').attr('disabled', false);
+  } else {
+    $('#id_wms_info').attr('checked', false);
+    $('#id_wms_info').attr('disabled', true);
+    $('#id_wms_info_format').attr('disabled', true);
+  }
+  if (!$('#queryable_layer_list').length > 0) {
+    if ($('.form-row.field-wms_info.field-wms_info_format').length > 0) {
+      $('.form-row.field-wms_info.field-wms_info_format').append('<div id="queryable_layer_list"></div>');
+    } else {
+      console.log('need to re-write identification of WMS Info section of form. See layer_form.js "check_queryable()"');
+    }
+  }
+  if ($('#queryable_layer_list').length > 0) {
+    q_layers_html = "<b>Queryable Layers: </b>" + queryable_layers.join(', ');
+    $('#queryable_layer_list').html(q_layers_html);
   }
 }
 
