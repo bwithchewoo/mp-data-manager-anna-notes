@@ -467,6 +467,20 @@ class Layer(models.Model, SiteFlags):
         ], key=lambda x: x['order'])
 
     @property
+    def catalog_html(self):
+        from django.template.loader import render_to_string
+        try:
+            return render_to_string(
+                "data_catalog/includes/layer_catalog_info.html",
+                {
+                    'layer': self,
+                    'sub_layers': self.sublayers.exclude(layer_type="placeholder")
+                }
+            )
+        except Exception as e:
+            print(e)
+
+    @property
     def associatedMultilayers(self):
         if len(self.multilayerdimension_set.all()) > 0:
             return self.dimensionRecursion(sorted(self.multilayerdimension_set.all(), key=lambda x: x.order), self.parent_layer.all())
@@ -662,7 +676,8 @@ class Layer(models.Model, SiteFlags):
             'is_multilayer': self.isMultilayer,
             'is_multilayer_parent': self.isMultilayerParent,
             'dimensions': self.dimensions,
-            'associated_multilayers': self.associatedMultilayers
+            'associated_multilayers': self.associatedMultilayers,
+            'catalog_html': self.catalog_html,
         }
 
         return layers_dict
