@@ -136,6 +136,7 @@ class Layer(models.Model, SiteFlags):
         ('radio', 'radio'),
         ('checkbox', 'checkbox'),
         ('Vector', 'Vector'),
+        ('VectorTile', 'VectorTile'),
         ('placeholder', 'placeholder'),
     )
     WMS_VERSION_CHOICES = (
