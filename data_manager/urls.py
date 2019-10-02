@@ -13,5 +13,8 @@ urlpatterns = [
     re_path(r'^layer/([A-Za-z0-9_-]+)$', views.update_layer),
     re_path(r'^layer$', views.create_layer),
     re_path(r'^get_json$', views.get_json),
+    re_path(r'^get_themes$', views.get_themes),
+    re_path(r'^get_layer_search_data$', views.get_layer_search_data),
+    re_path(r'^get_layers_for_theme/(?P<themeID>\d+)$', views.get_layers_for_theme),
     re_path(r'^wms_capabilities', views.wms_request_capabilities),
 ]

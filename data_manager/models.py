@@ -120,6 +120,16 @@ class Theme(models.Model, SiteFlags):
 
         return themes_dict
 
+    def getInitDict(self):
+        theme_dict = {
+            'id': self.id,
+            'name': self.name,
+            'display_name': self.display_name,
+            'is_visible': self.visible,
+        }
+
+        return theme_dict
+
     def save(self, *args, **kwargs):
         from django.core.cache import cache
         for site in Site.objects.all():

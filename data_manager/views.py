@@ -16,6 +16,28 @@ class LayerViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Layer.objects.all()
     serializer_class = BriefLayerSerializer
 
+def get_themes(request):
+    data = {
+        "themes": [theme.getInitDict() for theme in Theme.objects.all().order_by('order')],
+    }
+    return JsonResponse(data)
+
+def get_layer_search_data(request):
+    search_dict = {}
+    for theme in Theme.objects.filter(visible=True):
+        for layer in theme.layer_set.all():
+            search_dict[layer.name] = {
+                'layer': layer.id,
+                'theme': theme.id
+            }
+            if not layer.is_sublayer:
+                for sublayer in layer.sublayers.all():
+                    search_dict[layer.name] = {
+                        'layer': sublayer.id,
+                        'theme': theme.id
+                    }
+    return JsonResponse(search_dict)
+
 def get_json(request):
     from django.core.cache import cache
     from django.contrib.sites import shortcuts
@@ -35,6 +57,16 @@ def get_json(request):
         cache.set('data_manager_json_site_%d' % current_site_pk, data, 60*60*24*7)
     return JsonResponse(data)
 
+def get_layers_for_theme(request, themeID):
+    theme = Theme.objects.get(pk=themeID)
+    layer_list = []
+    for layer in theme.layer_set.all().order_by('order'):
+        layer_list.append({
+            'id': layer.id,
+            'name': layer.name,
+            'has_sublayers': len(layer.sublayers.all()) > 0,
+        })
+    return JsonResponse({'layers': layer_list})
 
 def create_layer(request):
     if request.POST:
