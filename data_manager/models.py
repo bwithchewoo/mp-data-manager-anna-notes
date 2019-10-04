@@ -571,7 +571,7 @@ class Layer(models.Model, SiteFlags):
                 'dimensions': layer.dimensions,
                 'associated_multilayers': layer.associatedMultilayers
             }
-            for layer in self.sublayers.all()
+            for layer in self.sublayers.filter(is_sublayer=True)
         ]
         connect_companion_layers_to = [
             {

@@ -60,13 +60,18 @@ def get_json(request):
 def get_layers_for_theme(request, themeID):
     theme = Theme.objects.get(pk=themeID)
     layer_list = []
-    for layer in theme.layer_set.all().order_by('order'):
+    for layer in theme.layer_set.filter(is_sublayer=False).order_by('order'):
         layer_list.append({
             'id': layer.id,
             'name': layer.name,
             'has_sublayers': len(layer.sublayers.all()) > 0,
+            'subLayers': [{'id': x.id, 'name': x.name} for x in layer.sublayers.order_by('order')],
         })
     return JsonResponse({'layers': layer_list})
+
+def get_layer_details(request, layerID):
+    layer = Layer.objects.get(pk=layerID)
+    return JsonResponse(layer.toDict)
 
 def create_layer(request):
     if request.POST:
