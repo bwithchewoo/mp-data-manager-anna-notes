@@ -26,16 +26,20 @@ def get_layer_search_data(request):
     search_dict = {}
     for theme in Theme.objects.filter(visible=True):
         for layer in theme.layer_set.all():
-            search_dict[layer.name] = {
-                'layer': layer.id,
-                'theme': theme.id
-            }
             if not layer.is_sublayer:
-                for sublayer in layer.sublayers.all():
-                    search_dict[layer.name] = {
-                        'layer': sublayer.id,
-                        'theme': theme.id
+                search_dict[layer.name] = {
+                    'layer': {
+                        'id': layer.id,
+                        'name': layer.name,
+                        'has_sublayers': layer.sublayers.all().count() > 0,
+                        'sublayers': [{'name': x.name, 'id': x.id} for x in layer.sublayers.filter(is_sublayer=True).order_by('order')]
+                    },
+                    'theme': {
+                        'id': theme.id,
+                        'name': theme.display_name,
+                        'description': theme.description
                     }
+                }
     return JsonResponse(search_dict)
 
 def get_json(request):
@@ -65,7 +69,7 @@ def get_layers_for_theme(request, themeID):
             'id': layer.id,
             'name': layer.name,
             'has_sublayers': len(layer.sublayers.all()) > 0,
-            'subLayers': [{'id': x.id, 'name': x.name} for x in layer.sublayers.order_by('order')],
+            'subLayers': [{'id': x.id, 'name': x.name, 'slug_name': x.slug_name} for x in layer.sublayers.order_by('order')],
         })
     return JsonResponse({'layers': layer_list})
 

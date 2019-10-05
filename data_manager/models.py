@@ -515,6 +515,14 @@ class Layer(models.Model, SiteFlags):
 
     @property
     def toDict(self, site_id=None):
+        parent = self.parent
+        if parent == self:
+            parent = None
+        elif not parent == None:
+            try:
+                parent = parent.toDict
+            except Exception as e:
+                parent = None
         sublayers = [
             {
                 'id': layer.id,
@@ -688,6 +696,7 @@ class Layer(models.Model, SiteFlags):
             'dimensions': self.dimensions,
             'associated_multilayers': self.associatedMultilayers,
             'catalog_html': self.catalog_html,
+            'parent': parent
         }
 
         return layers_dict
