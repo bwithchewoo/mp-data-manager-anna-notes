@@ -77,6 +77,10 @@ def get_layer_details(request, layerID):
     layer = Layer.objects.get(pk=layerID)
     return JsonResponse(layer.toDict)
 
+def get_layer_catalog_content(request, layerID):
+    layer = Layer.objects.get(pk=layerID)
+    return JsonResponse({'html': layer.catalog_html})
+
 def create_layer(request):
     if request.POST:
         try:
