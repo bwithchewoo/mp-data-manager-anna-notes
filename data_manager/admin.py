@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import admin
 from django import forms
 from .models import *
@@ -254,8 +255,9 @@ class LookupInfoAdmin(admin.ModelAdmin):
 class DataNeedAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
 
-admin.site.register(Theme, ThemeAdmin)
-admin.site.register(Layer, LayerAdmin)
-admin.site.register(AttributeInfo, AttributeInfoAdmin)
-admin.site.register(LookupInfo, LookupInfoAdmin)
-admin.site.register(DataNeed, DataNeedAdmin)
+if settings.DATA_MANAGER_ADMIN:
+    admin.site.register(Theme, ThemeAdmin)
+    admin.site.register(Layer, LayerAdmin)
+    admin.site.register(AttributeInfo, AttributeInfoAdmin)
+    admin.site.register(LookupInfo, LookupInfoAdmin)
+    admin.site.register(DataNeed, DataNeedAdmin)
