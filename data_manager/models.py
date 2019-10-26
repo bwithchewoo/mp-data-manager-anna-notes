@@ -3,6 +3,7 @@ from django.contrib.sites.models import Site
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.urls import reverse
+from django.conf import settings
 #from sorl.thumbnail import ImageField
 
 # From MARCO/utils.py
@@ -265,11 +266,13 @@ class Layer(models.Model, SiteFlags):
         return self
 
     def get_absolute_url(self):
-        theme = self.themes.filter(visible=True).first()
-        if theme:
-            theme_url = reverse('portal.data_catalog.views.theme', args=[theme.name])
-            if theme_url:
-                return "{0}#layer-info-{1}".format(theme_url, self.slug_name)
+        if settings.DATA_CATALOG_ENABLED:
+            theme = self.themes.filter(visible=True).first()
+            if theme:
+                theme_url = reverse('portal.data_catalog.views.theme', args=[theme.name])
+                if theme_url:
+                    return "{0}#layer-info-{1}".format(theme_url, self.slug_name)
+        return None
 
     @property
     def slug(self):
