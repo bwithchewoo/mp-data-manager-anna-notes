@@ -228,11 +228,13 @@ class Layer(models.Model, SiteFlags):
     lookup_table = models.ManyToManyField('LookupInfo', blank=True)
     is_annotated = models.BooleanField(default=False)
     vector_outline_color = models.CharField(max_length=100, blank=True, null=True, default=None, verbose_name="Vector Stroke Color")
-    # RDH 20191106 - I'm hijacking outline opacity (not a thing) for stroke width
-    vector_outline_opacity = models.FloatField(blank=True, null=True, default=None, verbose_name="Vector Stroke Width")
+    # RDH 20191106 - This is not a thing.
+    vector_outline_opacity = models.FloatField(blank=True, null=True, default=None, verbose_name="Vector Stroke Opacity")
+    vector_outline_width = models.IntegerField(blank=True, null=True, default=None, verbose_name="Vector Stroke Width")
     vector_color = models.CharField(max_length=100, blank=True, null=True, default=None, verbose_name="Vector Fill Color")
     vector_fill = models.FloatField(blank=True, null=True, default=None, verbose_name="Vector Fill Opacity")
-    vector_graphic = models.CharField(max_length=255, blank=True, null=True, default=None, verbose_name="Vector Graphic")
+    vector_graphic = models.CharField(max_length=255, blank=True, null=True, default=None, verbose_name="Vector Graphic", help_text="address of image to use for point data")
+    vector_graphic_scale = models.FloatField(blank=True, null=True, default=True, verbose_name="Vector Graphic Scale", help_text="Scale for the vector graphic from original size.")
     point_radius = models.IntegerField(blank=True, null=True, default=None, help_text='Used only for for Point layers (default is 2)')
     opacity = models.FloatField(default=.5, blank=True, null=True, verbose_name="Initial Opacity")
 
@@ -407,7 +409,7 @@ class Layer(models.Model, SiteFlags):
     @property
     def serialize_lookups(self):
         return {'field': self.lookup_field,
-                'details': [{'value': lookup.value, 'color': lookup.color, 'dashstyle': lookup.dashstyle, 'fill': lookup.fill, 'graphic': lookup.graphic} for lookup in self.lookup_table.all()]}
+                'details': [{'value': lookup.value, 'color': lookup.color, 'dashstyle': lookup.dashstyle, 'fill': lookup.fill, 'graphic': lookup.graphic, 'graphic_scale': lookup.graphic_scale} for lookup in self.lookup_table.all()]}
 
     def get_espis_link(self):
         if self.espis_enabled:
@@ -526,10 +528,12 @@ class Layer(models.Model, SiteFlags):
                 'lookups': layer.serialize_lookups,
                 'outline_color': layer.vector_outline_color,
                 'outline_opacity': layer.vector_outline_opacity,
+                'outline_width': layer.vector_outline_width,
                 'point_radius': layer.point_radius,
                 'color': layer.vector_color,
                 'fill_opacity': layer.vector_fill,
                 'graphic': layer.vector_graphic,
+                'graphic_scale': layer.vector_graphic_scale,
                 'opacity': layer.opacity,
                 'annotated': layer.is_annotated,
                 'is_disabled': layer.is_disabled,
@@ -581,10 +585,12 @@ class Layer(models.Model, SiteFlags):
                 'lookups': layer.serialize_lookups,
                 'outline_color': layer.vector_outline_color,
                 'outline_opacity': layer.vector_outline_opacity,
+                'outline_width': layer.vector_outline_width,
                 'point_radius': layer.point_radius,
                 'color': layer.vector_color,
                 'fill_opacity': layer.vector_fill,
                 'graphic': layer.vector_graphic,
+                'graphic_scale': layer.vector_graphic_scale,
                 'opacity': layer.opacity,
                 'annotated': layer.is_annotated,
                 'is_disabled': layer.is_disabled,
@@ -638,10 +644,12 @@ class Layer(models.Model, SiteFlags):
             'lookups': self.serialize_lookups,
             'outline_color': self.vector_outline_color,
             'outline_opacity': self.vector_outline_opacity,
+            'outline_width': self.vector_outline_width,
             'point_radius': self.point_radius,
             'color': self.vector_color,
             'fill_opacity': self.vector_fill,
             'graphic': self.vector_graphic,
+            'graphic_scale': self.vector_graphic_scale,
             'opacity': self.opacity,
             'annotated': self.is_annotated,
             'is_disabled': self.is_disabled,
@@ -729,6 +737,7 @@ class LookupInfo(models.Model):
     dashstyle = models.CharField(max_length=11, choices=DASH_CHOICES, default='solid')
     fill = models.BooleanField(default=False)
     graphic = models.CharField(max_length=255, blank=True, null=True)
+    graphic_scale = models.FloatField(null=True, blank=True, default=None, verbose_name="Graphic Scale", help_text="Scale the graphic from its original size.")
 
     def __unicode__(self):
         return unicode('%s' % (self.value))
