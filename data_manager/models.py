@@ -409,7 +409,7 @@ class Layer(models.Model, SiteFlags):
     @property
     def serialize_lookups(self):
         return {'field': self.lookup_field,
-                'details': [{'value': lookup.value, 'color': lookup.color, 'dashstyle': lookup.dashstyle, 'fill': lookup.fill, 'graphic': lookup.graphic, 'graphic_scale': lookup.graphic_scale} for lookup in self.lookup_table.all()]}
+                'details': [{'value': lookup.value, 'color': lookup.color, 'stroke_color': lookup.stroke_color, 'stroke_width': lookup.stroke_width, 'dashstyle': lookup.dashstyle, 'fill': lookup.fill, 'graphic': lookup.graphic, 'graphic_scale': lookup.graphic_scale} for lookup in self.lookup_table.all()]}
 
     def get_espis_link(self):
         if self.espis_enabled:
@@ -733,7 +733,9 @@ class LookupInfo(models.Model):
         ('solid', 'solid')
     )
     value = models.CharField(max_length=255, blank=True, null=True)
-    color = models.CharField(max_length=7, blank=True, null=True)
+    color = models.CharField(max_length=50, blank=True, null=True, verbose_name="Fill Color")
+    stroke_color = models.CharField(max_length=50, blank=True, null=True, verbose_name="Stroke Color")
+    stroke_width = models.IntegerField(null=True, blank=True, default=None, verbose_name="Stroke Width")
     dashstyle = models.CharField(max_length=11, choices=DASH_CHOICES, default='solid')
     fill = models.BooleanField(default=False)
     graphic = models.CharField(max_length=255, blank=True, null=True)
