@@ -13,18 +13,18 @@ class LayerViewSet(viewsets.ReadOnlyModelViewSet):
     """
     A simple ViewSet for layers.
     """
-    queryset = Layer.objects.all()
+    queryset = Layer.all_objects.all()
     serializer_class = BriefLayerSerializer
 
 def get_themes(request):
     data = {
-        "themes": [theme.getInitDict() for theme in Theme.objects.all().order_by('order')],
+        "themes": [theme.getInitDict() for theme in Theme.all_objects.all().order_by('order')],
     }
     return JsonResponse(data)
 
 def get_layer_search_data(request):
     search_dict = {}
-    for theme in Theme.objects.filter(visible=True):
+    for theme in Theme.all_objects.filter(visible=True):
         for layer in theme.layer_set.all():
             if not layer.is_sublayer:
                 search_dict[layer.name] = {
@@ -53,8 +53,8 @@ def get_json(request):
     if not data:
         data = {
             "state": { "activeLayers": [] },
-            "layers": [layer.dictCache(current_site_pk) for layer in Layer.objects.filter(is_sublayer=False).exclude(layer_type='placeholder').order_by('order')],
-            "themes": [theme.dictCache(current_site_pk) for theme in Theme.objects.all().order_by('order')],
+            "layers": [layer.dictCache(current_site_pk) for layer in Layer.all_objects.filter(is_sublayer=False).exclude(layer_type='placeholder').order_by('order')],
+            "themes": [theme.dictCache(current_site_pk) for theme in Theme.all_objects.all().order_by('order')],
             "success": True
         }
         # Cache for 1 week, will be reset if layer data changes
@@ -62,9 +62,9 @@ def get_json(request):
     return JsonResponse(data)
 
 def get_layers_for_theme(request, themeID):
-    theme = Theme.objects.get(pk=themeID)
+    theme = Theme.all_objects.get(pk=themeID)
     layer_list = []
-    for layer in theme.layer_set.filter(is_sublayer=False).order_by('order'):
+    for layer in theme.layer_set.filter(is_sublayer=False).exclude(layer_type='placeholder').order_by('order'):
         layer_list.append({
             'id': layer.id,
             'name': layer.name,
@@ -74,11 +74,11 @@ def get_layers_for_theme(request, themeID):
     return JsonResponse({'layers': layer_list})
 
 def get_layer_details(request, layerID):
-    layer = Layer.objects.get(pk=layerID)
+    layer = Layer.all_objects.get(pk=layerID)
     return JsonResponse(layer.toDict)
 
 def get_layer_catalog_content(request, layerID):
-    layer = Layer.objects.get(pk=layerID)
+    layer = Layer.all_objects.get(pk=layerID)
     return JsonResponse({'html': layer.catalog_html})
 
 def create_layer(request):
@@ -93,7 +93,7 @@ def create_layer(request):
             layer.save()
 
             for theme_id in themes:
-                theme = Theme.objects.get(id=theme_id)
+                theme = Theme.all_objects.get(id=theme_id)
                 layer.themes.add(theme)
             layer.save()
 
@@ -117,7 +117,7 @@ def update_layer(request, layer_id):
             for theme in layer.themes.all():
                 layer.themes.remove(theme)
             for theme_id in themes:
-                theme = Theme.objects.get(id=theme_id)
+                theme = Theme.all_objects.get(id=theme_id)
                 layer.themes.add(theme)
             layer.save()
 
