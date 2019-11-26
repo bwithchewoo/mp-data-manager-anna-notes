@@ -68,6 +68,7 @@ def get_layers_for_theme(request, themeID):
         layer_list.append({
             'id': layer.id,
             'name': layer.name,
+            'type': layer.layer_type,
             'has_sublayers': len(layer.sublayers.all()) > 0,
             'subLayers': [{'id': x.id, 'name': x.name, 'slug_name': x.slug_name} for x in layer.sublayers.order_by('order')],
         })
