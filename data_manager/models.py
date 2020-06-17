@@ -430,7 +430,12 @@ class Layer(models.Model, SiteFlags):
             if self.espis_region:
                 search_dict['geo'] = self.espis_region
             if len(search_dict) > 0:
-                from urllib import urlencode
+                try:
+                    # python 3
+                    from urllib.parse import urlencode
+                except (ModuleNotFoundError, ImportError) as e:
+                    #python 2
+                    from urllib import urlencode
                 return 'https://marinecadastre.gov/espis/#/search/%s' % urlencode(search_dict)
         return None
 
