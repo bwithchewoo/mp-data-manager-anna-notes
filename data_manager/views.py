@@ -318,7 +318,7 @@ def get_catalog_records(request):
         else:
             es = es = Elasticsearch()
 
-        search = Search(using=es, index=index)
+        search = Search(using=es, index=index).query("match", sys_approval_status_s="approved")
 
         search_fields = settings.ELASTICSEARCH_SEARCH_FIELDS
 
@@ -339,5 +339,6 @@ def get_catalog_records(request):
 
         data['ids'] = record_ids
         data['records'] = records_dict
+        data['hits'] = len(record_ids)
 
     return JsonResponse(data)
