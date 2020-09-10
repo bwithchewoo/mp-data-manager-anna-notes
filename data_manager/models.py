@@ -215,6 +215,7 @@ class Layer(models.Model, SiteFlags):
     data_publish_date = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True, default=None, verbose_name='Date published', help_text='YYYY-MM-DD')
 
     #data catalog links
+    catalog_id = models.TextField(null=True, blank=True, help_text="unique ID of associated record in catalog", verbose_name='Catalog Record')
     bookmark = models.CharField(max_length=755, blank=True, null=True, help_text='link to view data layer in the planner')
     kml = models.CharField(max_length=255, blank=True, null=True, help_text='link to download the KML')
     data_download = models.CharField(max_length=255, blank=True, null=True, help_text='link to download the data')

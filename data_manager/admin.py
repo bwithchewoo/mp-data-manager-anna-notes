@@ -96,6 +96,7 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
     fieldsets = (
         ('BASIC INFO', {
             'fields': (
+                'catalog_id',
                 ('name','layer_type'),
                 'url',
                 'site'
@@ -106,7 +107,8 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
                 ('order','themes'),
                 ('is_sublayer','sublayers'),
                 ('has_companion','connect_companion_layers_to'),
-                ('is_disabled','disabled_message')
+                # RDH 2019-10-25: We don't use this, and it doesn't seem helpful
+                # ('is_disabled','disabled_message')
             )
         }),
         ('METADATA', {

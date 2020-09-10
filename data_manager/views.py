@@ -5,6 +5,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.views.decorators.cache import cache_page
+from django.conf import settings
 from .models import *
 from .serializers import BriefLayerSerializer
 from rest_framework import viewsets
@@ -303,3 +304,40 @@ def wms_request_capabilities(request):
     result = wms_get_capabilities(url)
 
     return JsonResponse(result)
+
+def get_catalog_records(request):
+    data = {}
+    if settings.CATALOG_TECHNOLOGY == "GeoPortal2":
+        from elasticsearch import Elasticsearch
+        from elasticsearch_dsl import Search
+        es = Elasticsearch()
+        index = settings.ELASTICSEARCH_INDEX
+        url = settings.CATALOG_SOURCE
+        if url:
+            es = es = Elasticsearch(url)
+        else:
+            es = es = Elasticsearch()
+
+        search = Search(using=es, index=index)
+
+        search_fields = settings.ELASTICSEARCH_SEARCH_FIELDS
+
+        records = search.source(search_fields)
+
+        records_dict = {}
+        record_ids = []
+
+        for record in records.scan():
+            record_ids.append(record.meta.id)
+            record_dict = {}
+            for index, field in enumerate(['id'] + search_fields):
+                if index == 0:
+                    record_dict['id'] = record.meta.id
+                else:
+                    record_dict[field] = record[field]
+            records_dict[record.meta.id] = record_dict
+
+        data['ids'] = record_ids
+        data['records'] = records_dict
+
+    return JsonResponse(data)

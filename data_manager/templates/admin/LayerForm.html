@@ -3,8 +3,14 @@
 
 {% block extrahead %}
   {{ block.super }}
+  <link rel="stylesheet" href="{% static 'jquery-ui/jquery-ui.min.css' %}">
   <script type="text/javascript" src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+  <script src="{% static 'jquery-ui/jquery-ui.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/lib/knockout-3.3.0.js' %}"></script>
+  <script type="text/javascript">
+    CATALOG_TECHNOLOGY = '{{ CATALOG_TECHNOLOGY }}';
+  </script>
+  <!-- <script type="text/javascript" src="{% static 'data_manager/js/catalog/'|add:CATALOG_TECHNOLOGY|add:'.js' %}"></script> -->
   <script type="text/javascript" src="{% static 'data_manager/js/layer_form.js' %}"></script>
 {% endblock %}
 

@@ -244,6 +244,29 @@ check_queryable = function(queryable_layers) {
 $(document).ready(function() {
   show_layertype_form($('#id_layer_type option:selected').text());
 
+  console.log("CATALOG_TECHNOLOGY: '" + CATALOG_TECHNOLOGY + "'");
+
+  // If catalog tech supported:
+  if (CATALOG_TECHNOLOGY != 'Madrona') {
+    $('#id_catalog_id').height(15);
+    // TODO: Query for catalog records
+    // - populate typeahead field with available catalog records
+
+    // $('#id_catalog_id').autocomplete({
+    //   source: [
+    //     "Adam", "Becky", "Charlie", "Danielle"
+    //   ]
+    // });
+    
+    // - Filter records based on:
+    //    - record has layer info
+    //    - record not already in use
+  } else {
+    $('#id_catalog_id').hide();
+  }
+
+
+
   $('#id_layer_type').change(function() {
     show_layertype_form($('#id_layer_type option:selected').text());
   });
