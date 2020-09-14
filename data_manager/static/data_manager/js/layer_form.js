@@ -241,7 +241,195 @@ check_queryable = function(queryable_layers) {
   }
 }
 
+var replace_input_with_select2 = function(id, options) {
+  var input_field = $('#'+ id);
+  var original_value = input_field.val();
+  var original_name = input_field.attr('name');
+  var select2_field_str = '<select id="' + id + '" type=text" selected="' + original_value + '" name="' + original_name + '"></select>';
+  input_field.replaceWith(select2_field_str);
+  var select2_field = $('#'+ id);
+  for (var i = 0; i < options.length; i++) {
+    option = options[i];
+    if (typeof(option) == "string"){
+      select2_field.append('<option value="' + option + '">' + option + '</option>');
+    } else {
+      select2_field.append('<option value="' + option.value + '">' + option.name + '</option>');
+    }
+  }
+  select2_field.val(original_value);
+  select2_field.select2();
+
+  select2_field.change(select_catalog_record);
+
+}
+
+var get_catalog_records = function() {
+  var url = "/data_manager/get_catalog_records";
+  $.ajax({
+    url: url,
+    success: function(data) {
+      catalog_record_data = data;
+      var record_names = Object.keys(data.record_name_lookup);
+      options = [];
+      for (var i = 0; i < record_names.length; i++) {
+        for (var j = 0; j < data.record_name_lookup[record_names[i]].length; j++){
+          options.push({
+            'name': record_names[i],
+            'value': data.record_name_lookup[record_names[i]][j]
+          });
+        }
+      }
+
+      replace_input_with_select2('id_catalog_name', options);
+    }
+  });
+}
+
+var show_spinner = function() {
+  console.log("TODO: Write 'show_spinner'");
+}
+
+var hide_spinner = function() {
+  console.log("TODO: Write 'hide_spinner'");
+}
+
+var select_catalog_record = function(event, ui) {
+  show_spinner();
+  var selected_name = $( this ).select2('data')[0].text;
+  var record_id = $( this ).val();
+  populate_layer_fields_from_catalog_record(catalog_record_data, record_id, selected_name)
+}
+
+var populate_layer_fields_from_catalog_record = function(catalog_record_data, record_id, selected_name) {
+  selected_catalog_data = catalog_record_data.records[record_id];
+  $('#id_catalog_id').val(record_id);
+  if ($('#id_name').val() == "") {
+    $('#id_name').val(selected_name);
+  }
+
+  if (window.confirm("Do you want to set all form fields from this record?")) {
+    if (CATALOG_TECHNOLOGY == 'GeoPortal2') {
+      es_index = catalog_record_data.ELASTICSEARCH_INDEX;
+      populate_fields_from_elasticsearch(es_index, record_id);
+    } else {
+      hide_spinner();
+    }
+  } else {
+    hide_spinner();
+  }
+
+}
+
+var populate_fields_from_elasticsearch = function(es_index, record_id){
+  // handle multiple IDs
+  id_list = record_id.split(",");
+  aggregate_json = false;
+  for (var i = 0; i < id_list.length; i++) {
+    id = id_list[i];
+  }
+  url = "/" + es_index + "/_doc/" + record_id;
+  $.ajax({
+    url: url,
+    success: function(data) {
+      // get id from data
+      record_json = data._source;
+      record_json.id = data._id;
+      aggregate_catalog_record_values(record_json);
+    }
+  });
+}
+
+// TODO: Determine Tech
+
+var aggregate_catalog_record_values = function(record_json){
+  record_id = record_json.id;
+  id_list.splice(id_list.indexOf(record_id),1);
+
+  if (!aggregate_json) {
+    aggregate_json = record_json
+  } else {
+    for (var i = 0; i < Object.keys(record_json); i++) {
+      key = Object.keys(record_json)[i];
+      if (Object.keys(aggregate_json).indexOf(key) != -1) {
+        if (aggregate_json[key].constructor != Array) {
+          aggregate_json[key] = [ aggregate_json[key] ];
+        }
+        if (record_json[key].constructor != Array) {
+          record_json[key] = [ record_json[key] ];
+        }
+        aggregate_json[key] = $.union(aggregate_json[key], record_json[key]);
+      } else {
+        aggregate_json[key] = record_json[key];
+      }
+    }
+  }
+
+  if (id_list.length == 0) {
+    assign_field_values_from_catalog_record(record_json);
+  }
+}
+
+var assign_field_values_from_catalog_record = function(record_json){
+  // TODO: write function to create appropriate list of links and associate them with tech options
+  replace_input_with_select2('id_url', record_json.links_s);
+
+  // Metadata & Links
+  /*
+    id_description
+    id_kml
+    id_data_download
+    id_metadata
+    id_source
+  */
+
+  // Legend
+  /*
+    This is technology dependent (ArcGIS and WMS will have very specific options)
+    id_show_legend [checkbox]
+    id_legend (url to image file)
+    id_legend_title
+    id_legend_subtitle
+  */
+
+  // ArcGIS Details (ArcGIS only!)
+  /*
+    id_arcgis_layers (comma separated ID #s)
+    id_disable_arcgis_attributes [ checkbox ]
+  */
+
+  // WMS Details (WMS Only!)
+  /*
+    This section is already managed by selecting 'WMS help'
+    If the user selects "WMS" for technology, perhaps explode this and scroll them to it to manage themselves?
+  */
+
+  // Attribute Reporting
+  /*
+    This cannot be set from the catalog record
+  */
+
+  // Style (Arc FeatureService only, which isn't supported yet)
+  /*
+    Tackle this when we add FeatureServices
+  */
+
+
+
+
+  hide_spinner();
+}
+
 $(document).ready(function() {
+
+  jQuery.fn.extend({
+    union: function(array1, array2) {
+        var hash = {}, union = [];
+        $.each($.merge($.merge([], array1), array2), function (index, value) { hash[value] = value; });
+        $.each(hash, function (key, value) { union.push(key); } );
+        return union;
+      }
+  });
+
   show_layertype_form($('#id_layer_type option:selected').text());
 
   console.log("CATALOG_TECHNOLOGY: '" + CATALOG_TECHNOLOGY + "'");
@@ -249,7 +437,10 @@ $(document).ready(function() {
   // If catalog tech supported:
   if (CATALOG_TECHNOLOGY != 'Madrona') {
     $('#id_catalog_id').height(15);
+    $('#id_catalog_id').prop('disabled', true);
+    $('#id_catalog_name').height(15);
     // TODO: Query for catalog records
+    get_catalog_records();
     // - populate typeahead field with available catalog records
 
     // $('#id_catalog_id').autocomplete({
@@ -257,7 +448,7 @@ $(document).ready(function() {
     //     "Adam", "Becky", "Charlie", "Danielle"
     //   ]
     // });
-    
+
     // - Filter records based on:
     //    - record has layer info
     //    - record not already in use

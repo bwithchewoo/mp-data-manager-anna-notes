@@ -325,20 +325,29 @@ def get_catalog_records(request):
         records = search.source(search_fields)
 
         records_dict = {}
-        record_ids = []
+        # record_ids = []
+        record_names = []
+        record_name_lookup = {}
 
         for record in records.scan():
-            record_ids.append(record.meta.id)
+            # record_ids.append(record.meta.id)
             record_dict = {}
             for index, field in enumerate(['id'] + search_fields):
                 if index == 0:
                     record_dict['id'] = record.meta.id
                 else:
+                    if field == settings.DATA_CATALOG_NAME_FIELD:
+                        if not record[field] in record_name_lookup.keys():
+                            record_name_lookup[record[field]] = []
+                        record_name_lookup[record[field]].append(record.meta.id)
                     record_dict[field] = record[field]
             records_dict[record.meta.id] = record_dict
 
-        data['ids'] = record_ids
+        # data['ids'] = record_ids
         data['records'] = records_dict
-        data['hits'] = len(record_ids)
+        data['record_name_lookup'] = record_name_lookup
+        data['ELASTICSEARCH_INDEX'] = settings.ELASTICSEARCH_INDEX
+        data['CATALOG_TECHNOLOGY'] = settings.CATALOG_TECHNOLOGY
+        # data['hits'] = len(record_ids)
 
     return JsonResponse(data)

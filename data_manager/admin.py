@@ -93,11 +93,16 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
     ordering = ('name',)
     exclude = ('slug_name',)
 
+    if settings.CATALOG_TECHNOLOGY not in ['Madrona', None]:
+        catalog_fields = ('catalog_name', 'catalog_id',)
+    else:
+        catalog_fields = None
+
     fieldsets = (
         ('BASIC INFO', {
             'fields': (
-                'catalog_id',
-                ('name','layer_type'),
+                catalog_fields,
+                ('name','layer_type',),
                 'url',
                 'site'
             )
