@@ -1,0 +1,11 @@
+.select2-container .select2-selection--single .select2-selection__rendered.select2-textarea {
+  white-space: normal;
+  text-overflow: unset;
+  height: 100%;
+  overflow: auto;
+  line-height: 20px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  visibility: hidden;
+}

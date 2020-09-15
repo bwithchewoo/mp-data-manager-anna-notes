@@ -243,6 +243,14 @@ check_queryable = function(queryable_layers) {
 
 var replace_input_with_select2 = function(id, options) {
   var input_field = $('#'+ id);
+  var initial_width = input_field.parent().width();
+  if (initial_width == 0) {
+    initial_width = input_field.parent().parent().parent().width() * 0.97;
+  }
+
+  // TODO: Identify if element is already select2
+
+
   var original_value = input_field.val();
   var original_name = input_field.attr('name');
   var select2_field_str = '<select id="' + id + '" type=text" selected="' + original_value + '" name="' + original_name + '"></select>';
@@ -257,9 +265,16 @@ var replace_input_with_select2 = function(id, options) {
     }
   }
   select2_field.val(original_value);
-  select2_field.select2();
+  if (id != 'id_catalog_name') {
+    select2_field.select2({
+      tags: true
+    });
+  } else {
+    select2_field.select2();
+    select2_field.change(select_catalog_record);
+  }
 
-  select2_field.change(select_catalog_record);
+  select2_field.siblings('.select2').width(initial_width);
 
 }
 
@@ -381,6 +396,26 @@ var assign_field_values_from_catalog_record = function(record_json){
     id_metadata
     id_source
   */
+
+
+  replace_input_with_select2('id_description', [record_json.description, record_json.apiso_Abstract_txt]);
+  $('#select2-id_description-container').addClass('select2-textarea');
+  $('#id_description').siblings('.select2').find('span.select2-selection').height(150);
+
+  var kml_options = [];
+  for (var i = 0; i < record_json.links_s.length; i++) {
+    if (record_json.links_s[i].toLowerCase().indexOf('kml') != -1) {
+      kml_options.push(record_json.links_s[i]);
+    }
+  }
+  if (kml_options.length > 0) {
+    replace_input_with_select2('id_kml', kml_options);
+  } else {
+    replace_input_with_select2('id_kml', record_json.links_s);
+  }
+  replace_input_with_select2('id_data_download', [record_json.url_http_download_s]);
+  replace_input_with_select2('id_metadata', [record_json.src_uri_s]);
+  replace_input_with_select2('id_source', [record_json.url_website_s]);
 
   // Legend
   /*
