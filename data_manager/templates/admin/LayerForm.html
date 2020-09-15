@@ -15,8 +15,11 @@
   <script type="text/javascript">
     CATALOG_TECHNOLOGY = '{{ CATALOG_TECHNOLOGY }}';
   </script>
-  <!-- <script type="text/javascript" src="{% static 'data_manager/js/catalog/'|add:CATALOG_TECHNOLOGY|add:'.js' %}"></script> -->
+  {% ifequal CATALOG_TECHNOLOGY 'GeoPortal2' %}
+    <!-- <script type="text/javascript" src="/geoportal/app/etc/ServiceType.js"></script> -->
+  {% endifequal %}
   <script type="text/javascript" src="{% static 'data_manager/js/layer_form.js' %}"></script>
+  <script type="text/javascript" src="{% static 'data_manager/js/catalog/'|add:CATALOG_TECHNOLOGY|add:'.js' %}"></script>
 {% endblock %}
 
 {% block field_sets %}

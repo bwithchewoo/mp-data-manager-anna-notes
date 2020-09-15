@@ -241,6 +241,20 @@ check_queryable = function(queryable_layers) {
   }
 }
 
+var change_layer_url = function(self) {
+  var url = $(this).val();
+  var type = null;
+  if (typeof(get_service_type) == "function") {
+    type = get_service_type(url);
+  } else {
+    console.log('No get_service_type() function defined for CATALOG_TECHNOLOGY: ' + CATALOG_TECHNOLOGY);
+  }
+
+  if ($('#id_layer_type option').map(function() { return $(this).val(); }).toArray().indexOf(type) >= 0) {
+    $('#id_layer_type').val(type);
+  }
+}
+
 var replace_input_with_select2 = function(id, options) {
   var input_field = $('#'+ id);
   var initial_width = input_field.parent().width();
@@ -250,25 +264,43 @@ var replace_input_with_select2 = function(id, options) {
 
   // TODO: Identify if element is already select2
 
-
   var original_value = input_field.val();
   var original_name = input_field.attr('name');
-  var select2_field_str = '<select id="' + id + '" type=text" selected="' + original_value + '" name="' + original_name + '"></select>';
-  input_field.replaceWith(select2_field_str);
-  var select2_field = $('#'+ id);
+  if (!input_field.hasClass("select2-hidden-accessible")) {
+    var select2_field_str = '<select id="' + id + '" type=text" selected="' + original_value + '" name="' + original_name + '"></select>';
+    input_field.replaceWith(select2_field_str);
+    var select2_field = $('#'+ id);
+  } else {
+    input_field.html('').select2({data: []}).trigger('change');
+    select2_field = input_field;
+  }
   for (var i = 0; i < options.length; i++) {
-    option = options[i];
+    var option = options[i];
     if (typeof(option) == "string"){
       select2_field.append('<option value="' + option + '">' + option + '</option>');
-    } else {
+    } else if (typeof(option) == 'undefined'){
+      select2_field.append('<option value="null">None</option>');
+    } else if (option.hasOwnProperty('value') && option.hasOwnProperty('name')){
       select2_field.append('<option value="' + option.value + '">' + option.name + '</option>');
     }
   }
   select2_field.val(original_value);
+  if (select2_field.val() == null && options.length == 1) {
+    if (typeof(options[0]) == "string") {
+      select2_field.val(options[0]);
+      select2_field.trigger('change');
+    } else if (typeof(options[0]) == "object" && Object.keys(options[0]).indexOf('value') != -1) {
+      select2_field.val(options[0].value);
+      select2_field.trigger('change');
+    }
+  }
   if (id != 'id_catalog_name') {
     select2_field.select2({
       tags: true
     });
+    if (id == "id_url") {
+      select2_field.change(change_layer_url);
+    }
   } else {
     select2_field.select2();
     select2_field.change(select_catalog_record);
