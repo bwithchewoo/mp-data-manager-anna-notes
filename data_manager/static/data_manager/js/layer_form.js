@@ -262,8 +262,6 @@ var replace_input_with_select2 = function(id, options) {
     initial_width = input_field.parent().parent().parent().width() * 0.97;
   }
 
-  // TODO: Identify if element is already select2
-
   var original_value = input_field.val();
   var original_name = input_field.attr('name');
   if (!input_field.hasClass("select2-hidden-accessible")) {
@@ -274,6 +272,11 @@ var replace_input_with_select2 = function(id, options) {
     input_field.html('').select2({data: []}).trigger('change');
     select2_field = input_field;
   }
+
+  if (id != "id_catalog_name") {
+    options = union(['', original_value], options);
+  }
+
   for (var i = 0; i < options.length; i++) {
     var option = options[i];
     if (typeof(option) == "string"){
@@ -304,6 +307,7 @@ var replace_input_with_select2 = function(id, options) {
   } else {
     select2_field.select2();
     select2_field.change(select_catalog_record);
+    select2_field.trigger('change');
   }
 
   select2_field.siblings('.select2').width(initial_width);
@@ -344,7 +348,9 @@ var select_catalog_record = function(event, ui) {
   show_spinner();
   var selected_name = $( this ).select2('data')[0].text;
   var record_id = $( this ).val();
-  populate_layer_fields_from_catalog_record(catalog_record_data, record_id, selected_name)
+  if (record_id) {
+    populate_layer_fields_from_catalog_record(catalog_record_data, record_id, selected_name);
+  }
 }
 
 var populate_layer_fields_from_catalog_record = function(catalog_record_data, record_id, selected_name) {
@@ -354,16 +360,16 @@ var populate_layer_fields_from_catalog_record = function(catalog_record_data, re
     $('#id_name').val(selected_name);
   }
 
-  if (window.confirm("Do you want to set all form fields from this record?")) {
+  // if (window.confirm("Do you want to set all form fields from the selected catalog record?")) {
     if (CATALOG_TECHNOLOGY == 'GeoPortal2') {
       es_index = catalog_record_data.ELASTICSEARCH_INDEX;
       populate_fields_from_elasticsearch(es_index, record_id);
     } else {
       hide_spinner();
     }
-  } else {
-    hide_spinner();
-  }
+  // } else {
+  //   hide_spinner();
+  // }
 
 }
 
@@ -404,7 +410,7 @@ var aggregate_catalog_record_values = function(record_json){
         if (record_json[key].constructor != Array) {
           record_json[key] = [ record_json[key] ];
         }
-        aggregate_json[key] = $.union(aggregate_json[key], record_json[key]);
+        aggregate_json[key] = union(aggregate_json[key], record_json[key]);
       } else {
         aggregate_json[key] = record_json[key];
       }
@@ -418,7 +424,7 @@ var aggregate_catalog_record_values = function(record_json){
 
 var assign_field_values_from_catalog_record = function(record_json){
   // TODO: write function to create appropriate list of links and associate them with tech options
-  replace_input_with_select2('id_url', record_json.links_s);
+  replace_input_with_select2('id_url', union([],record_json.links_s));
 
   // Metadata & Links
   /*
@@ -430,7 +436,7 @@ var assign_field_values_from_catalog_record = function(record_json){
   */
 
 
-  replace_input_with_select2('id_description', [record_json.description, record_json.apiso_Abstract_txt]);
+  replace_input_with_select2('id_description', union([record_json.description], [record_json.apiso_Abstract_txt]));
   $('#select2-id_description-container').addClass('select2-textarea');
   $('#id_description').siblings('.select2').find('span.select2-selection').height(150);
 
@@ -441,13 +447,13 @@ var assign_field_values_from_catalog_record = function(record_json){
     }
   }
   if (kml_options.length > 0) {
-    replace_input_with_select2('id_kml', kml_options);
+    replace_input_with_select2('id_kml', union([],kml_options));
   } else {
-    replace_input_with_select2('id_kml', record_json.links_s);
+    replace_input_with_select2('id_kml', union([],record_json.links_s));
   }
-  replace_input_with_select2('id_data_download', [record_json.url_http_download_s]);
-  replace_input_with_select2('id_metadata', [record_json.src_uri_s]);
-  replace_input_with_select2('id_source', [record_json.url_website_s]);
+  replace_input_with_select2('id_data_download', union([record_json.url_http_download_s], record_json.links_s));
+  replace_input_with_select2('id_metadata', union([record_json.src_uri_s],record_json.links_s));
+  replace_input_with_select2('id_source', union([],record_json.links_s));
 
   // Legend
   /*
@@ -486,16 +492,14 @@ var assign_field_values_from_catalog_record = function(record_json){
   hide_spinner();
 }
 
-$(document).ready(function() {
+var union = function(array1, array2) {
+  var hash = {}, union_arr = [];
+  $.each($.merge($.merge([], array1), array2), function (index, value) { hash[value] = value; });
+  $.each(hash, function (key, value) { union_arr.push(key); } );
+  return union_arr;
+}
 
-  jQuery.fn.extend({
-    union: function(array1, array2) {
-        var hash = {}, union = [];
-        $.each($.merge($.merge([], array1), array2), function (index, value) { hash[value] = value; });
-        $.each(hash, function (key, value) { union.push(key); } );
-        return union;
-      }
-  });
+$(document).ready(function() {
 
   show_layertype_form($('#id_layer_type option:selected').text());
 
