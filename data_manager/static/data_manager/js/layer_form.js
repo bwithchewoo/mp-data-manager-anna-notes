@@ -9,7 +9,7 @@ show_layertype_form = function(layertype) {
   if (url.length > 0) {
 
     if ($('#id_wms_help').is(':checked')) {
-
+      show_spinner();
       $.ajax({
           url: '/data_manager/wms_capabilities/',
           data: {
@@ -154,10 +154,12 @@ show_layertype_form = function(layertype) {
               }
             }
             check_queryable(data.queryable);
+            hide_spinner();
           },
           error: function(data) {
             url = $('#id_url').val();
             err_msg = 'ERROR: Layer url ' + url + ' does not appear to be a valid WMS endpoint.'
+            hide_spinner();
             window.alert(err_msg);
           }
       });
@@ -246,13 +248,36 @@ var change_layer_url = function(self) {
   var type = null;
   if (typeof(get_service_type) == "function") {
     type = get_service_type(url);
+    if ($('#id_layer_type option').map(function() { return $(this).val(); }).toArray().indexOf(type) >= 0) {
+      $('#id_layer_type').val(type);
+      $('#id_layer_type').trigger('change');
+    }
   } else {
     console.log('No get_service_type() function defined for CATALOG_TECHNOLOGY: ' + CATALOG_TECHNOLOGY);
   }
+}
 
-  if ($('#id_layer_type option').map(function() { return $(this).val(); }).toArray().indexOf(type) >= 0) {
-    $('#id_layer_type').val(type);
+var replace_all_select2_with_input = function() {
+  var sel2_fields = $('.select2').siblings('select.select2-hidden-accessible').not('#id_catalog_name');
+  for (var i = 0; i < sel2_fields.length; i++) {
+    var field_id = $(sel2_fields[i]).attr('id');
+    var field_name = $(sel2_fields[i]).attr('name');
+    var field_value = $(sel2_fields[i]).val();
+    var textarea_fields = ['id_description'];
+    if (textarea_fields.indexOf(field_id) >= 0) {
+      var field_open = '<textarea cols="40" rows="10" class="vLargeTextField" ';
+      var field_close = '</textarea>';
+    } else {
+        var field_open = '<input type="text" class="vTextField" maxlength="255" '
+        var field_close = '</input>';
+    }
+    var input_field = field_open + 'id="' + field_id + '" name="' + field_name + '" value="' + field_value + '">' + field_close;
+    $(sel2_fields[i]).replaceWith(input_field);
+    $('#' + field_id).val(field_value);
+    $('#' + field_id).siblings('.select2').remove();
+    // $('#' + field_id).width("80%");
   }
+
 }
 
 var replace_input_with_select2 = function(id, options) {
@@ -282,7 +307,7 @@ var replace_input_with_select2 = function(id, options) {
     if (typeof(option) == "string"){
       select2_field.append('<option value="' + option + '">' + option + '</option>');
     } else if (typeof(option) == 'undefined'){
-      select2_field.append('<option value="null">None</option>');
+      select2_field.append('<option value=null>None</option>');
     } else if (option.hasOwnProperty('value') && option.hasOwnProperty('name')){
       select2_field.append('<option value="' + option.value + '">' + option.name + '</option>');
     }
@@ -321,7 +346,7 @@ var get_catalog_records = function() {
     success: function(data) {
       catalog_record_data = data;
       var record_names = Object.keys(data.record_name_lookup);
-      options = [];
+      options = [{'name': '', 'value': null}];
       for (var i = 0; i < record_names.length; i++) {
         for (var j = 0; j < data.record_name_lookup[record_names[i]].length; j++){
           options.push({
@@ -337,16 +362,20 @@ var get_catalog_records = function() {
 }
 
 var show_spinner = function() {
-  console.log("TODO: Write 'show_spinner'");
+  $('#spinner-dialog').dialog('open');
 }
 
 var hide_spinner = function() {
-  console.log("TODO: Write 'hide_spinner'");
+  $('#spinner-dialog').dialog('close');
 }
 
 var select_catalog_record = function(event, ui) {
   show_spinner();
-  var selected_name = $( this ).select2('data')[0].text;
+  if ($( this ).select2('data').length > 0) {
+    var selected_name = $( this ).select2('data')[0].text;
+  } else {
+    var selected_name = '';
+  }
   var record_id = $( this ).val();
   if (record_id) {
     populate_layer_fields_from_catalog_record(catalog_record_data, record_id, selected_name);
@@ -387,6 +416,8 @@ var union = function(array1, array2) {
 
 $(document).ready(function() {
 
+  $('#spinner-dialog').dialog({autoOpen:false, modal: true, width: 150});
+
   show_layertype_form($('#id_layer_type option:selected').text());
 
   console.log("CATALOG_TECHNOLOGY: '" + CATALOG_TECHNOLOGY + "'");
@@ -417,6 +448,9 @@ $(document).ready(function() {
 
   $('#id_layer_type').change(function() {
     show_layertype_form($('#id_layer_type option:selected').text());
+    if (assign_field_values_from_source_technology && typeof assign_field_values_from_source_technology === "function") {
+      assign_field_values_from_source_technology();
+    }
   });
 
   $('#id_url').blur(function() {

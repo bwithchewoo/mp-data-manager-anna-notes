@@ -28,6 +28,11 @@
   {% endfor %}
 {% endblock %}
 
+{% block content %}
+  {{ block.super}}
+  <div id="spinner-dialog" title="Loading..."><img src="{% static 'wagtailadmin/images/spinner.gif' %}" /></div>
+{% endblock %}
+
 {% block after_related_objects %}
   <!--<h2>{{ test }}</h2>-->
 {% endblock %}

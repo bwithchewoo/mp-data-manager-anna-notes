@@ -14,3 +14,19 @@
   float: right;
   margin-top: -50px;
 }
+
+/*************************************
+ *    Spinner Dialog
+ ************************************/
+.ui-dialog.ui-widget.ui-widget-content {
+  border-radius: 10px;
+  padding: 0
+}
+.ui-dialog.ui-widget.ui-widget-content .ui-dialog-titlebar {
+  border-radius: 9px 9px 0 0;
+}
+
+#spinner-dialog img {
+  display: block;
+  margin: 30px auto;
+}

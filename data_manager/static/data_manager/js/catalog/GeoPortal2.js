@@ -7,23 +7,28 @@
 
 
 var populate_fields_from_catalog = function(catalog_record_data, record_id){
-  es_index = catalog_record_data.ELASTICSEARCH_INDEX;
-  // handle multiple IDs
-  id_list = record_id.split(",");
-  aggregate_json = false;
-  for (var i = 0; i < id_list.length; i++) {
-    id = id_list[i];
-  }
-  url = "/" + es_index + "/_doc/" + record_id;
-  $.ajax({
-    url: url,
-    success: function(data) {
-      // get id from data
-      record_json = data._source;
-      record_json.id = data._id;
-      aggregate_catalog_record_values(record_json);
+  if (record_id == null || record_id == "null") {
+    replace_all_select2_with_input();
+    hide_spinner();
+  } else {
+    es_index = catalog_record_data.ELASTICSEARCH_INDEX;
+    // handle multiple IDs
+    id_list = record_id.split(",");
+    aggregate_json = false;
+    for (var i = 0; i < id_list.length; i++) {
+      id = id_list[i];
     }
-  });
+    url = "/" + es_index + "/_doc/" + record_id;
+    $.ajax({
+      url: url,
+      success: function(data) {
+        // get id from data
+        record_json = data._source;
+        record_json.id = data._id;
+        aggregate_catalog_record_values(record_json);
+      }
+    });
+  }
 }
 
 // TODO: Determine Tech
@@ -53,6 +58,41 @@ var aggregate_catalog_record_values = function(record_json){
 
   if (id_list.length == 0) {
     assign_field_values_from_catalog_record(record_json);
+  }
+}
+
+var assign_field_values_from_source_technology = function() {
+  if ($('#id_layer_type').val() == "ArcRest") {
+      var url = $('#id_url').val();
+      if (url.toLowerCase().indexOf('/export') >= 0) {
+        url = url.toLowerCase().split('/export')[0];
+      }
+      if (url.toLowerCase().indexOf('/mapserver') >= 0) {
+        $.ajax({
+          url: url + "?f=json",
+          success: function(data) {
+            if (typeof data === "object") {
+              response = data;
+            } else {
+              response = JSON.parse(data);
+            }
+            layers = [];
+            for (var i = 0; i < data.layers.length; i++) {
+              var layer = data.layers[i];
+              layers.push({id:layer.id.toString(), name: layer.name});
+            }
+            var table_element = "<table class='arcgis-details-layer-table'><tr><th>ID</th><th>Name</th><th>Link</th></tr>";
+            for (var i = 0; i < layers.length; i++) {
+              layer = layers[i];
+              var row = "<tr><td>" + layer.id + "</td><td>" + layer.name + "</td><td><a href='" + url + "/" + layer.id + "' target='_blank'>Details</a></td></tr>";
+              table_element = table_element + row;
+            }
+            table_element = table_element + "</table>";
+            $('.arcgis-details-layer-table').remove();
+            $('div.field-box.field-arcgis_layers').append(table_element);
+          }
+        })
+      }
   }
 }
 
@@ -104,39 +144,10 @@ var assign_field_values_from_catalog_record = function(record_json){
     id_disable_arcgis_attributes [ checkbox ]
   */
 
+  assign_field_values_from_source_technology();
+
   // if (get_service_type($('#id_url').val()) == "ArcRest" && $('#id_layer_type').val() == "ArcRest") {
-  if ($('#id_layer_type').val() == "ArcRest") {
-      var url = $('#id_url').val();
-      if (url.toLowerCase().indexOf('/export') >= 0) {
-        url = url.toLowerCase().split('/export')[0];
-      }
-      if (url.toLowerCase().indexOf('/mapserver')) {
-        $.ajax({
-          url: url + "?f=json",
-          success: function(data) {
-            if (typeof data === "object") {
-              response = data;
-            } else {
-              response = JSON.parse(data);
-            }
-            layers = [];
-            for (var i = 0; i < data.layers.length; i++) {
-              var layer = data.layers[i];
-              layers.push({id:layer.id.toString(), name: layer.name});
-            }
-            var table_element = "<table class='arcgis-details-layer-table'><tr><th>ID</th><th>Name</th><th>Link</th></tr>";
-            for (var i = 0; i < layers.length; i++) {
-              layer = layers[i];
-              var row = "<tr><td>" + layer.id + "</td><td>" + layer.name + "</td><td><a href='" + url + "/" + layer.id + "' target='_blank'>Details</a></td></tr>";
-              table_element = table_element + row;
-            }
-            table_element = table_element + "</table>";
-            $('.arcgis-details-layer-table').remove();
-            $('div.field-box.field-arcgis_layers').append(table_element);
-          }
-        })
-      }
-  }
+
 
 
   // WMS Details (WMS Only!)
