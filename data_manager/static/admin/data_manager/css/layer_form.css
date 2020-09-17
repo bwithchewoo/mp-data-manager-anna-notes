@@ -9,3 +9,8 @@
 .select2-container--default .select2-selection--single .select2-selection__arrow {
   visibility: hidden;
 }
+
+.arcgis-details-layer-table {
+  float: right;
+  margin-top: -50px;
+}
