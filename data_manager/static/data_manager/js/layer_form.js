@@ -350,6 +350,8 @@ var select_catalog_record = function(event, ui) {
   var record_id = $( this ).val();
   if (record_id) {
     populate_layer_fields_from_catalog_record(catalog_record_data, record_id, selected_name);
+  } else {
+    hide_spinner();
   }
 }
 
@@ -360,10 +362,12 @@ var populate_layer_fields_from_catalog_record = function(catalog_record_data, re
     $('#id_name').val(selected_name);
   }
 
+  if (populate_fields_from_catalog && typeof populate_fields_from_catalog === "function") {
+    populate_fields_from_catalog(catalog_record_data, record_id);
+  }
   // if (window.confirm("Do you want to set all form fields from the selected catalog record?")) {
     if (CATALOG_TECHNOLOGY == 'GeoPortal2') {
-      es_index = catalog_record_data.ELASTICSEARCH_INDEX;
-      populate_fields_from_elasticsearch(es_index, record_id);
+
     } else {
       hide_spinner();
     }
@@ -373,124 +377,6 @@ var populate_layer_fields_from_catalog_record = function(catalog_record_data, re
 
 }
 
-var populate_fields_from_elasticsearch = function(es_index, record_id){
-  // handle multiple IDs
-  id_list = record_id.split(",");
-  aggregate_json = false;
-  for (var i = 0; i < id_list.length; i++) {
-    id = id_list[i];
-  }
-  url = "/" + es_index + "/_doc/" + record_id;
-  $.ajax({
-    url: url,
-    success: function(data) {
-      // get id from data
-      record_json = data._source;
-      record_json.id = data._id;
-      aggregate_catalog_record_values(record_json);
-    }
-  });
-}
-
-// TODO: Determine Tech
-
-var aggregate_catalog_record_values = function(record_json){
-  record_id = record_json.id;
-  id_list.splice(id_list.indexOf(record_id),1);
-
-  if (!aggregate_json) {
-    aggregate_json = record_json
-  } else {
-    for (var i = 0; i < Object.keys(record_json); i++) {
-      key = Object.keys(record_json)[i];
-      if (Object.keys(aggregate_json).indexOf(key) != -1) {
-        if (aggregate_json[key].constructor != Array) {
-          aggregate_json[key] = [ aggregate_json[key] ];
-        }
-        if (record_json[key].constructor != Array) {
-          record_json[key] = [ record_json[key] ];
-        }
-        aggregate_json[key] = union(aggregate_json[key], record_json[key]);
-      } else {
-        aggregate_json[key] = record_json[key];
-      }
-    }
-  }
-
-  if (id_list.length == 0) {
-    assign_field_values_from_catalog_record(record_json);
-  }
-}
-
-var assign_field_values_from_catalog_record = function(record_json){
-  // TODO: write function to create appropriate list of links and associate them with tech options
-  replace_input_with_select2('id_url', union([],record_json.links_s));
-
-  // Metadata & Links
-  /*
-    id_description
-    id_kml
-    id_data_download
-    id_metadata
-    id_source
-  */
-
-
-  replace_input_with_select2('id_description', union([record_json.description], [record_json.apiso_Abstract_txt]));
-  $('#select2-id_description-container').addClass('select2-textarea');
-  $('#id_description').siblings('.select2').find('span.select2-selection').height(150);
-
-  var kml_options = [];
-  for (var i = 0; i < record_json.links_s.length; i++) {
-    if (record_json.links_s[i].toLowerCase().indexOf('kml') != -1) {
-      kml_options.push(record_json.links_s[i]);
-    }
-  }
-  if (kml_options.length > 0) {
-    replace_input_with_select2('id_kml', union([],kml_options));
-  } else {
-    replace_input_with_select2('id_kml', union([],record_json.links_s));
-  }
-  replace_input_with_select2('id_data_download', union([record_json.url_http_download_s], record_json.links_s));
-  replace_input_with_select2('id_metadata', union([record_json.src_uri_s],record_json.links_s));
-  replace_input_with_select2('id_source', union([],record_json.links_s));
-
-  // Legend
-  /*
-    This is technology dependent (ArcGIS and WMS will have very specific options)
-    id_show_legend [checkbox]
-    id_legend (url to image file)
-    id_legend_title
-    id_legend_subtitle
-  */
-
-  // ArcGIS Details (ArcGIS only!)
-  /*
-    id_arcgis_layers (comma separated ID #s)
-    id_disable_arcgis_attributes [ checkbox ]
-  */
-
-  // WMS Details (WMS Only!)
-  /*
-    This section is already managed by selecting 'WMS help'
-    If the user selects "WMS" for technology, perhaps explode this and scroll them to it to manage themselves?
-  */
-
-  // Attribute Reporting
-  /*
-    This cannot be set from the catalog record
-  */
-
-  // Style (Arc FeatureService only, which isn't supported yet)
-  /*
-    Tackle this when we add FeatureServices
-  */
-
-
-
-
-  hide_spinner();
-}
 
 var union = function(array1, array2) {
   var hash = {}, union_arr = [];
