@@ -109,6 +109,7 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
             )
         }),
         ('LAYER ORGANIZATION', {
+            'classes': ('collapse',),
             'fields': (
                 ('order','themes'),
                 ('is_sublayer','sublayers'),
