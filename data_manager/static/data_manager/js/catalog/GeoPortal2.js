@@ -1,4 +1,3 @@
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 //  Elasticsearch + Geoportal
@@ -30,8 +29,6 @@ var populate_fields_from_catalog = function(catalog_record_data, record_id){
     });
   }
 }
-
-// TODO: Determine Tech
 
 var aggregate_catalog_record_values = function(record_json){
   record_id = record_json.id;

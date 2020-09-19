@@ -1,4 +1,5 @@
 show_layertype_form = function(layertype) {
+
   if (layertype == null) {
     layertype = $('#id_layer_type').val();
   }
@@ -462,7 +463,6 @@ var populate_layer_fields_from_catalog_record = function(catalog_record_data, re
 
 }
 
-
 var union = function(array1, array2) {
   var hash = {}, union_arr = [];
   $.each($.merge($.merge([], array1), array2), function (index, value) { hash[value] = value; });
@@ -472,13 +472,17 @@ var union = function(array1, array2) {
 
 enforce_organization_show = function() {
   var organization_section = $('.field-order.field-themes').parent();
+  var metadata_section = $('.field-description').parent();
 
   // This gets called before 'compressed' is applied to all sections by django admin's 'compress.js'
   //    So we need to wait a bit.
   setTimeout(function() {
-    if (organization_section.hasClass('collapsed')) {
-      show_section(organization_section);
+    if (metadata_section.hasClass('collapsed')) {
+      organization_section.addClass('collapse')
+      organization_section.children('h2').html(organization_section.children('h2').html() + ' ( <a id="fieldsetcollapser_organization" class="collapse-toggle" href="#">Hide</a> )');
       show_layertype_form(null);
+      $('fieldset.collapse').addClass('late-transition');
+
     } else {
       enforce_organization_show();
     }
