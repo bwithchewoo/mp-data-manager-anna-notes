@@ -78,10 +78,12 @@ get_wms_capabilities = function() {
         },
         success: function(data) {
           // SWITCH WMS INPUTS TO SELECTORS
+          var blank_option = '<option value="">_________</option>';
 
           // Replace WMS Layer Name
           var slug_val = $('#id_wms_slug').val();
           var layer_name_html = '<select id="id_wms_slug" name="wms_slug">';
+          layer_name_html += blank_option;
           for (var i = 0; i < data.layers.length; i++) {
             var opt_val = data.layers[i];
             layer_name_html += '<option value="' + opt_val + '">' + opt_val + '</option>';
@@ -103,6 +105,7 @@ get_wms_capabilities = function() {
           // Replace WMS Format
           var format_val = $('#id_wms_format').val();
           var format_html = '<select id="id_wms_format" name="wms_format">';
+          format_html += blank_option;
           for (var i = 0; i < data.formats.length; i++) {
             opt_val = data.formats[i];
             format_html += '<option value="' + opt_val + '">' + opt_val + '</option>';
@@ -116,6 +119,7 @@ get_wms_capabilities = function() {
           // Replace SRS
           var srs_val = $('#id_wms_srs').val();
           var srs_html = '<select id="id_wms_srs" name="wms_srs">';
+          srs_html += blank_option;
 
           for (var i = 0; i < data.srs[slug_val].length; i++) {
             opt_val = data.srs[slug_val][i];
