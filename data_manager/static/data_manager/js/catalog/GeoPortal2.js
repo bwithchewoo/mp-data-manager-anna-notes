@@ -68,10 +68,8 @@ var assign_field_values_from_source_technology = function() {
         $.ajax({
           url: url + "?f=json",
           success: function(data) {
-            if (typeof data === "object") {
-              response = data;
-            } else {
-              response = JSON.parse(data);
+            if (typeof data != "object") {
+              data = JSON.parse(data);
             }
             layers = [];
             for (var i = 0; i < data.layers.length; i++) {
