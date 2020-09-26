@@ -239,11 +239,12 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
 
     # New Layer Form
     def add_view(self, request, form_url='', extra_context={}):
-        # extra_context['test'] = 'BAR'
+        extra_context['CATALOG_TECHNOLOGY'] = settings.CATALOG_TECHNOLOGY
         return super(LayerAdmin, self).add_view(request, form_url, extra_context)
 
     # Edit Layer Form
     def change_view(self, request, object_id, extra_context={}):
+        extra_context['CATALOG_TECHNOLOGY'] = settings.CATALOG_TECHNOLOGY
         return super(LayerAdmin, self).change_view(request, object_id, extra_context=extra_context)
 
     def get_queryset(self, request):
