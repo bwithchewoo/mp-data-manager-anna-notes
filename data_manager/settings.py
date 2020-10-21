@@ -16,3 +16,5 @@ ELASTICSEARCH_INDEX = 'metadata'
 ELASTICSEARCH_SEARCH_FIELDS = [
     'title',
 ]
+
+CATALOG_PROXY = ''

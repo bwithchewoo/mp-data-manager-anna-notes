@@ -17,7 +17,7 @@ var populate_fields_from_catalog = function(catalog_record_data, record_id){
     for (var i = 0; i < id_list.length; i++) {
       id = id_list[i];
     }
-    url = "/" + es_index + "/_doc/" + record_id;
+    url = CATALOG_PROXY + "/" + es_index + "/_doc/" + record_id;
     $.ajax({
       url: url,
       success: function(data) {
