@@ -18,7 +18,7 @@ class LayerViewSet(viewsets.ReadOnlyModelViewSet):
 
 def get_themes(request):
     data = {
-        "themes": [theme.getInitDict() for theme in Theme.all_objects.all().order_by('order')],
+        "themes": [theme.getInitDict() for theme in Theme.objects.all().order_by('order')],
     }
     return JsonResponse(data)
 
@@ -62,15 +62,15 @@ def get_json(request):
     return JsonResponse(data)
 
 def get_layers_for_theme(request, themeID):
-    theme = Theme.all_objects.get(pk=themeID)
+    theme = Theme.objects.get(pk=themeID)
     layer_list = []
-    for layer in theme.layer_set.filter(is_sublayer=False).exclude(layer_type='placeholder').order_by('order'):
+    for layer in theme.layer_set.filter(is_sublayer=False).exclude(layer_type='placeholder').order_by('order','name'):
         layer_list.append({
             'id': layer.id,
             'name': layer.name,
             'type': layer.layer_type,
             'has_sublayers': len(layer.sublayers.all()) > 0,
-            'subLayers': [{'id': x.id, 'name': x.name, 'slug_name': x.slug_name} for x in layer.sublayers.order_by('order')],
+            'subLayers': [{'id': x.id, 'name': x.name, 'slug_name': x.slug_name} for x in layer.sublayers.order_by('order','name')],
         })
     return JsonResponse({'layers': layer_list})
 
