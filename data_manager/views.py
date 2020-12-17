@@ -5,6 +5,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.views.decorators.cache import cache_page
+from django.core.exceptions import ObjectDoesNotExist
 from .models import *
 from .serializers import BriefLayerSerializer
 from rest_framework import viewsets
@@ -75,8 +76,11 @@ def get_layers_for_theme(request, themeID):
     return JsonResponse({'layers': layer_list})
 
 def get_layer_details(request, layerID):
-    layer = Layer.all_objects.get(pk=layerID)
-    return JsonResponse(layer.toDict)
+    try:
+        layer = Layer.all_objects.get(pk=layerID)
+        return JsonResponse(layer.toDict)
+    except ObjectDoesNotExist as e:
+        return JsonResponse({'error': "Layers with ID %s does not exist." % layerID})
 
 def get_layer_catalog_content(request, layerID):
     layer = Layer.all_objects.get(pk=layerID)
