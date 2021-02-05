@@ -170,6 +170,7 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
         ('ATTRIBUTE REPORTING', {
             'classes': ('collapse',),
             'fields': (
+                ('label_field'),
                 ('attribute_event', 'attribute_fields'),
                 ('lookup_field', 'lookup_table'),
                 ('mouseover_field'),

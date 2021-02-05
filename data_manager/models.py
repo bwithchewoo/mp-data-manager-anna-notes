@@ -224,6 +224,8 @@ class Layer(models.Model, SiteFlags):
     map_tiles = models.CharField(max_length=255, blank=True, null=True, help_text='internal link to a page that details how others might consume the data')
     thumbnail = models.URLField(max_length=255, blank=True, null=True, default=None, help_text='not sure we are using this any longer...')
 
+    ### ATTRIBUTE REPORTING ###
+    label_field = models.CharField(max_length=255, blank=True, null=True, help_text="Which field should be used for labels and feature identification in reports?")
     #geojson javascript attribution
     EVENT_CHOICES = (
         ('click', 'click'),
@@ -564,6 +566,7 @@ class Layer(models.Model, SiteFlags):
                 'metadata': layer.metadata_link,
                 'source': layer.source_link,
                 'tiles': layer.tiles_link,
+                'label_field': layer.label_field,
                 'attributes': layer.serialize_attributes(),
                 'lookups': layer.serialize_lookups,
                 'outline_color': layer.vector_outline_color,
@@ -622,6 +625,7 @@ class Layer(models.Model, SiteFlags):
                 'metadata': layer.metadata_link,
                 'source': layer.source_link,
                 'tiles': layer.tiles_link,
+                'label_field': layer.label_field,
                 'attributes': layer.serialize_attributes(),
                 'lookups': layer.serialize_lookups,
                 'outline_color': layer.vector_outline_color,
@@ -682,6 +686,7 @@ class Layer(models.Model, SiteFlags):
             'metadata': self.metadata_link,
             'source': self.source_link,
             'tiles': self.tiles_link,
+            'label_field': self.label_field,
             'attributes': self.serialize_attributes(),
             'lookups': self.serialize_lookups,
             'outline_color': self.vector_outline_color,
