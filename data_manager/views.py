@@ -302,8 +302,18 @@ def wms_get_capabilities(url):
     return result
 
 def wms_request_capabilities(request):
+    from requests.exceptions import SSLError
 
     url = request.GET.get('url')
-    result = wms_get_capabilities(url)
+    try:
+        result = wms_get_capabilities(url)
+    except SSLError as e:
+        # Sometimes SSL certs aren't right - if we trust the user hitting this endpoint,
+        #       Then we should be safe trying to get the data w/o HTTPS.
+        if request.user.is_staff and 'https://' in url.lower():
+            result = wms_get_capabilities(url.lower().replace('https://','http://'))
+        else:
+            # leave the error alone until we have a better solution
+            result = wms_get_capabilities(url)
 
     return JsonResponse(result)
