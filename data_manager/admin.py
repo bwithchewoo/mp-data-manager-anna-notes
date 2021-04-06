@@ -37,7 +37,7 @@ class NestedMultilayerDimensionValueInline(nested_admin.NestedTabularInline):
 
 class NestedMultilayerDimensionInline(nested_admin.NestedTabularInline):
     model = MultilayerDimension
-    fields = (('name', 'label', 'order', 'animated'),)
+    fields = (('name', 'label', 'order', 'animated', 'angle_labels'),)
     extra = 1
     classes = ['collapse', 'open']
     verbose_name_plural = 'Multilayer Dimensions'

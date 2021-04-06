@@ -471,6 +471,7 @@ class Layer(models.Model, SiteFlags):
                 'name': x.name,
                 'order': x.order,
                 'animated': x.animated,
+                'angle_labels': x.angle_labels,
                 'nodes': sorted([
                     {
                         'value': y.value,
@@ -830,7 +831,6 @@ class Layer(models.Model, SiteFlags):
                 cache.delete('data_manager_theme_%d_%d' % (theme.pk, site.pk))
                 theme.dictCache(site.pk)
 
-
 class AttributeInfo(models.Model):
     display_name = models.CharField(max_length=255, blank=True, null=True)
     field_name = models.CharField(max_length=255, blank=True, null=True)
@@ -894,6 +894,7 @@ class MultilayerDimension(models.Model):
     label = models.CharField(max_length=50, help_text='label to be used in mapping tool slider')
     order = models.IntegerField(default=100, help_text='the order in which this dimension will be presented among other dimensions on this layer')
     animated = models.BooleanField(default=False, help_text='enable auto-toggling of layers across this dimension')
+    angle_labels = models.BooleanField(default=False, help_text='display labels at an angle to make more fit')
     layer = models.ForeignKey(Layer, on_delete=models.CASCADE)
 
     def __unicode__(self):
