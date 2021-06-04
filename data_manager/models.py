@@ -144,6 +144,7 @@ class Layer(models.Model, SiteFlags):
         ('XYZ', 'XYZ'),
         ('WMS', 'WMS'),
         ('ArcRest', 'ArcRest'),
+        ('ArcFeatureServer', 'ArcFeatureServer'),
         ('radio', 'radio'),
         ('checkbox', 'checkbox'),
         ('Vector', 'Vector'),
