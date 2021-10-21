@@ -141,7 +141,7 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
         ('ArcGIS DETAILS', {
             'classes': ('collapse',),
             'fields': (
-                ('arcgis_layers', 'disable_arcgis_attributes'),
+                ('arcgis_layers', 'query_by_point', 'disable_arcgis_attributes'),
             )
         }),
         ('WMS DETAILS', {
