@@ -37,7 +37,7 @@ class NestedMultilayerDimensionValueInline(nested_admin.NestedTabularInline):
 
 class NestedMultilayerDimensionInline(nested_admin.NestedTabularInline):
     model = MultilayerDimension
-    fields = (('name', 'label', 'order', 'animated'),)
+    fields = (('name', 'label', 'order', 'animated', 'angle_labels'),)
     extra = 1
     classes = ['collapse', 'open']
     verbose_name_plural = 'Multilayer Dimensions'
@@ -150,7 +150,7 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
         ('ArcGIS DETAILS', {
             'classes': ('collapse',),
             'fields': (
-                ('arcgis_layers', 'disable_arcgis_attributes'),
+                ('arcgis_layers', 'query_by_point', 'disable_arcgis_attributes'),
             )
         }),
         ('WMS DETAILS', {
@@ -179,6 +179,7 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
         ('ATTRIBUTE REPORTING', {
             'classes': ('collapse',),
             'fields': (
+                ('label_field'),
                 ('attribute_event', 'attribute_fields'),
                 ('lookup_field', 'lookup_table'),
                 ('mouseover_field'),

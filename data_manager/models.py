@@ -144,6 +144,7 @@ class Layer(models.Model, SiteFlags):
         ('XYZ', 'XYZ'),
         ('WMS', 'WMS'),
         ('ArcRest', 'ArcRest'),
+        ('ArcFeatureServer', 'ArcFeatureServer'),
         ('radio', 'radio'),
         ('checkbox', 'checkbox'),
         ('Vector', 'Vector'),
@@ -167,6 +168,7 @@ class Layer(models.Model, SiteFlags):
     # RDH: proxy_url does not appear to be used.
     # proxy_url = models.BooleanField(default=False, help_text="proxy layer url through marine planner")
     arcgis_layers = models.CharField(max_length=255, blank=True, null=True, help_text='comma separated list of arcgis layer IDs')
+    query_by_point = models.BooleanField(default=False, help_text='Do not buffer selection clicks (not recommended for point or line data)')
     disable_arcgis_attributes = models.BooleanField(default=False, help_text='Click to disable clickable ArcRest layers')
     wms_help = models.BooleanField(default=False, help_text='Enable simple selection for WMS fields. Only supports WMS 1.1.1')
     wms_slug = models.CharField(max_length=255, blank=True, null=True, verbose_name='WMS Layer Name')
@@ -226,6 +228,8 @@ class Layer(models.Model, SiteFlags):
     map_tiles = models.CharField(max_length=255, blank=True, null=True, help_text='internal link to a page that details how others might consume the data')
     thumbnail = models.URLField(max_length=255, blank=True, null=True, default=None, help_text='not sure we are using this any longer...')
 
+    ### ATTRIBUTE REPORTING ###
+    label_field = models.CharField(max_length=255, blank=True, null=True, help_text="Which field should be used for labels and feature identification in reports?")
     #geojson javascript attribution
     EVENT_CHOICES = (
         ('click', 'click'),
@@ -471,6 +475,7 @@ class Layer(models.Model, SiteFlags):
                 'name': x.name,
                 'order': x.order,
                 'animated': x.animated,
+                'angle_labels': x.angle_labels,
                 'nodes': sorted([
                     {
                         'value': y.value,
@@ -539,6 +544,7 @@ class Layer(models.Model, SiteFlags):
                 'type': layer.layer_type,
                 'url': layer.url,
                 'arcgis_layers': layer.arcgis_layers,
+                'query_by_point': layer.query_by_point,
                 'disable_arcgis_attributes': layer.disable_arcgis_attributes,
                 'wms_slug': layer.wms_slug,
                 'wms_version': layer.wms_version,
@@ -566,6 +572,7 @@ class Layer(models.Model, SiteFlags):
                 'metadata': layer.metadata_link,
                 'source': layer.source_link,
                 'tiles': layer.tiles_link,
+                'label_field': layer.label_field,
                 'attributes': layer.serialize_attributes(),
                 'lookups': layer.serialize_lookups,
                 'outline_color': layer.vector_outline_color,
@@ -597,6 +604,7 @@ class Layer(models.Model, SiteFlags):
                 'type': layer.layer_type,
                 'url': layer.url,
                 'arcgis_layers': layer.arcgis_layers,
+                'query_by_point': layer.query_by_point,
                 'disable_arcgis_attributes': layer.disable_arcgis_attributes,
                 'wms_slug': layer.wms_slug,
                 'wms_version': layer.wms_version,
@@ -624,6 +632,7 @@ class Layer(models.Model, SiteFlags):
                 'metadata': layer.metadata_link,
                 'source': layer.source_link,
                 'tiles': layer.tiles_link,
+                'label_field': layer.label_field,
                 'attributes': layer.serialize_attributes(),
                 'lookups': layer.serialize_lookups,
                 'outline_color': layer.vector_outline_color,
@@ -654,6 +663,7 @@ class Layer(models.Model, SiteFlags):
             'type': self.layer_type,
             'url': self.url,
             'arcgis_layers': self.arcgis_layers,
+            'query_by_point': self.query_by_point,
             'disable_arcgis_attributes': self.disable_arcgis_attributes,
             'wms_slug': self.wms_slug,
             'wms_version': self.wms_version,
@@ -684,6 +694,7 @@ class Layer(models.Model, SiteFlags):
             'metadata': self.metadata_link,
             'source': self.source_link,
             'tiles': self.tiles_link,
+            'label_field': self.label_field,
             'attributes': self.serialize_attributes(),
             'lookups': self.serialize_lookups,
             'outline_color': self.vector_outline_color,
@@ -827,7 +838,6 @@ class Layer(models.Model, SiteFlags):
                 cache.delete('data_manager_theme_%d_%d' % (theme.pk, site.pk))
                 theme.dictCache(site.pk)
 
-
 class AttributeInfo(models.Model):
     display_name = models.CharField(max_length=255, blank=True, null=True)
     field_name = models.CharField(max_length=255, blank=True, null=True)
@@ -891,6 +901,7 @@ class MultilayerDimension(models.Model):
     label = models.CharField(max_length=50, help_text='label to be used in mapping tool slider')
     order = models.IntegerField(default=100, help_text='the order in which this dimension will be presented among other dimensions on this layer')
     animated = models.BooleanField(default=False, help_text='enable auto-toggling of layers across this dimension')
+    angle_labels = models.BooleanField(default=False, help_text='display labels at an angle to make more fit')
     layer = models.ForeignKey(Layer, on_delete=models.CASCADE)
 
     def __unicode__(self):
