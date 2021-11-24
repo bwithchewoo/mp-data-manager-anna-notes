@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.views.decorators.cache import cache_page
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from .models import *
 from .serializers import BriefLayerSerializer
 from rest_framework import viewsets
@@ -17,7 +18,7 @@ class LayerViewSet(viewsets.ReadOnlyModelViewSet):
 
 def get_themes(request):
     data = {
-        "themes": [theme.getInitDict() for theme in Theme.all_objects.all().order_by('order')],
+        "themes": [theme.getInitDict() for theme in Theme.objects.all().order_by('order')],
     }
     return JsonResponse(data)
 
@@ -61,21 +62,24 @@ def get_json(request):
     return JsonResponse(data)
 
 def get_layers_for_theme(request, themeID):
-    theme = Theme.all_objects.get(pk=themeID)
+    theme = Theme.objects.get(pk=themeID)
     layer_list = []
-    for layer in theme.layer_set.filter(is_sublayer=False).exclude(layer_type='placeholder').order_by('order'):
+    for layer in theme.layer_set.filter(is_sublayer=False).exclude(layer_type='placeholder').order_by('order','name'):
         layer_list.append({
             'id': layer.id,
             'name': layer.name,
             'type': layer.layer_type,
             'has_sublayers': len(layer.sublayers.all()) > 0,
-            'subLayers': [{'id': x.id, 'name': x.name, 'slug_name': x.slug_name} for x in layer.sublayers.order_by('order')],
+            'subLayers': [{'id': x.id, 'name': x.name, 'slug_name': x.slug_name} for x in layer.sublayers.order_by('order','name')],
         })
     return JsonResponse({'layers': layer_list})
 
 def get_layer_details(request, layerID):
-    layer = Layer.all_objects.get(pk=layerID)
-    return JsonResponse(layer.toDict)
+    try:
+        layer = Layer.all_objects.get(pk=layerID)
+        return JsonResponse(layer.toDict)
+    except ObjectDoesNotExist as e:
+        return JsonResponse({'error': "Layers with ID %s does not exist." % layerID})
 
 def get_layer_catalog_content(request, layerID):
     layer = Layer.all_objects.get(pk=layerID)
@@ -297,9 +301,19 @@ def wms_get_capabilities(url):
     return result
 
 def wms_request_capabilities(request):
+    from requests.exceptions import SSLError
 
     url = request.GET.get('url')
-    result = wms_get_capabilities(url)
+    try:
+        result = wms_get_capabilities(url)
+    except SSLError as e:
+        # Sometimes SSL certs aren't right - if we trust the user hitting this endpoint,
+        #       Then we should be safe trying to get the data w/o HTTPS.
+        if request.user.is_staff and 'https://' in url.lower():
+            result = wms_get_capabilities(url.lower().replace('https://','http://'))
+        else:
+            # leave the error alone until we have a better solution
+            result = wms_get_capabilities(url)
 
     return JsonResponse(result)
 
