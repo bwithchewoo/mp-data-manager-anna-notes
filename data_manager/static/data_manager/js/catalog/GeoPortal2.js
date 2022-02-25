@@ -59,12 +59,12 @@ var aggregate_catalog_record_values = function(record_json){
 }
 
 var assign_field_values_from_source_technology = function() {
-  if ($('#id_layer_type').val() == "ArcRest") {
+  if ($('#id_layer_type').val() == "ArcRest" || $('#id_layer_type').val() == "ArcFeatureServer") {
       var url = $('#id_url').val();
       if (url.toLowerCase().indexOf('/export') >= 0) {
         url = url.toLowerCase().split('/export')[0];
       }
-      if (url.toLowerCase().indexOf('/mapserver') >= 0) {
+      if (url.toLowerCase().indexOf('/mapserver') >= 0 || url.toLowerCase().indexOf('/featureserver') >= 0) {
         $.ajax({
           url: url + "?f=json",
           success: function(data) {

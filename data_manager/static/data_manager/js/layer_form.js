@@ -38,6 +38,11 @@ show_layertype_form = function(layertype) {
         hide_section(wms_section);
         hide_section(style_section);
         break;
+      case 'ArcFeatureServer':
+        show_section(arcgis_section);
+        hide_section(wms_section);
+        hide_section(style_section);
+        break;
       case 'Vector':
         hide_section(arcgis_section);
         hide_section(wms_section);
