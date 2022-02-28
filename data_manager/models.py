@@ -5,6 +5,8 @@ from django.template.defaultfilters import slugify
 from django.urls import reverse
 from django.conf import settings
 #from sorl.thumbnail import ImageField
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.admin.models import LogEntry
 
 # From MARCO/utils.py
 def get_domain(port=8010):
@@ -266,6 +268,8 @@ class Layer(models.Model, SiteFlags):
     espis_search = models.CharField(max_length=255, blank=True, null=True, default=None, help_text="keyphrase search for ESPIS Link")
     espis_region = models.CharField(max_length=100, blank=True, null=True, default=None, choices=ESPIS_REGION_CHOICES, help_text="Region to search within")
 
+    # date_modified = models.DateTimeField(auto_now=True)
+
     def __unicode__(self):
         return unicode('%s' % (self.name))
 
@@ -284,6 +288,16 @@ class Layer(models.Model, SiteFlags):
             else:
                 return None
         return self
+
+    @property
+    def last_change(self):
+        layer_ct = ContentType.objects.get(model='layer')
+        logs = LogEntry.objects.filter(content_type=layer_ct, object_id=self.pk)
+        if len(logs) > 0:
+            last_log = logs.order_by('-action_time')[0]
+            return last_log.action_time
+        else:
+            return None
 
     def get_absolute_url(self):
         if settings.DATA_CATALOG_ENABLED:

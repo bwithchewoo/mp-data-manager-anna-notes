@@ -88,9 +88,9 @@ class LayerForm(forms.ModelForm):
 class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
     resource_class = LayerResource
     form = LayerForm
-    list_display = ('name', 'layer_type', 'Theme_', 'order', 'data_publish_date', 'data_source', 'primary_site', 'preview_site', 'url')
-    search_fields = ['name', 'layer_type', 'url', 'data_source']
-    ordering = ('name',)
+    list_display = ('name', 'layer_type', 'last_change', 'Theme_', 'order', 'data_publish_date', 'data_source', 'primary_site', 'preview_site', 'url')
+    search_fields = ['name', 'layer_type', 'last_change', 'url', 'data_source']
+    ordering = ('name', )
     exclude = ('slug_name',)
 
     if settings.CATALOG_TECHNOLOGY not in ['Madrona', None]:
