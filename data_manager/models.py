@@ -268,7 +268,7 @@ class Layer(models.Model, SiteFlags):
     espis_search = models.CharField(max_length=255, blank=True, null=True, default=None, help_text="keyphrase search for ESPIS Link")
     espis_region = models.CharField(max_length=100, blank=True, null=True, default=None, choices=ESPIS_REGION_CHOICES, help_text="Region to search within")
 
-    # date_modified = models.DateTimeField(auto_now=True)
+    date_modified = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return unicode('%s' % (self.name))

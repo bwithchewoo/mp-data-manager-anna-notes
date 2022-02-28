@@ -88,8 +88,8 @@ class LayerForm(forms.ModelForm):
 class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
     resource_class = LayerResource
     form = LayerForm
-    list_display = ('name', 'layer_type', 'last_change', 'Theme_', 'order', 'data_publish_date', 'data_source', 'primary_site', 'preview_site', 'url')
-    search_fields = ['name', 'layer_type', 'last_change', 'url', 'data_source']
+    list_display = ('name', 'layer_type', 'date_modified', 'Theme_', 'order', 'data_publish_date', 'data_source', 'primary_site', 'preview_site', 'url')
+    search_fields = ['name', 'layer_type', 'date_modified', 'url', 'data_source']
     ordering = ('name', )
     exclude = ('slug_name',)
 
