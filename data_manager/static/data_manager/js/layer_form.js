@@ -498,6 +498,41 @@ enforce_organization_show = function() {
   }, 200);
 }
 
+assign_field_values_from_source_technology = function() {
+  if ($('#id_layer_type').val() == "ArcRest" || $('#id_layer_type').val() == "ArcFeatureServer") {
+      var url = $('#id_url').val();
+      var export_index = url.toLowerCase().indexOf('/export');
+      if ( export_index >= 0) {
+        url = url.substring(0, export_index);
+      }
+      if (url.toLowerCase().indexOf('/mapserver') >= 0 || url.toLowerCase().indexOf('/featureserver') >= 0) {
+        $.ajax({
+          url: url + "?f=json",
+          success: function(data) {
+            if (typeof data != "object") {
+              data = JSON.parse(data);
+            }
+            layers = [];
+            for (var i = 0; i < data.layers.length; i++) {
+              var layer = data.layers[i];
+              layers.push({id:layer.id.toString(), name: layer.name});
+            }
+            var table_element = "<table class='arcgis-details-layer-table'><tr><th>ID</th><th>Name</th><th>Link</th></tr>";
+            for (var i = 0; i < layers.length; i++) {
+              layer = layers[i];
+              var row = "<tr><td>" + layer.id + "</td><td>" + layer.name + "</td><td><a href='" + url + "/" + layer.id + "' target='_blank'>Details</a></td></tr>";
+              table_element = table_element + row;
+            }
+            table_element = table_element + "</table>";
+            $('.arcgis-details-layer-table').remove();
+            $('div.field-box.field-arcgis_layers').append(table_element);
+          }
+        })
+      }
+  }
+}
+
+
 $(document).ready(function() {
 
   $('#spinner-dialog').dialog({autoOpen:false, modal: true, width: 150});
@@ -546,5 +581,7 @@ $(document).ready(function() {
   $('#id_wms_help').change(function() {
     get_wms_capabilities();
   });
+
+  assign_field_values_from_source_technology();
 
 });
