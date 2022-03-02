@@ -93,6 +93,10 @@ var assign_field_values_from_source_technology = function() {
 
 var assign_field_values_from_catalog_record = function(record_json){
   // TODO: write function to create appropriate list of links and associate them with tech options
+  if (!record_json.hasOwnProperty('links_s')) {
+    record_json.links_s = [];
+    // replace_input_with_select2('id_url', union([],[]));
+  }
   replace_input_with_select2('id_url', union([],record_json.links_s));
 
   // Metadata & Links
@@ -136,6 +140,7 @@ var assign_field_values_from_catalog_record = function(record_json){
   // ArcGIS Details (ArcGIS only!)
   /*
     id_arcgis_layers (comma separated ID #s)
+    id_query_by_point [ checkbox ]
     id_disable_arcgis_attributes [ checkbox ]
   */
 

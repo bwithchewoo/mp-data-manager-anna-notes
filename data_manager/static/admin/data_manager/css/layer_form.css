@@ -10,6 +10,11 @@
   visibility: hidden;
 }
 
+/* override 'dark mode' printing light text on select2 white background */
+span.select2-results {
+  color: black; 
+}
+
 .arcgis-details-layer-table {
   float: right;
   margin-top: -50px;

@@ -457,7 +457,7 @@ var populate_layer_fields_from_catalog_record = function(catalog_record_data, re
     $('#id_name').val(selected_name);
   }
 
-  if (populate_fields_from_catalog && typeof populate_fields_from_catalog === "function") {
+  if (typeof populate_fields_from_catalog != "undefined" && typeof populate_fields_from_catalog === "function") {
     populate_fields_from_catalog(catalog_record_data, record_id);
   }
   // if (window.confirm("Do you want to set all form fields from the selected catalog record?")) {
@@ -509,7 +509,7 @@ $(document).ready(function() {
   console.log("CATALOG_TECHNOLOGY: '" + CATALOG_TECHNOLOGY + "'");
 
   // If catalog tech supported:
-  if (CATALOG_TECHNOLOGY != 'Madrona') {
+  if (CATALOG_TECHNOLOGY != 'default') {
     $('#id_catalog_id').height(15);
     $('#id_catalog_id').prop('disabled', true);
     $('#id_catalog_name').height(15);
