@@ -103,7 +103,6 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
                 'site'
             )
     else:
-        # catalog_fields = None
         basic_fields = (
                 ('name','layer_type',),
                 'url',
