@@ -88,25 +88,40 @@ class LayerForm(forms.ModelForm):
 class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
     resource_class = LayerResource
     form = LayerForm
-    list_display = ('name', 'layer_type', 'Theme_', 'order', 'data_publish_date', 'data_source', 'primary_site', 'preview_site', 'url')
-    search_fields = ['name', 'layer_type', 'url', 'data_source']
-    ordering = ('name',)
+    list_display = ('name', 'layer_type', 'date_modified', 'Theme_', 'order', 'data_publish_date', 'data_source', 'primary_site', 'preview_site', 'url')
+    search_fields = ['name', 'layer_type', 'date_modified', 'url', 'data_source']
+    ordering = ('name', )
     exclude = ('slug_name',)
 
-    fieldsets = (
-        ('BASIC INFO', {
-            'fields': (
-                ('name','layer_type'),
+    if settings.CATALOG_TECHNOLOGY not in ['default', None]:
+        # catalog_fields = ('catalog_name', 'catalog_id',)
+        # catalog_fields = 'catalog_name'
+        basic_fields = (
+                'catalog_name',
+                ('name','layer_type',),
                 'url',
                 'site'
             )
+    else:
+        # catalog_fields = None
+        basic_fields = (
+                ('name','layer_type',),
+                'url',
+                'site'
+            )
+
+    fieldsets = (
+        ('BASIC INFO', {
+            'fields': basic_fields
         }),
         ('LAYER ORGANIZATION', {
+            # 'classes': ('collapse', 'open',),
             'fields': (
                 ('order','themes'),
                 ('is_sublayer','sublayers'),
                 ('has_companion','connect_companion_layers_to'),
-                ('is_disabled','disabled_message')
+                # RDH 2019-10-25: We don't use this, and it doesn't seem helpful
+                # ('is_disabled','disabled_message')
             )
         }),
         ('METADATA', {
@@ -231,11 +246,14 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
 
     # New Layer Form
     def add_view(self, request, form_url='', extra_context={}):
-        # extra_context['test'] = 'BAR'
+        extra_context['CATALOG_TECHNOLOGY'] = settings.CATALOG_TECHNOLOGY
+        extra_context['CATALOG_PROXY'] = settings.CATALOG_PROXY
         return super(LayerAdmin, self).add_view(request, form_url, extra_context)
 
     # Edit Layer Form
     def change_view(self, request, object_id, extra_context={}):
+        extra_context['CATALOG_TECHNOLOGY'] = settings.CATALOG_TECHNOLOGY
+        extra_context['CATALOG_PROXY'] = settings.CATALOG_PROXY
         return super(LayerAdmin, self).change_view(request, object_id, extra_context=extra_context)
 
     def get_queryset(self, request):

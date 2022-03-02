@@ -5,6 +5,8 @@ from django.template.defaultfilters import slugify
 from django.urls import reverse
 from django.conf import settings
 #from sorl.thumbnail import ImageField
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.admin.models import LogEntry
 
 # From MARCO/utils.py
 def get_domain(port=8010):
@@ -163,7 +165,7 @@ class Layer(models.Model, SiteFlags):
     order = models.PositiveSmallIntegerField(default=10, blank=True, null=True, help_text='input an integer to determine the priority/order of the layer being displayed (1 being the highest)')
     slug_name = models.CharField(max_length=200, blank=True, null=True)
     layer_type = models.CharField(max_length=50, choices=TYPE_CHOICES, help_text='use placeholder to temporarily remove layer from TOC')
-    url = models.CharField(max_length=255, blank=True, null=True)
+    url = models.TextField(blank=True, null=True)
     shareable_url = models.BooleanField(default=True, help_text='Indicates whether the data layer (e.g. map tiles) can be shared with others (through the Map Tiles Link)')
     # RDH: proxy_url does not appear to be used.
     # proxy_url = models.BooleanField(default=False, help_text="proxy layer url through marine planner")
@@ -217,6 +219,8 @@ class Layer(models.Model, SiteFlags):
     data_publish_date = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True, default=None, verbose_name='Date published', help_text='YYYY-MM-DD')
 
     #data catalog links
+    catalog_name = models.TextField(null=True, blank=True, help_text="name of associated record in catalog", verbose_name='Catalog Record Name')
+    catalog_id = models.TextField(null=True, blank=True, help_text="unique ID of associated record in catalog", verbose_name='Catalog Record Id')
     bookmark = models.CharField(max_length=755, blank=True, null=True, help_text='link to view data layer in the planner')
     kml = models.CharField(max_length=255, blank=True, null=True, help_text='link to download the KML')
     data_download = models.CharField(max_length=255, blank=True, null=True, help_text='link to download the data')
@@ -264,6 +268,8 @@ class Layer(models.Model, SiteFlags):
     espis_search = models.CharField(max_length=255, blank=True, null=True, default=None, help_text="keyphrase search for ESPIS Link")
     espis_region = models.CharField(max_length=100, blank=True, null=True, default=None, choices=ESPIS_REGION_CHOICES, help_text="Region to search within")
 
+    date_modified = models.DateTimeField(auto_now=True)
+
     def __unicode__(self):
         return unicode('%s' % (self.name))
 
@@ -282,6 +288,16 @@ class Layer(models.Model, SiteFlags):
             else:
                 return None
         return self
+
+    @property
+    def last_change(self):
+        layer_ct = ContentType.objects.get(model='layer')
+        logs = LogEntry.objects.filter(content_type=layer_ct, object_id=self.pk)
+        if len(logs) > 0:
+            last_log = logs.order_by('-action_time')[0]
+            return last_log.action_time
+        else:
+            return None
 
     def get_absolute_url(self):
         if settings.DATA_CATALOG_ENABLED:
