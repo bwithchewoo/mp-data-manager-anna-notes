@@ -517,13 +517,13 @@ assign_field_values_from_source_technology = function() {
               var layer = data.layers[i];
               layers.push({id:layer.id.toString(), name: layer.name});
             }
-            var table_element = "<table class='arcgis-details-layer-table'><tr><th>ID</th><th>Name</th><th>Link</th></tr>";
+            var table_element = "<div class='argis-details-table-wrapper'><table class='arcgis-details-layer-table'><tr><th>ID</th><th>Name</th><th>Link</th></tr>";
             for (var i = 0; i < layers.length; i++) {
               layer = layers[i];
               var row = "<tr><td>" + layer.id + "</td><td>" + layer.name + "</td><td><a href='" + url + "/" + layer.id + "' target='_blank'>Details</a></td></tr>";
               table_element = table_element + row;
             }
-            table_element = table_element + "</table>";
+            table_element = table_element + "</table></div>";
             $('.arcgis-details-layer-table').remove();
             $('div.field-box.field-arcgis_layers').append(table_element);
           }
