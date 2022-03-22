@@ -142,17 +142,7 @@ class Theme(models.Model, SiteFlags):
         super(Theme, self).save(*args, **kwargs)
 
 class Layer(models.Model, SiteFlags):
-    TYPE_CHOICES = (
-        ('XYZ', 'XYZ'),
-        ('WMS', 'WMS'),
-        ('ArcRest', 'ArcRest'),
-        ('ArcFeatureServer', 'ArcFeatureServer'),
-        ('radio', 'radio'),
-        ('checkbox', 'checkbox'),
-        ('Vector', 'Vector'),
-        ('VectorTile', 'VectorTile'),
-        ('placeholder', 'placeholder'),
-    )
+    
     WMS_VERSION_CHOICES = (
         (None, ''),
         ('1.0.0', '1.0.0'),
@@ -164,7 +154,7 @@ class Layer(models.Model, SiteFlags):
     name = models.CharField(max_length=100)
     order = models.PositiveSmallIntegerField(default=10, blank=True, null=True, help_text='input an integer to determine the priority/order of the layer being displayed (1 being the highest)')
     slug_name = models.CharField(max_length=200, blank=True, null=True)
-    layer_type = models.CharField(max_length=50, choices=TYPE_CHOICES, help_text='use placeholder to temporarily remove layer from TOC')
+    layer_type = models.CharField(max_length=50, choices=settings.LAYER_TYPE_CHOICES, help_text='use placeholder to temporarily remove layer from TOC')
     url = models.TextField(blank=True, null=True)
     shareable_url = models.BooleanField(default=True, help_text='Indicates whether the data layer (e.g. map tiles) can be shared with others (through the Map Tiles Link)')
     # RDH: proxy_url does not appear to be used.
