@@ -1,1 +1,2 @@
 django-nested-admin
+django-colorfield

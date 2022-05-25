@@ -7,7 +7,7 @@ from django.conf import settings
 #from sorl.thumbnail import ImageField
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.admin.models import LogEntry
-
+from colorfield.fields import ColorField
 # From MARCO/utils.py
 def get_domain(port=8010):
     try:
@@ -150,6 +150,18 @@ class Layer(models.Model, SiteFlags):
         ('1.1.1', '1.1.1'),
         ('1.3.0', '1.3.0'),
     )
+    COLOR_PALETTE = []
+
+    COLOR_PALETTE.append(("#FFFFFF", 'white'))
+    COLOR_PALETTE.append(("#888888", 'gray'))
+    COLOR_PALETTE.append(("#000000", 'black'))
+    COLOR_PALETTE.append(("#FF0000", 'red'))
+    COLOR_PALETTE.append(("#FFFF00", 'yellow'))
+    COLOR_PALETTE.append(("#00FF00", 'green'))
+    COLOR_PALETTE.append(("#00FFFF", 'cyan'))
+    COLOR_PALETTE.append(("#0000FF", 'blue'))
+    COLOR_PALETTE.append(("#FF00FF", 'magenta'))
+
     site = models.ManyToManyField(Site)
     name = models.CharField(max_length=100)
     order = models.PositiveSmallIntegerField(default=10, blank=True, null=True, help_text='input an integer to determine the priority/order of the layer being displayed (1 being the highest)')
@@ -236,11 +248,23 @@ class Layer(models.Model, SiteFlags):
     lookup_field = models.CharField(max_length=255, blank=True, null=True, help_text="To override the style based on specific attributes, provide the attribute name here and define your attributes in the Lookup table below.")
     lookup_table = models.ManyToManyField('LookupInfo', blank=True)
     is_annotated = models.BooleanField(default=False)
-    vector_outline_color = models.CharField(max_length=100, blank=True, null=True, default=None, verbose_name="Vector Stroke Color")
+    vector_outline_color = ColorField(
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Vector Stroke Color",
+        samples=COLOR_PALETTE,
+    )
     # RDH 20191106 - This is not a thing.
     vector_outline_opacity = models.FloatField(blank=True, null=True, default=None, verbose_name="Vector Stroke Opacity")
     vector_outline_width = models.IntegerField(blank=True, null=True, default=None, verbose_name="Vector Stroke Width")
-    vector_color = models.CharField(max_length=100, blank=True, null=True, default=None, verbose_name="Vector Fill Color")
+    vector_color = ColorField(
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Vector Fill Color",
+        samples=COLOR_PALETTE,
+    )
     vector_fill = models.FloatField(blank=True, null=True, default=None, verbose_name="Vector Fill Opacity")
     vector_graphic = models.CharField(max_length=255, blank=True, null=True, default=None, verbose_name="Vector Graphic", help_text="address of image to use for point data")
     vector_graphic_scale = models.FloatField(blank=True, null=True, default=True, verbose_name="Vector Graphic Scale", help_text="Scale for the vector graphic from original size.")
@@ -863,10 +887,34 @@ class LookupInfo(models.Model):
         ('longdashdot', 'longdashdot'),
         ('solid', 'solid')
     )
+    COLOR_PALETTE = []
+
+    COLOR_PALETTE.append(("#FFFFFF", 'white'))
+    COLOR_PALETTE.append(("#888888", 'gray'))
+    COLOR_PALETTE.append(("#000000", 'black'))
+    COLOR_PALETTE.append(("#FF0000", 'red'))
+    COLOR_PALETTE.append(("#FFFF00", 'yellow'))
+    COLOR_PALETTE.append(("#00FF00", 'green'))
+    COLOR_PALETTE.append(("#00FFFF", 'cyan'))
+    COLOR_PALETTE.append(("#0000FF", 'blue'))
+    COLOR_PALETTE.append(("#FF00FF", 'magenta'))
+
     value = models.CharField(max_length=255, blank=True, null=True)
     description = models.CharField(max_length=255, blank=True, null=True, default=None)
-    color = models.CharField(max_length=50, blank=True, null=True, verbose_name="Fill Color")
-    stroke_color = models.CharField(max_length=50, blank=True, null=True, verbose_name="Stroke Color")
+    color = ColorField(
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Fill Color",
+        samples=COLOR_PALETTE,
+    )
+    stroke_color = ColorField(
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Stroke Color",
+        samples=COLOR_PALETTE,
+    )
     stroke_width = models.IntegerField(null=True, blank=True, default=None, verbose_name="Stroke Width")
     dashstyle = models.CharField(max_length=11, choices=DASH_CHOICES, default='solid')
     fill = models.BooleanField(default=False)
