@@ -186,7 +186,6 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
             'fields': (
                 ('label_field'),
                 ('attribute_event', 'attribute_fields'),
-                ('lookup_field', 'lookup_table'),
                 ('mouseover_field'),
                 ('is_annotated', 'compress_display'),
             )
@@ -200,6 +199,7 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
                 ('vector_graphic'),
                 ('point_radius'),
                 'thumbnail',
+                ('lookup_field', 'lookup_table'),
             )
         }),
         ('ESPIS', {
@@ -269,7 +269,7 @@ class AttributeInfoAdmin(admin.ModelAdmin):
     list_display = ('field_name', 'display_name', 'precision', 'order')
 
 class LookupInfoAdmin(admin.ModelAdmin):
-    list_display = ('value', 'color', 'stroke_color', 'dashstyle', 'fill', 'graphic')
+    list_display = ('value', 'description', 'color', 'stroke_color', 'dashstyle', 'fill', 'graphic')
 
 class DataNeedAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')

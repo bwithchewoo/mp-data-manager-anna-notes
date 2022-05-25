@@ -233,7 +233,7 @@ class Layer(models.Model, SiteFlags):
     compress_display = models.BooleanField(default=False)
     attribute_event = models.CharField(max_length=35, choices=EVENT_CHOICES, default='click')
     mouseover_field = models.CharField(max_length=75, blank=True, null=True, default=None, help_text='feature level attribute used in mouseover display')
-    lookup_field = models.CharField(max_length=255, blank=True, null=True)
+    lookup_field = models.CharField(max_length=255, blank=True, null=True, help_text="To override the style based on specific attributes, provide the attribute name here and define your attributes in the Lookup table below.")
     lookup_table = models.ManyToManyField('LookupInfo', blank=True)
     is_annotated = models.BooleanField(default=False)
     vector_outline_color = models.CharField(max_length=100, blank=True, null=True, default=None, verbose_name="Vector Stroke Color")
@@ -864,6 +864,7 @@ class LookupInfo(models.Model):
         ('solid', 'solid')
     )
     value = models.CharField(max_length=255, blank=True, null=True)
+    description = models.CharField(max_length=255, blank=True, null=True, default=None)
     color = models.CharField(max_length=50, blank=True, null=True, verbose_name="Fill Color")
     stroke_color = models.CharField(max_length=50, blank=True, null=True, verbose_name="Stroke Color")
     stroke_width = models.IntegerField(null=True, blank=True, default=None, verbose_name="Stroke Width")
@@ -873,9 +874,13 @@ class LookupInfo(models.Model):
     graphic_scale = models.FloatField(null=True, blank=True, default=None, verbose_name="Graphic Scale", help_text="Scale the graphic from its original size.")
 
     def __unicode__(self):
+        if self.description:
+            return unicode('{}: {}'.format(self.value, self.description))
         return unicode('%s' % (self.value))
 
     def __str__(self):
+        if self.description:
+            return '{}: {}'.format(self.value, self.description)
         return str(self.value)
 
 class DataNeed(models.Model):
