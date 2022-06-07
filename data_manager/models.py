@@ -169,8 +169,7 @@ class Layer(models.Model, SiteFlags):
     layer_type = models.CharField(max_length=50, choices=settings.LAYER_TYPE_CHOICES, help_text='use placeholder to temporarily remove layer from TOC')
     url = models.TextField(blank=True, null=True)
     shareable_url = models.BooleanField(default=True, help_text='Indicates whether the data layer (e.g. map tiles) can be shared with others (through the Map Tiles Link)')
-    # RDH: proxy_url does not appear to be used.
-    # proxy_url = models.BooleanField(default=False, help_text="proxy layer url through marine planner")
+    proxy_url = models.BooleanField(default=False, help_text="proxy layer url through marine planner")
     arcgis_layers = models.CharField(max_length=255, blank=True, null=True, help_text='comma separated list of arcgis layer IDs')
     query_by_point = models.BooleanField(default=False, help_text='Do not buffer selection clicks (not recommended for point or line data)')
     disable_arcgis_attributes = models.BooleanField(default=False, help_text='Click to disable clickable ArcRest layers')
@@ -573,6 +572,7 @@ class Layer(models.Model, SiteFlags):
                 'url': layer.url,
                 'arcgis_layers': layer.arcgis_layers,
                 'query_by_point': layer.query_by_point,
+                'proxy_url': layer.proxy_url,
                 'disable_arcgis_attributes': layer.disable_arcgis_attributes,
                 'wms_slug': layer.wms_slug,
                 'wms_version': layer.wms_version,
@@ -633,6 +633,7 @@ class Layer(models.Model, SiteFlags):
                 'url': layer.url,
                 'arcgis_layers': layer.arcgis_layers,
                 'query_by_point': layer.query_by_point,
+                'proxy_url': layer.proxy_url,
                 'disable_arcgis_attributes': layer.disable_arcgis_attributes,
                 'wms_slug': layer.wms_slug,
                 'wms_version': layer.wms_version,
@@ -692,6 +693,7 @@ class Layer(models.Model, SiteFlags):
             'url': self.url,
             'arcgis_layers': self.arcgis_layers,
             'query_by_point': self.query_by_point,
+            'proxy_url': self.proxy_url,
             'disable_arcgis_attributes': self.disable_arcgis_attributes,
             'wms_slug': self.wms_slug,
             'wms_version': self.wms_version,
