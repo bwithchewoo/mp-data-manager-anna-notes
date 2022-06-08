@@ -105,7 +105,7 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
     else:
         basic_fields = (
                 ('name','layer_type',),
-                'url',
+                ('url', 'proxy_url'),
                 'site'
             )
 
