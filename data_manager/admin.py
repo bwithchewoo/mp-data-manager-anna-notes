@@ -193,13 +193,26 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
         ('STYLE', {
             'classes': ('collapse',),
             'fields': (
-                ('opacity'),
-                ('vector_outline_color', 'vector_outline_opacity'),
-                ('vector_color', 'vector_fill'),
-                ('vector_graphic'),
-                ('point_radius'),
-                'thumbnail',
-                ('lookup_field', 'lookup_table'),
+                'opacity',
+                (
+                    'vector_outline_width',
+                    'vector_outline_color', 
+                    # 'vector_outline_opacity',
+                ),
+                (
+                    'vector_fill',
+                    'vector_color', 
+                ),
+                (
+                    'point_radius',
+                    'vector_graphic',
+                    'vector_graphic_scale',
+                ),
+                (
+                    'lookup_field',
+                    'lookup_table',
+                ),
+                # 'thumbnail',
             )
         }),
         ('ESPIS', {
