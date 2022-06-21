@@ -247,6 +247,18 @@ class Layer(models.Model, SiteFlags):
     lookup_field = models.CharField(max_length=255, blank=True, null=True, help_text="To override the style based on specific attributes, provide the attribute name here and define your attributes in the Lookup table below.")
     lookup_table = models.ManyToManyField('LookupInfo', blank=True)
     is_annotated = models.BooleanField(default=False)
+
+    CUSTOM_STYLE_CHOICES = (
+        (None, '------'),
+        ('color', 'color'),
+        ('random', 'random'),
+    )
+    custom_style = models.CharField(
+        max_length=255, 
+        null=True, blank=True, default=None, 
+        choices=CUSTOM_STYLE_CHOICES,
+        help_text="Apply a custom styling rule: i.e. 'color' for Native-Land.ca layers, or 'random' to assign arbitary colors"
+    )
     vector_outline_color = ColorField(
         blank=True,
         null=True,
@@ -603,6 +615,7 @@ class Layer(models.Model, SiteFlags):
                 'label_field': layer.label_field,
                 'attributes': layer.serialize_attributes(),
                 'lookups': layer.serialize_lookups,
+                'custom_style': layer.custom_style,
                 'outline_color': layer.vector_outline_color,
                 'outline_opacity': layer.vector_outline_opacity,
                 'outline_width': layer.vector_outline_width,
@@ -664,6 +677,7 @@ class Layer(models.Model, SiteFlags):
                 'label_field': layer.label_field,
                 'attributes': layer.serialize_attributes(),
                 'lookups': layer.serialize_lookups,
+                'custom_style': layer.custom_style,
                 'outline_color': layer.vector_outline_color,
                 'outline_opacity': layer.vector_outline_opacity,
                 'outline_width': layer.vector_outline_width,
@@ -727,6 +741,7 @@ class Layer(models.Model, SiteFlags):
             'label_field': self.label_field,
             'attributes': self.serialize_attributes(),
             'lookups': self.serialize_lookups,
+            'custom_style': self.custom_style,
             'outline_color': self.vector_outline_color,
             'outline_opacity': self.vector_outline_opacity,
             'outline_width': self.vector_outline_width,

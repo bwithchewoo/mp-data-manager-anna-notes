@@ -194,6 +194,7 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
             'classes': ('collapse',),
             'fields': (
                 'opacity',
+                'custom_style',
                 (
                     'vector_outline_width',
                     'vector_outline_color', 
