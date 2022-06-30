@@ -99,13 +99,13 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
         basic_fields = (
                 'catalog_name',
                 ('name','layer_type',),
-                'url',
+                ('url', 'proxy_url'),
                 'site'
             )
     else:
         basic_fields = (
                 ('name','layer_type',),
-                'url',
+                ('url', 'proxy_url'),
                 'site'
             )
 
@@ -186,7 +186,6 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
             'fields': (
                 ('label_field'),
                 ('attribute_event', 'attribute_fields'),
-                ('lookup_field', 'lookup_table'),
                 ('mouseover_field'),
                 ('is_annotated', 'compress_display'),
             )
@@ -194,12 +193,27 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
         ('STYLE', {
             'classes': ('collapse',),
             'fields': (
-                ('opacity'),
-                ('vector_outline_color', 'vector_outline_opacity'),
-                ('vector_color', 'vector_fill'),
-                ('vector_graphic'),
-                ('point_radius'),
-                'thumbnail',
+                'opacity',
+                'custom_style',
+                (
+                    'vector_outline_width',
+                    'vector_outline_color', 
+                    # 'vector_outline_opacity',
+                ),
+                (
+                    'vector_fill',
+                    'vector_color', 
+                ),
+                (
+                    'point_radius',
+                    'vector_graphic',
+                    'vector_graphic_scale',
+                ),
+                (
+                    'lookup_field',
+                    'lookup_table',
+                ),
+                # 'thumbnail',
             )
         }),
         ('ESPIS', {
@@ -269,7 +283,7 @@ class AttributeInfoAdmin(admin.ModelAdmin):
     list_display = ('field_name', 'display_name', 'precision', 'order')
 
 class LookupInfoAdmin(admin.ModelAdmin):
-    list_display = ('value', 'color', 'stroke_color', 'dashstyle', 'fill', 'graphic')
+    list_display = ('value', 'description', 'color', 'stroke_color', 'dashstyle', 'fill', 'graphic')
 
 class DataNeedAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')

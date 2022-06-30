@@ -7,7 +7,7 @@ from django.conf import settings
 #from sorl.thumbnail import ImageField
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.admin.models import LogEntry
-
+from colorfield.fields import ColorField
 # From MARCO/utils.py
 def get_domain(port=8010):
     try:
@@ -150,6 +150,18 @@ class Layer(models.Model, SiteFlags):
         ('1.1.1', '1.1.1'),
         ('1.3.0', '1.3.0'),
     )
+    COLOR_PALETTE = []
+
+    COLOR_PALETTE.append(("#FFFFFF", 'white'))
+    COLOR_PALETTE.append(("#888888", 'gray'))
+    COLOR_PALETTE.append(("#000000", 'black'))
+    COLOR_PALETTE.append(("#FF0000", 'red'))
+    COLOR_PALETTE.append(("#FFFF00", 'yellow'))
+    COLOR_PALETTE.append(("#00FF00", 'green'))
+    COLOR_PALETTE.append(("#00FFFF", 'cyan'))
+    COLOR_PALETTE.append(("#0000FF", 'blue'))
+    COLOR_PALETTE.append(("#FF00FF", 'magenta'))
+
     site = models.ManyToManyField(Site)
     name = models.CharField(max_length=100)
     order = models.PositiveSmallIntegerField(default=10, blank=True, null=True, help_text='input an integer to determine the priority/order of the layer being displayed (1 being the highest)')
@@ -157,8 +169,7 @@ class Layer(models.Model, SiteFlags):
     layer_type = models.CharField(max_length=50, choices=settings.LAYER_TYPE_CHOICES, help_text='use placeholder to temporarily remove layer from TOC')
     url = models.TextField(blank=True, null=True)
     shareable_url = models.BooleanField(default=True, help_text='Indicates whether the data layer (e.g. map tiles) can be shared with others (through the Map Tiles Link)')
-    # RDH: proxy_url does not appear to be used.
-    # proxy_url = models.BooleanField(default=False, help_text="proxy layer url through marine planner")
+    proxy_url = models.BooleanField(default=False, help_text="proxy layer url through marine planner")
     arcgis_layers = models.CharField(max_length=255, blank=True, null=True, help_text='comma separated list of arcgis layer IDs')
     query_by_point = models.BooleanField(default=False, help_text='Do not buffer selection clicks (not recommended for point or line data)')
     disable_arcgis_attributes = models.BooleanField(default=False, help_text='Click to disable clickable ArcRest layers')
@@ -233,14 +244,38 @@ class Layer(models.Model, SiteFlags):
     compress_display = models.BooleanField(default=False)
     attribute_event = models.CharField(max_length=35, choices=EVENT_CHOICES, default='click')
     mouseover_field = models.CharField(max_length=75, blank=True, null=True, default=None, help_text='feature level attribute used in mouseover display')
-    lookup_field = models.CharField(max_length=255, blank=True, null=True)
+    lookup_field = models.CharField(max_length=255, blank=True, null=True, help_text="To override the style based on specific attributes, provide the attribute name here and define your attributes in the Lookup table below.")
     lookup_table = models.ManyToManyField('LookupInfo', blank=True)
     is_annotated = models.BooleanField(default=False)
-    vector_outline_color = models.CharField(max_length=100, blank=True, null=True, default=None, verbose_name="Vector Stroke Color")
+
+    CUSTOM_STYLE_CHOICES = (
+        (None, '------'),
+        ('color', 'color'),
+        ('random', 'random'),
+    )
+    custom_style = models.CharField(
+        max_length=255, 
+        null=True, blank=True, default=None, 
+        choices=CUSTOM_STYLE_CHOICES,
+        help_text="Apply a custom styling rule: i.e. 'color' for Native-Land.ca layers, or 'random' to assign arbitary colors"
+    )
+    vector_outline_color = ColorField(
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Vector Stroke Color",
+        samples=COLOR_PALETTE,
+    )
     # RDH 20191106 - This is not a thing.
     vector_outline_opacity = models.FloatField(blank=True, null=True, default=None, verbose_name="Vector Stroke Opacity")
     vector_outline_width = models.IntegerField(blank=True, null=True, default=None, verbose_name="Vector Stroke Width")
-    vector_color = models.CharField(max_length=100, blank=True, null=True, default=None, verbose_name="Vector Fill Color")
+    vector_color = ColorField(
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Vector Fill Color",
+        samples=COLOR_PALETTE,
+    )
     vector_fill = models.FloatField(blank=True, null=True, default=None, verbose_name="Vector Fill Opacity")
     vector_graphic = models.CharField(max_length=255, blank=True, null=True, default=None, verbose_name="Vector Graphic", help_text="address of image to use for point data")
     vector_graphic_scale = models.FloatField(blank=True, null=True, default=True, verbose_name="Vector Graphic Scale", help_text="Scale for the vector graphic from original size.")
@@ -549,6 +584,7 @@ class Layer(models.Model, SiteFlags):
                 'url': layer.url,
                 'arcgis_layers': layer.arcgis_layers,
                 'query_by_point': layer.query_by_point,
+                'proxy_url': layer.proxy_url,
                 'disable_arcgis_attributes': layer.disable_arcgis_attributes,
                 'wms_slug': layer.wms_slug,
                 'wms_version': layer.wms_version,
@@ -579,6 +615,7 @@ class Layer(models.Model, SiteFlags):
                 'label_field': layer.label_field,
                 'attributes': layer.serialize_attributes(),
                 'lookups': layer.serialize_lookups,
+                'custom_style': layer.custom_style,
                 'outline_color': layer.vector_outline_color,
                 'outline_opacity': layer.vector_outline_opacity,
                 'outline_width': layer.vector_outline_width,
@@ -609,6 +646,7 @@ class Layer(models.Model, SiteFlags):
                 'url': layer.url,
                 'arcgis_layers': layer.arcgis_layers,
                 'query_by_point': layer.query_by_point,
+                'proxy_url': layer.proxy_url,
                 'disable_arcgis_attributes': layer.disable_arcgis_attributes,
                 'wms_slug': layer.wms_slug,
                 'wms_version': layer.wms_version,
@@ -639,6 +677,7 @@ class Layer(models.Model, SiteFlags):
                 'label_field': layer.label_field,
                 'attributes': layer.serialize_attributes(),
                 'lookups': layer.serialize_lookups,
+                'custom_style': layer.custom_style,
                 'outline_color': layer.vector_outline_color,
                 'outline_opacity': layer.vector_outline_opacity,
                 'outline_width': layer.vector_outline_width,
@@ -668,6 +707,7 @@ class Layer(models.Model, SiteFlags):
             'url': self.url,
             'arcgis_layers': self.arcgis_layers,
             'query_by_point': self.query_by_point,
+            'proxy_url': self.proxy_url,
             'disable_arcgis_attributes': self.disable_arcgis_attributes,
             'wms_slug': self.wms_slug,
             'wms_version': self.wms_version,
@@ -701,6 +741,7 @@ class Layer(models.Model, SiteFlags):
             'label_field': self.label_field,
             'attributes': self.serialize_attributes(),
             'lookups': self.serialize_lookups,
+            'custom_style': self.custom_style,
             'outline_color': self.vector_outline_color,
             'outline_opacity': self.vector_outline_opacity,
             'outline_width': self.vector_outline_width,
@@ -863,9 +904,34 @@ class LookupInfo(models.Model):
         ('longdashdot', 'longdashdot'),
         ('solid', 'solid')
     )
+    COLOR_PALETTE = []
+
+    COLOR_PALETTE.append(("#FFFFFF", 'white'))
+    COLOR_PALETTE.append(("#888888", 'gray'))
+    COLOR_PALETTE.append(("#000000", 'black'))
+    COLOR_PALETTE.append(("#FF0000", 'red'))
+    COLOR_PALETTE.append(("#FFFF00", 'yellow'))
+    COLOR_PALETTE.append(("#00FF00", 'green'))
+    COLOR_PALETTE.append(("#00FFFF", 'cyan'))
+    COLOR_PALETTE.append(("#0000FF", 'blue'))
+    COLOR_PALETTE.append(("#FF00FF", 'magenta'))
+
     value = models.CharField(max_length=255, blank=True, null=True)
-    color = models.CharField(max_length=50, blank=True, null=True, verbose_name="Fill Color")
-    stroke_color = models.CharField(max_length=50, blank=True, null=True, verbose_name="Stroke Color")
+    description = models.CharField(max_length=255, blank=True, null=True, default=None)
+    color = ColorField(
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Fill Color",
+        samples=COLOR_PALETTE,
+    )
+    stroke_color = ColorField(
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Stroke Color",
+        samples=COLOR_PALETTE,
+    )
     stroke_width = models.IntegerField(null=True, blank=True, default=None, verbose_name="Stroke Width")
     dashstyle = models.CharField(max_length=11, choices=DASH_CHOICES, default='solid')
     fill = models.BooleanField(default=False)
@@ -873,9 +939,13 @@ class LookupInfo(models.Model):
     graphic_scale = models.FloatField(null=True, blank=True, default=None, verbose_name="Graphic Scale", help_text="Scale the graphic from its original size.")
 
     def __unicode__(self):
+        if self.description:
+            return unicode('{}: {}'.format(self.value, self.description))
         return unicode('%s' % (self.value))
 
     def __str__(self):
+        if self.description:
+            return '{}: {}'.format(self.value, self.description)
         return str(self.value)
 
 class DataNeed(models.Model):
