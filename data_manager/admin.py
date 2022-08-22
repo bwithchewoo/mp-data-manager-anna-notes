@@ -280,7 +280,7 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
         return qs
 
 class AttributeInfoAdmin(admin.ModelAdmin):
-    list_display = ('field_name', 'display_name', 'precision', 'order')
+    list_display = ('field_name', 'display_name', 'precision', 'order', 'preserve_format')
 
 class LookupInfoAdmin(admin.ModelAdmin):
     list_display = ('value', 'description', 'color', 'stroke_color', 'dashstyle', 'fill', 'graphic')

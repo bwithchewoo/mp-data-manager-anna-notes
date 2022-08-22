@@ -460,7 +460,9 @@ class Layer(models.Model, SiteFlags):
         return {'compress_attributes': self.compress_display,
                 'event': self.attribute_event,
                 'attributes': [{'display': attr.display_name, 'field': attr.field_name, 'precision': attr.precision} for attr in self.attribute_fields.all().order_by('order')],
-                'mouseover_attribute': self.mouseover_field }
+                'mouseover_attribute': self.mouseover_field,
+                'preserved_format_attributes': [attr.field_name for attr in self.attribute_fields.filter(preserve_format=True)]
+        }
 
     @property
     def serialize_lookups(self):
@@ -888,6 +890,7 @@ class AttributeInfo(models.Model):
     field_name = models.CharField(max_length=255, blank=True, null=True)
     precision = models.IntegerField(blank=True, null=True)
     order = models.IntegerField(default=1)
+    preserve_format = models.BooleanField(default=False, help_text='Prevent portal from making any changes to the data to make it human-readable')
 
     def __unicode__(self):
         return unicode('%s' % (self.field_name))
