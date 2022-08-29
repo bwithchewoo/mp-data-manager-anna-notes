@@ -295,6 +295,9 @@ class Layer(models.Model, SiteFlags):
 
     date_modified = models.DateTimeField(auto_now=True)
 
+    minZoom = models.FloatField(blank=True, null=True, default=None, verbose_name="Minimum zoom")
+    maxZoom = models.FloatField(blank=True, null=True, default=None, verbose_name="Maximum zoom")
+
     def __unicode__(self):
         return unicode('%s' % (self.name))
 

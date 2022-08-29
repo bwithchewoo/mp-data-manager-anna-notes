@@ -79,3 +79,15 @@ fieldset.late-transition.collapse.collapsed h2 {
 a.collapse-toggle {
   display: inline;
 }
+
+
+/*************************************
+ *    Additional Page Layout
+ ************************************/
+.aligned label {
+  padding: unset;
+}
+
+div.form-row>div {
+  margin: 0.2rem;
+}
