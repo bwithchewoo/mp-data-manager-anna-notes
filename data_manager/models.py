@@ -295,6 +295,9 @@ class Layer(models.Model, SiteFlags):
 
     date_modified = models.DateTimeField(auto_now=True)
 
+    minZoom = models.FloatField(blank=True, null=True, default=None, verbose_name="Minimum zoom")
+    maxZoom = models.FloatField(blank=True, null=True, default=None, verbose_name="Maximum zoom")
+
     def __unicode__(self):
         return unicode('%s' % (self.name))
 
@@ -617,6 +620,8 @@ class Layer(models.Model, SiteFlags):
                 'label_field': layer.label_field,
                 'attributes': layer.serialize_attributes(),
                 'lookups': layer.serialize_lookups,
+                'minZoom': layer.minZoom,
+                'maxZoom': layer.maxZoom,
                 'custom_style': layer.custom_style,
                 'outline_color': layer.vector_outline_color,
                 'outline_opacity': layer.vector_outline_opacity,
@@ -679,6 +684,8 @@ class Layer(models.Model, SiteFlags):
                 'label_field': layer.label_field,
                 'attributes': layer.serialize_attributes(),
                 'lookups': layer.serialize_lookups,
+                'minZoom': layer.minZoom,
+                'maxZoom': layer.maxZoom,
                 'custom_style': layer.custom_style,
                 'outline_color': layer.vector_outline_color,
                 'outline_opacity': layer.vector_outline_opacity,
@@ -743,6 +750,8 @@ class Layer(models.Model, SiteFlags):
             'label_field': self.label_field,
             'attributes': self.serialize_attributes(),
             'lookups': self.serialize_lookups,
+            'minZoom': self.minZoom,
+            'maxZoom': self.maxZoom,
             'custom_style': self.custom_style,
             'outline_color': self.vector_outline_color,
             'outline_opacity': self.vector_outline_opacity,

@@ -190,10 +190,14 @@ class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
                 ('is_annotated', 'compress_display'),
             )
         }),
-        ('STYLE', {
+        ('DISPLAY & STYLE', {
             'classes': ('collapse',),
             'fields': (
                 'opacity',
+                (
+                    'minZoom',
+                    'maxZoom'
+                ),
                 'custom_style',
                 (
                     'vector_outline_width',

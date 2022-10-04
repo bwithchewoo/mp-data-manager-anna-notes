@@ -45,14 +45,17 @@ fieldset.late-transition.collapse *:not(.related-widget-wrapper):not(.related-wi
   height: auto;
 }
 
-fieldset.late-transition.collapse div.argis-details-table-wrapper {
+fieldset.late-transition.collapse div.argis-details-table-wrapper,
+fieldset.late-transition.collapse div.argis-zoom-table-wrapper {
   max-height: 500px;
   overflow-y: auto;
   max-width: 50vw;
   float: right;
   border: 1px solid #888;
-  margin-top: -50px;
   padding-right: 1rem;
+}
+fieldset.late-transition.collapse div.argis-details-table-wrapper {
+  margin-top: -50px;
 }
 
 fieldset.late-transition.collapse h2 {
@@ -78,4 +81,16 @@ fieldset.late-transition.collapse.collapsed h2 {
 
 a.collapse-toggle {
   display: inline;
+}
+
+
+/*************************************
+ *    Additional Page Layout
+ ************************************/
+.aligned label {
+  padding: unset;
+}
+
+div.form-row>div {
+  margin: 0.2rem;
 }
