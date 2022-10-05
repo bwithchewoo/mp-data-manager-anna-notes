@@ -363,3 +363,14 @@ def get_catalog_records(request):
         # data['hits'] = len(record_ids)
 
     return JsonResponse(data)
+
+
+######################################################
+#           MIGRATION API                            #
+######################################################
+
+def layer_status(request):
+    data = {
+        
+    }
+    return JsonResponse(data)

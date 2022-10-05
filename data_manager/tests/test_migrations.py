@@ -10,9 +10,6 @@ class MigrateAPIQueryTest(TestCase):
     FIXTURE_FILE = os.path.join(TEST_ROOT, 'fixtures', 'data_manager_fixture.json')
     fixtures = [FIXTURE_FILE]
 
-    def setUp(self):
-        self.factory = AsyncRequestFactory()
-
     def test_query_remote_layers(self):
         source_api_url = "/data_manager/migration/"
         get_layers_api = "{}layer_status/".format(source_api_url)

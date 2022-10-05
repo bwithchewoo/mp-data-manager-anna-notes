@@ -20,4 +20,5 @@ urlpatterns = [
     re_path(r'^wms_capabilities', views.wms_request_capabilities),
     re_path(r'^get_layer_catalog_content/(?P<layerID>\d+)/$', views.get_layer_catalog_content),
     re_path(r'^get_catalog_records', views.get_catalog_records),
+    re_path(r'^migration/layer_status', views.layer_status),
 ]
