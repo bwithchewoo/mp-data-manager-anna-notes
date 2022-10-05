@@ -18,3 +18,7 @@ class MigrateAPIQueryTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue('application/json' in response['content-type'])
         data = json.loads(response.content)
+        self.assertTrue('themes' in data.keys())
+        self.assertEqual(len(data['themes'].keys()), 11)
+        self.assertTrue('layers' in data.keys())
+        self.assertEqual(len(data['layers'].keys()), 469)

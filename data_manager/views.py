@@ -371,6 +371,18 @@ def get_catalog_records(request):
 
 def layer_status(request):
     data = {
-        
+        'themes': {},
+        'layers': {}    
     }
+
+    for theme in Theme.all_objects.all().order_by('pk'):
+        data['themes'][theme.pk] = {
+            'name': theme.name,
+            'date_modified': theme.date_modified
+        }
+    for layer in Layer.all_objects.all().order_by('pk'):
+        data['layers'][layer.pk] = {
+            'name': layer.name,
+            'date_modified': layer.date_modified
+        }
     return JsonResponse(data)
