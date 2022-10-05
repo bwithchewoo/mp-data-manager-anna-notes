@@ -65,6 +65,9 @@ class Theme(models.Model, SiteFlags):
     factsheet_thumb = models.CharField(max_length=255, blank=True, null=True)
     factsheet_link = models.CharField(max_length=255, blank=True, null=True)
 
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
     # not really using these atm
     feature_image = models.CharField(max_length=255, blank=True, null=True)
     feature_excerpt = models.TextField(blank=True, null=True)
@@ -293,6 +296,7 @@ class Layer(models.Model, SiteFlags):
     espis_search = models.CharField(max_length=255, blank=True, null=True, default=None, help_text="keyphrase search for ESPIS Link")
     espis_region = models.CharField(max_length=100, blank=True, null=True, default=None, choices=ESPIS_REGION_CHOICES, help_text="Region to search within")
 
+    date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
     minZoom = models.FloatField(blank=True, null=True, default=None, verbose_name="Minimum zoom")
