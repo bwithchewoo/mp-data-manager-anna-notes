@@ -38,8 +38,20 @@ class MigrateMergeTest(TestCase):
         comparison_results = compare_remote_layers(wcoa_dict)
         self.assertTrue('themes' in comparison_results.keys())
         self.assertTrue('layers' in comparison_results.keys())
+        # nearly identical theme
         self.assertEqual(comparison_results['themes']['4']['source'], 'match')
         self.assertTrue(comparison_results['themes']['4']['modified'])
         self.assertEqual(comparison_results['themes']['4']['newest'], 'local')
+        # Theme that only exists on remote
         self.assertEqual(comparison_results['themes']['17']['source'], 'remote')
         self.assertEqual(comparison_results['themes']['17']['modified'], False)
+        # unrelated layers that share an ID. Remote is ~2yrs newer.
+        self.assertEqual(comparison_results['layers']['157']['source'], 'match')
+        self.assertTrue(comparison_results['layers']['157']['modified'])
+        self.assertEqual(comparison_results['layers']['157']['newest'], 'remote')
+        # Layer ID that only exists locally
+        self.assertEqual(comparison_results['layers']['485']['source'], 'local')
+        self.assertEqual(comparison_results['layers']['485']['modified'], False)
+        # Layer ID that only exists remotely
+        self.assertEqual(comparison_results['layers']['784']['source'], 'remote')
+        self.assertEqual(comparison_results['layers']['784']['modified'], False)
