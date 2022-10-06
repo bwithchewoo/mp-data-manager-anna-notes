@@ -366,7 +366,7 @@ def get_catalog_records(request):
 
 
 ######################################################
-#           MIGRATION API                            #
+#           MIGRATION API/Logic                      #
 ######################################################
 
 def layer_status(request):
@@ -386,3 +386,7 @@ def layer_status(request):
             'date_modified': layer.date_modified
         }
     return JsonResponse(data)
+
+def compare_remote_layers(remote_layer_dict):
+    comparison_dict = {}
+    return comparison_dict
