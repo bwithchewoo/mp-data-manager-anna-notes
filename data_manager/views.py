@@ -388,6 +388,7 @@ def layer_status(request):
     return JsonResponse(data)
 
 def compare_remote_layers(remote_layer_dict):
+    from datetime import datetime
     comparison_dict = {
         'themes': {},
         'layers': {}
@@ -403,15 +404,16 @@ def compare_remote_layers(remote_layer_dict):
             'source': 'remote',
             'modified': False,
             'remote_name': theme['name'],
-            'remote_modified': theme['date_modified'],
+            'remote_modified': datetime.strptime("{}+0000".format(theme['date_modified']), '%Y-%m-%dT%H:%M:%S.%fZ%z'),
             'local_name': None,
             'local_modified': None,
             'newest': None,
         }
     for theme in Theme.all_objects.all():
-        if not theme.pk in comparison_dict['themes'].keys():
-            comparison_dict['themes'][theme.pk] = {
-                'id': theme.pk,
+        key = str(theme.pk)
+        if not key in comparison_dict['themes'].keys():
+            comparison_dict['themes'][key] = {
+                'id': key,
                 'source': 'local',
                 'modified': False,
                 'remote_name': None,
@@ -419,23 +421,22 @@ def compare_remote_layers(remote_layer_dict):
                 'newest': None,
             } 
         else:
-            comparison_dict['themes'][theme.pk]['source'] = 'match'
+            comparison_dict['themes'][key]['source'] = 'match'
 
-        comparison_entry = comparison_dict['themes'][theme.pk]
+        comparison_entry = comparison_dict['themes'][key]
 
-        comparison_entry['local_name'] = theme['name']
-        comparison_entry['local_modified'] = theme['date_modified']
+        comparison_entry['local_name'] = theme.name
+        comparison_entry['local_modified'] = theme.date_modified
 
         if comparison_entry['source'] == 'match':
             if not comparison_entry['local_name'] == comparison_entry['remote_name']:
                 comparison_entry['modified'] = True
             if not comparison_entry['local_modified'] == comparison_entry['remote_modified']:
                 comparison_entry['modified'] = True
-                # TODO: interpret timestamps as datetime objects to be compared
                 if comparison_entry['local_modified'] > comparison_entry['remote_modified']:
-                    comparison_entry['newest']: 'local'
-                else:
-                    comparison_entry['newest']: 'remote'
+                    comparison_entry['newest'] = 'local'
+                elif comparison_entry['local_modified'] < comparison_entry['remote_modified']:
+                    comparison_entry['newest'] = 'remote'
 
     
     return comparison_dict

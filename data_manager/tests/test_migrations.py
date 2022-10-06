@@ -32,9 +32,14 @@ class MigrateMergeTest(TestCase):
     def test_compare_remote_layers(self):
         # simulate input from API call to remote: JSON converted to a Dict
         TEST_ROOT = os.path.dirname(os.path.realpath(__file__))
-        with open(os.path.join(TEST_ROOT, 'fixtures', 'wcoa_data_manager_fixture.json'), encoding='utf-8') as wcoa_data_file:
+        with open(os.path.join(TEST_ROOT, 'fixtures', 'wcoa_layer_status_API_response.json'), encoding='utf-8') as wcoa_data_file:
             wcoa_dict = json.loads(wcoa_data_file.read())
 
         comparison_results = compare_remote_layers(wcoa_dict)
         self.assertTrue('themes' in comparison_results.keys())
         self.assertTrue('layers' in comparison_results.keys())
+        self.assertEqual(comparison_results['themes']['4']['source'], 'match')
+        self.assertTrue(comparison_results['themes']['4']['modified'])
+        self.assertEqual(comparison_results['themes']['4']['newest'], 'local')
+        self.assertEqual(comparison_results['themes']['17']['source'], 'remote')
+        self.assertEqual(comparison_results['themes']['17']['modified'], False)
