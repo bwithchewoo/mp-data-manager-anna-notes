@@ -1,3 +1,4 @@
+from importlib.util import source_hash
 from django.conf import settings
 from django.test import TestCase
 from data_manager.models import Layer, Theme, AttributeInfo, LookupInfo, MultilayerAssociation, MultilayerDimension, MultilayerDimensionValue
@@ -23,6 +24,22 @@ class MigrateAPIQueryTest(TestCase):
         self.assertEqual(len(data['themes'].keys()), 11)
         self.assertTrue('layers' in data.keys())
         self.assertEqual(len(data['layers'].keys()), 469)
+
+    def test_query_migration_layer_details(self):
+        self.assertTrue(True)
+        source_api_url = "/data_manager/migration/"
+        post_request_layer_details_api = "{}layer_details/".format(source_api_url)
+        requested_layers = [4, 17, 157, 784]
+        response = self.client.post(post_request_layer_details_api, {'layers': requested_layers})
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('application/json' in response['content-type'])
+        data = json.loads(response.content)
+        self.assertTrue('themes' in data.keys())
+        self.assertTrue('layers' in data.keys())
+        self.assertEqual(len(data['layers'].keys()), len(requested_layers))
+        for key in requested_layers:
+            self.assertTrue(str(key) in data['layers'].keys())
+
 
 class MigrateMergeTest(TestCase):
     TEST_ROOT = os.path.dirname(os.path.realpath(__file__))
@@ -55,3 +72,6 @@ class MigrateMergeTest(TestCase):
         # Layer ID that only exists remotely
         self.assertEqual(comparison_results['layers']['784']['source'], 'remote')
         self.assertEqual(comparison_results['layers']['784']['modified'], False)
+
+    def test_merge_migration_layers(self):
+        self.assertTrue(True)
