@@ -9,6 +9,9 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.admin.models import LogEntry
 from colorfield.fields import ColorField
 # From MARCO/utils.py
+
+import uuid
+
 def get_domain(port=8010):
     try:
         #domain = Site.objects.all()[0].domain
@@ -51,6 +54,7 @@ class SiteFlags(object):#(models.Model):
     preview_site.boolean = True
 
 class Theme(models.Model, SiteFlags):
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     site = models.ManyToManyField(Site)
     display_name = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
@@ -165,6 +169,7 @@ class Layer(models.Model, SiteFlags):
     COLOR_PALETTE.append(("#0000FF", 'blue'))
     COLOR_PALETTE.append(("#FF00FF", 'magenta'))
 
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     site = models.ManyToManyField(Site)
     name = models.CharField(max_length=100)
     order = models.PositiveSmallIntegerField(default=10, blank=True, null=True, help_text='input an integer to determine the priority/order of the layer being displayed (1 being the highest)')
@@ -899,6 +904,7 @@ class Layer(models.Model, SiteFlags):
                 theme.dictCache(site.pk)
 
 class AttributeInfo(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     display_name = models.CharField(max_length=255, blank=True, null=True)
     field_name = models.CharField(max_length=255, blank=True, null=True)
     precision = models.IntegerField(blank=True, null=True)
@@ -932,6 +938,7 @@ class LookupInfo(models.Model):
     COLOR_PALETTE.append(("#0000FF", 'blue'))
     COLOR_PALETTE.append(("#FF00FF", 'magenta'))
 
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     value = models.CharField(max_length=255, blank=True, null=True)
     description = models.CharField(max_length=255, blank=True, null=True, default=None)
     color = ColorField(
@@ -987,6 +994,7 @@ class DataNeed(models.Model):
         return str(self.name)
 
 class MultilayerDimension(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     name = models.CharField(max_length=200, help_text='name to be used for selection in admin tool forms')
     label = models.CharField(max_length=50, help_text='label to be used in mapping tool slider')
     order = models.IntegerField(default=100, help_text='the order in which this dimension will be presented among other dimensions on this layer')
@@ -1016,6 +1024,7 @@ class MultilayerDimension(models.Model):
         super(MultilayerDimension, self).delete(*args, **kwargs)
 
 class MultilayerAssociation(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     name = models.CharField(max_length=200)
     parentLayer = models.ForeignKey(Layer, related_name="parent_layer",
             db_column='parentlayer', on_delete=models.CASCADE)
@@ -1038,6 +1047,7 @@ class MultilayerAssociation(models.Model):
     #     print("Association: %s ---DELETED---" % str(self))
 
 class MultilayerDimensionValue(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     dimension = models.ForeignKey(MultilayerDimension, on_delete=models.CASCADE)
     value = models.CharField(max_length=200, help_text="Actual value of selection")
     label = models.CharField(max_length=50, help_text="Label for this selection seen in mapping tool slider")
