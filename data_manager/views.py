@@ -375,13 +375,13 @@ def layer_status(request):
         'layers': {}    
     }
 
-    for theme in Theme.all_objects.all().order_by('pk'):
-        data['themes'][theme.pk] = {
+    for theme in Theme.all_objects.all().order_by('uuid'):
+        data['themes'][str(theme.uuid)] = {
             'name': theme.name,
             'date_modified': theme.date_modified
         }
-    for layer in Layer.all_objects.all().order_by('pk'):
-        data['layers'][layer.pk] = {
+    for layer in Layer.all_objects.all().order_by('uuid'):
+        data['layers'][str(layer.uuid)] = {
             'name': layer.name,
             'date_modified': layer.date_modified
         }
@@ -410,7 +410,7 @@ def compare_remote_layers(remote_layer_dict):
             'newest': None,
         }
     for theme in Theme.all_objects.all():
-        key = str(theme.pk)
+        key = str(theme.uuid)
         if not key in comparison_dict['themes'].keys():
             comparison_dict['themes'][key] = {
                 'id': key,
@@ -451,7 +451,7 @@ def compare_remote_layers(remote_layer_dict):
             'newest': None,
         }
     for layer in Layer.all_objects.all():
-        key = str(layer.pk)
+        key = str(layer.uuid)
         if not key in comparison_dict['layers'].keys():
             comparison_dict['layers'][key] = {
                 'id': key,
@@ -481,3 +481,25 @@ def compare_remote_layers(remote_layer_dict):
 
     
     return comparison_dict
+
+def migration_layer_details(request):
+    data = {
+        'status': 'Unknown', 
+        'message': 'Unknown',
+        'themes': {},
+        'layers': {},
+    }
+    if request.POST:
+        try:
+            layer_ids = request.POST.getlist('layers')
+            for layer_key in layer_ids:
+                layer = Layer.all_objects.get(uuid=layer_key)
+                data['layers'][layer_key] = layer.toDict
+            
+        except Exception as e:
+            data['status'] = 'Error'
+            data['message'] = str(e)
+            pass
+
+    return JsonResponse(data)
+

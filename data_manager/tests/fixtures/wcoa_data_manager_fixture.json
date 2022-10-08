@@ -19,6 +19,7 @@
   "model": "data_manager.theme",
   "pk": 4,
   "fields": {
+    "uuid": "e3d1deaf-ae76-476d-895a-2573926c7434",
     "display_name": "Biological (OROW)",
     "name": "Biological (OROW)",
     "order": 10,
@@ -45,6 +46,7 @@
   "model": "data_manager.theme",
   "pk": 5,
   "fields": {
+    "uuid": "2bd7f519-360f-4d3f-b6b4-9cf932501e26",
     "display_name": "Human (OROW)",
     "name": "Human (OROW)",
     "order": 10,
@@ -71,6 +73,7 @@
   "model": "data_manager.theme",
   "pk": 6,
   "fields": {
+    "uuid": "32e94d1d-45c1-4b19-be5b-40dc4adb80e7",
     "display_name": "Physical (OROW)",
     "name": "Physical (OROW)",
     "order": 10,
@@ -97,6 +100,7 @@
   "model": "data_manager.theme",
   "pk": 9,
   "fields": {
+    "uuid": "66c589e2-01f6-472a-a86b-37283441f98d",
     "display_name": "companion",
     "name": "companion",
     "order": 10,
@@ -123,6 +127,7 @@
   "model": "data_manager.theme",
   "pk": 10,
   "fields": {
+    "uuid": "871c4c26-e200-4f82-ba68-4d33ad84244f",
     "display_name": "Human",
     "name": "Human",
     "order": 10,
@@ -149,6 +154,7 @@
   "model": "data_manager.theme",
   "pk": 11,
   "fields": {
+    "uuid": "1acc7073-1333-44f6-bb3b-3630e04f23bb",
     "display_name": "Physical",
     "name": "Physical",
     "order": 10,
@@ -175,6 +181,7 @@
   "model": "data_manager.theme",
   "pk": 12,
   "fields": {
+    "uuid": "ae593d0a-d935-4ca6-b331-55e8cdbe5310",
     "display_name": "Priority Issues",
     "name": "wcga_priority_issues",
     "order": 10,
@@ -201,6 +208,7 @@
   "model": "data_manager.theme",
   "pk": 13,
   "fields": {
+    "uuid": "9a7767ed-1405-4ed6-be0b-579a37c40872",
     "display_name": "Subregions",
     "name": "rpb_subregions",
     "order": 10,
@@ -227,6 +235,7 @@
   "model": "data_manager.theme",
   "pk": 14,
   "fields": {
+    "uuid": "f47bbc7a-23ea-406f-90c5-8bb5d9b55253",
     "display_name": "FeatureInfo Testing",
     "name": "featureinfo_testing",
     "order": 99,
@@ -253,6 +262,7 @@
   "model": "data_manager.theme",
   "pk": 15,
   "fields": {
+    "uuid": "7cc2ec53-2479-4295-9f5b-3ed2f6b10054",
     "display_name": "Companion",
     "name": "companion",
     "order": 10,
@@ -279,6 +289,7 @@
   "model": "data_manager.theme",
   "pk": 17,
   "fields": {
+    "uuid": "f31cafee-d517-4993-85d4-1dc3bcbb36d9",
     "display_name": "Biological (WCODP)",
     "name": "Biological (WCODP)",
     "order": 10,
@@ -305,6 +316,7 @@
   "model": "data_manager.attributeinfo",
   "pk": 60,
   "fields": {
+    "uuid": "0b7e20f5-cf26-4255-8b42-07ba800836a6",
     "display_name": "Vulnerability",
     "field_name": "CVI",
     "precision": null,
@@ -316,6 +328,7 @@
   "model": "data_manager.attributeinfo",
   "pk": 61,
   "fields": {
+    "uuid": "008ed59b-6731-41f7-862c-8f0f6d85d864",
     "display_name": "Tide",
     "field_name": "TIDE",
     "precision": null,
@@ -327,6 +340,7 @@
   "model": "data_manager.attributeinfo",
   "pk": 62,
   "fields": {
+    "uuid": "0df48ecb-b10f-4f47-b992-a6dc0df88f5f",
     "display_name": "Waves",
     "field_name": "WAVES",
     "precision": null,
@@ -338,6 +352,7 @@
   "model": "data_manager.attributeinfo",
   "pk": 63,
   "fields": {
+    "uuid": "6760c669-4191-40b7-b949-7123a4ca21da",
     "display_name": "Erosion",
     "field_name": "EROSION",
     "precision": null,
@@ -349,6 +364,7 @@
   "model": "data_manager.attributeinfo",
   "pk": 64,
   "fields": {
+    "uuid": "bbbe7300-d948-408e-ae86-71fc4696e487",
     "display_name": "Sea Level",
     "field_name": "SEALEVEL",
     "precision": null,
@@ -360,6 +376,7 @@
   "model": "data_manager.attributeinfo",
   "pk": 65,
   "fields": {
+    "uuid": "75640d22-2779-4d2f-9045-e88d2162d60d",
     "display_name": "Geomorphology",
     "field_name": "GEOMORPHOL",
     "precision": null,
@@ -371,6 +388,7 @@
   "model": "data_manager.attributeinfo",
   "pk": 66,
   "fields": {
+    "uuid": "a91e7c2a-818b-4da5-877d-40d67ba6c10d",
     "display_name": "Slope",
     "field_name": "SLOPE",
     "precision": null,
@@ -382,6 +400,7 @@
   "model": "data_manager.attributeinfo",
   "pk": 67,
   "fields": {
+    "uuid": "e323dbae-cc01-4437-ab53-64b3f7bf3fe8",
     "display_name": "Speed (m/s)",
     "field_name": "SPEED_90",
     "precision": 3,
@@ -393,6 +412,7 @@
   "model": "data_manager.attributeinfo",
   "pk": 98,
   "fields": {
+    "uuid": "f7e87757-aa4b-41ff-8edf-4587018a29b3",
     "display_name": "Min Wind Speed",
     "field_name": "WINDREV_MI",
     "precision": 1,
@@ -404,6 +424,7 @@
   "model": "data_manager.attributeinfo",
   "pk": 99,
   "fields": {
+    "uuid": "983f7eeb-1acd-496e-bdcb-8ee469f788d9",
     "display_name": "Max Wind Speed",
     "field_name": "WINDREV_MA",
     "precision": 1,
@@ -415,6 +436,7 @@
   "model": "data_manager.attributeinfo",
   "pk": 115,
   "fields": {
+    "uuid": "f9bed297-4f60-40ef-94c4-3aa40efd9c13",
     "display_name": "Number of Shipwrecks",
     "field_name": "FREQUENCY",
     "precision": null,
@@ -426,6 +448,7 @@
   "model": "data_manager.attributeinfo",
   "pk": 120,
   "fields": {
+    "uuid": "5dc2fb43-6159-4d30-a668-545a8b20b194",
     "display_name": "",
     "field_name": "descriptio",
     "precision": null,
@@ -437,6 +460,7 @@
   "model": "data_manager.attributeinfo",
   "pk": 121,
   "fields": {
+    "uuid": "406374bc-e5b3-4cef-a350-3cf168cfba2a",
     "display_name": "Source Date",
     "field_name": "sourceDate",
     "precision": null,
@@ -448,6 +472,7 @@
   "model": "data_manager.attributeinfo",
   "pk": 123,
   "fields": {
+    "uuid": "84a08f43-30e8-408a-84fb-65931be768f4",
     "display_name": "",
     "field_name": "NAME",
     "precision": null,
@@ -459,6 +484,7 @@
   "model": "data_manager.layer",
   "pk": 157,
   "fields": {
+    "uuid": "fb676752-b2d6-4008-aedb-b0ddeeae5249",
     "name": "Unexploded Ordinances (NOAA, 2014)",
     "order": 10,
     "slug_name": "unexploded-ordinances-noaa-2014157",
@@ -549,6 +575,7 @@
   "model": "data_manager.layer",
   "pk": 158,
   "fields": {
+    "uuid": "2445abf0-9fbb-462a-a4f8-1fa29a7a0f97",
     "name": "Oregon Depth Contours (ATSML, 2012)",
     "order": 10,
     "slug_name": "oregon-depth-contours-atsml-2012158",
@@ -635,6 +662,7 @@
   "model": "data_manager.layer",
   "pk": 163,
   "fields": {
+    "uuid": "90b756a3-9067-453a-ba91-953d3d862984",
     "name": "Coastal Vulnerability - OR (USGS, 2001)",
     "order": 10,
     "slug_name": "coastal-vulnerability-or-usgs-2001163",
@@ -723,6 +751,7 @@
   "model": "data_manager.layer",
   "pk": 168,
   "fields": {
+    "uuid": "487580b1-24a2-4ff4-987d-5b412cea5d2f",
     "name": "Critical Habitat Designations (NOAA, 2014)",
     "order": 10,
     "slug_name": "critical-habitat-designations-noaa-2014168",
@@ -813,6 +842,7 @@
   "model": "data_manager.layer",
   "pk": 170,
   "fields": {
+    "uuid": "aee7f643-f5b2-4624-9b23-cdb01ef9aff4",
     "name": "Cargo Vessel Density (NOAA, 2013)",
     "order": 10,
     "slug_name": "cargo-vessel-density-noaa-2013170",
@@ -903,6 +933,7 @@
   "model": "data_manager.layer",
   "pk": 171,
   "fields": {
+    "uuid": "43c1efdb-de2c-415f-a8f5-d8177fa83bda",
     "name": "Aids to Navigation (USCG, 2014)",
     "order": 10,
     "slug_name": "aids-to-navigation-uscg-2014171",
@@ -993,6 +1024,7 @@
   "model": "data_manager.layer",
   "pk": 172,
   "fields": {
+    "uuid": "1550c8d7-c51c-43ad-8e8a-af6cc2087b6a",
     "name": "Submarine Cables (NOAA, 2012)",
     "order": 10,
     "slug_name": "submarine-cables-noaa-2012172",
@@ -1083,6 +1115,7 @@
   "model": "data_manager.layer",
   "pk": 173,
   "fields": {
+    "uuid": "e004254e-888c-4e85-9088-2e27ffffb3b7",
     "name": "Shipping Lanes and Fairways (NOAA, 2013) ",
     "order": 10,
     "slug_name": "shipping-lanes-and-fairways-noaa-2013173",
@@ -1173,6 +1206,7 @@
   "model": "data_manager.layer",
   "pk": 174,
   "fields": {
+    "uuid": "52598241-dd09-45a2-8efb-0d1d3c86b664",
     "name": "U.S Maritime Boundaries (NOAA, 2014)",
     "order": 10,
     "slug_name": "us-maritime-boundaries-noaa-2014174",
@@ -1263,6 +1297,7 @@
   "model": "data_manager.layer",
   "pk": 175,
   "fields": {
+    "uuid": "537c67f6-22a3-4583-b4c1-29388cb93926",
     "name": "MPA Inventory (NOAA, 2013)",
     "order": 10,
     "slug_name": "mpa-inventory-noaa-2013175",
@@ -1353,6 +1388,7 @@
   "model": "data_manager.layer",
   "pk": 178,
   "fields": {
+    "uuid": "21407614-55a8-4056-9b8f-b953e387e712",
     "name": "American Indian Trust Lands (USCB, 2010)",
     "order": 10,
     "slug_name": "american-indian-trust-lands-uscb-2010178",
@@ -1441,6 +1477,7 @@
   "model": "data_manager.layer",
   "pk": 180,
   "fields": {
+    "uuid": "dcbda213-a8ae-44f1-886f-407aecc85952",
     "name": "Counties (USCB, 2010)",
     "order": 10,
     "slug_name": "counties-uscb-2010180",
@@ -1531,6 +1568,7 @@
   "model": "data_manager.layer",
   "pk": 182,
   "fields": {
+    "uuid": "9aca5155-e085-4b02-b1c6-c30969185931",
     "name": "National Hydrography Dataset (USGS, 2014)",
     "order": 10,
     "slug_name": "national-hydrography-dataset-usgs-2014182",
@@ -1619,6 +1657,7 @@
   "model": "data_manager.layer",
   "pk": 184,
   "fields": {
+    "uuid": "323ac0a1-7961-4f43-aef2-07e7411c33a4",
     "name": "Environmental Sensitivity Index - Aggregate (NOAA, 2013)",
     "order": 10,
     "slug_name": "environmental-sensitivity-index-aggregate-noaa-2013184",
@@ -1709,6 +1748,7 @@
   "model": "data_manager.layer",
   "pk": 197,
   "fields": {
+    "uuid": "0d4b71b2-0207-457c-af44-d2aa53be6fc5",
     "name": "Groundfish Essential Fish Habitat (NOAA, 2013)",
     "order": 10,
     "slug_name": "groundfish-essential-fish-habitat-noaa-2013197",
@@ -1797,6 +1837,7 @@
   "model": "data_manager.layer",
   "pk": 198,
   "fields": {
+    "uuid": "9bf8defc-6d68-42a8-95b8-510e9cb35cb0",
     "name": "ESA Critical Habitat Designations (USFWS, XX)",
     "order": 10,
     "slug_name": "esa-critical-habitat-designations-usfws-xx198",
@@ -1885,6 +1926,7 @@
   "model": "data_manager.layer",
   "pk": 200,
   "fields": {
+    "uuid": "95c5834f-2aa8-4642-bb68-a81bcce55580",
     "name": "Ports (USGS, 2001)",
     "order": 10,
     "slug_name": "ports-usgs-2001200",
@@ -1973,6 +2015,7 @@
   "model": "data_manager.layer",
   "pk": 201,
   "fields": {
+    "uuid": "a2c8407b-0162-4f8c-ae31-efc320bd35d7",
     "name": "Streams and Waterbodies (USGS, 2005)",
     "order": 10,
     "slug_name": "streams-and-waterbodies-usgs-2005201",
@@ -2061,6 +2104,7 @@
   "model": "data_manager.layer",
   "pk": 204,
   "fields": {
+    "uuid": "2abafdb1-fb7b-4afa-8ccc-9261981778e7",
     "name": "West Coast EFH Conservation Areas (NOAA, 2016) ",
     "order": 10,
     "slug_name": "west-coast-efh-conservation-areas-noaa-2016204",
@@ -2152,6 +2196,7 @@
   "model": "data_manager.layer",
   "pk": 205,
   "fields": {
+    "uuid": "c98022a3-f801-4b50-ae74-1b7837d19f84",
     "name": "Essential Fish Habitat - Habitat Areas of Particular Concern (NOAA, 2014)",
     "order": 10,
     "slug_name": "essential-fish-habitat-habitat-areas-of-particular-concern-noaa-2014205",
@@ -2243,6 +2288,7 @@
   "model": "data_manager.layer",
   "pk": 206,
   "fields": {
+    "uuid": "4dce00c2-d3e8-4fe8-8ed6-e9778f3ec0c8",
     "name": "MPA Inventory - Fishing Restrictions (NOAA, 2013)",
     "order": 10,
     "slug_name": "mpa-inventory-fishing-restrictions-noaa-2013206",
@@ -2333,6 +2379,7 @@
   "model": "data_manager.layer",
   "pk": 209,
   "fields": {
+    "uuid": "b69d2c30-ecc7-472e-8eca-0cf69e232127",
     "name": "Passenger Vessel Density (NOAA, 2013)",
     "order": 10,
     "slug_name": "passenger-vessel-density-noaa-2013209",
@@ -2423,6 +2470,7 @@
   "model": "data_manager.layer",
   "pk": 210,
   "fields": {
+    "uuid": "1cad2b6c-22f4-4ca8-8475-dd0272e30872",
     "name": "State Marine Life Refuges - CA (CDFW, 2013)",
     "order": 10,
     "slug_name": "state-marine-life-refuges-ca-cdfw-2013210",
@@ -2511,6 +2559,7 @@
   "model": "data_manager.layer",
   "pk": 211,
   "fields": {
+    "uuid": "7459b1ec-4c05-4656-8a60-ea9ca73b0ae7",
     "name": "Tug and Towing Vessel Density (NOAA, 2013)",
     "order": 10,
     "slug_name": "tug-and-towing-vessel-density-noaa-2013211",
@@ -2601,6 +2650,7 @@
   "model": "data_manager.layer",
   "pk": 212,
   "fields": {
+    "uuid": "b9488f53-80ab-4c22-ac38-8827e04778c0",
     "name": "Permitted Discharge Outfalls - CA (NPDES, XX)",
     "order": 10,
     "slug_name": "permitted-discharge-outfalls-ca-npdes-xx212",
@@ -2689,6 +2739,7 @@
   "model": "data_manager.layer",
   "pk": 220,
   "fields": {
+    "uuid": "760f2666-e46c-488d-a01d-1bdfedf47944",
     "name": "Critical Habitat (USFWS, 2014) ",
     "order": 10,
     "slug_name": "critical-habitat-usfws-2014220",
@@ -2777,6 +2828,7 @@
   "model": "data_manager.layer",
   "pk": 223,
   "fields": {
+    "uuid": "ce174aae-f898-4c78-aefb-c24f4391cbd4",
     "name": "Urbanized Areas (USCB, 2010)",
     "order": 10,
     "slug_name": "urbanized-areas-uscb-2010223",
@@ -2867,6 +2919,7 @@
   "model": "data_manager.layer",
   "pk": 224,
   "fields": {
+    "uuid": "9c3eaa22-8851-40c5-aaaf-0b76d49de202",
     "name": "Urban Clusters (USCB, 2010)",
     "order": 10,
     "slug_name": "urban-clusters-uscb-2010224",
@@ -2957,6 +3010,7 @@
   "model": "data_manager.layer",
   "pk": 228,
   "fields": {
+    "uuid": "0ef49864-21ed-4a5c-8123-aa2eb8025801",
     "name": "Oregon Commercial Fishing - SOORC (Ecotrust, 2011)",
     "order": 10,
     "slug_name": "oregon-commercial-fishing-soorc-ecotrust-2011228",
@@ -3047,6 +3101,7 @@
   "model": "data_manager.layer",
   "pk": 232,
   "fields": {
+    "uuid": "06d14357-2a86-499e-9fc0-46376f7031ca",
     "name": "CA Marine Protected Areas (CDFW, 2013)",
     "order": 10,
     "slug_name": "ca-marine-protected-areas-cdfw-2013232",
@@ -3139,6 +3194,7 @@
   "model": "data_manager.layer",
   "pk": 233,
   "fields": {
+    "uuid": "94c419b8-ce52-4118-93e7-dd7ec2c01058",
     "name": "California Areas of Special Biological Significance (CSWRCB, 2005)",
     "order": 10,
     "slug_name": "california-areas-of-special-biological-significance-cswrcb-2005233",
@@ -3229,6 +3285,7 @@
   "model": "data_manager.layer",
   "pk": 234,
   "fields": {
+    "uuid": "da35c4f7-122c-44a9-ab35-a8c75a71b080",
     "name": "National Wildlife Refuges - CA (CDFG, XX)",
     "order": 10,
     "slug_name": "national-wildlife-refuges-ca-cdfg-xx234",
@@ -3317,6 +3374,7 @@
   "model": "data_manager.layer",
   "pk": 235,
   "fields": {
+    "uuid": "b15c2bd6-11a3-4b2f-8f0b-f2c77074c843",
     "name": "California National Parks (CTA, 2010)",
     "order": 10,
     "slug_name": "california-national-parks-cta-2010235",
@@ -3407,6 +3465,7 @@
   "model": "data_manager.layer",
   "pk": 249,
   "fields": {
+    "uuid": "fe980afd-d436-4e39-8fc2-77df4621ff90",
     "name": "Management",
     "order": 10,
     "slug_name": "management249",
@@ -3523,6 +3582,7 @@
   "model": "data_manager.layer",
   "pk": 250,
   "fields": {
+    "uuid": "3831f957-22ad-42a9-aad4-8eeaf9f0210f",
     "name": "Boundaries",
     "order": 10,
     "slug_name": "boundaries250",
@@ -3623,6 +3683,7 @@
   "model": "data_manager.layer",
   "pk": 251,
   "fields": {
+    "uuid": "703397d1-be07-45cc-9f47-5b7ead3a13c0",
     "name": "Infrastructure",
     "order": 10,
     "slug_name": "infrastructure251",
@@ -3725,6 +3786,7 @@
   "model": "data_manager.layer",
   "pk": 252,
   "fields": {
+    "uuid": "ab281b50-2a33-412d-84d8-9510c5b5484a",
     "name": "Economy",
     "order": 10,
     "slug_name": "economy252",
@@ -3835,6 +3897,7 @@
   "model": "data_manager.layer",
   "pk": 253,
   "fields": {
+    "uuid": "eb78c651-81a8-44b3-bbaf-13981cabbccc",
     "name": "Population",
     "order": 10,
     "slug_name": "population253",
@@ -3933,6 +3996,7 @@
   "model": "data_manager.layer",
   "pk": 254,
   "fields": {
+    "uuid": "167521d4-1b2a-4cf7-9016-e4a16245aa87",
     "name": "Species and Habitats",
     "order": 10,
     "slug_name": "species-and-habitats254",
@@ -4032,6 +4096,7 @@
   "model": "data_manager.layer",
   "pk": 256,
   "fields": {
+    "uuid": "0ae05ea3-ad8b-4d6a-b840-8dcb3c9de561",
     "name": "Oceans",
     "order": 10,
     "slug_name": "oceans256",
@@ -4141,6 +4206,7 @@
   "model": "data_manager.layer",
   "pk": 257,
   "fields": {
+    "uuid": "a6f611a8-dc34-4758-b17c-16fa7fd8583e",
     "name": "Land Surface",
     "order": 10,
     "slug_name": "land-surface257",
@@ -4231,6 +4297,7 @@
   "model": "data_manager.layer",
   "pk": 263,
   "fields": {
+    "uuid": "b5388fe9-078a-4269-94df-62db5430e64b",
     "name": "USA Population Density (Esri, 2012)",
     "order": 10,
     "slug_name": "usa-population-density-esri-2012263",
@@ -4321,6 +4388,7 @@
   "model": "data_manager.layer",
   "pk": 265,
   "fields": {
+    "uuid": "e3518abf-1a05-4267-bee1-025dd0b3accc",
     "name": "Bathymetric Contours (NOAA, 2013)",
     "order": 10,
     "slug_name": "bathymetric-contours-noaa-2013265",
@@ -4411,6 +4479,7 @@
   "model": "data_manager.layer",
   "pk": 266,
   "fields": {
+    "uuid": "966d739b-b3ce-47f0-b016-02eddb938d0a",
     "name": "California Ocean Uses Atlas (NOAA, 2014)",
     "order": 10,
     "slug_name": "california-ocean-uses-atlas-noaa-2014266",
@@ -4503,6 +4572,7 @@
   "model": "data_manager.layer",
   "pk": 267,
   "fields": {
+    "uuid": "1a0525aa-5915-4dd5-a1ea-8e79b906706e",
     "name": "Anchorage Areas of the US (NOAA, 2013)",
     "order": 10,
     "slug_name": "anchorage-areas-of-the-us-noaa-2013267",
@@ -4593,6 +4663,7 @@
   "model": "data_manager.layer",
   "pk": 268,
   "fields": {
+    "uuid": "9a3c3028-9def-4d86-8447-ef0ef53710c4",
     "name": "Artificial Reefs (NOAA, 2014)",
     "order": 10,
     "slug_name": "artificial-reefs-noaa-2014268",
@@ -4683,6 +4754,7 @@
   "model": "data_manager.layer",
   "pk": 270,
   "fields": {
+    "uuid": "cbfde145-eb5c-4547-a852-e9347f54783a",
     "name": "Deepwater Ports (NOAA, 2013)",
     "order": 10,
     "slug_name": "deepwater-ports-noaa-2013270",
@@ -4773,6 +4845,7 @@
   "model": "data_manager.layer",
   "pk": 272,
   "fields": {
+    "uuid": "4a104945-e07c-412d-a8b0-6b8b8421113f",
     "name": "Maintained Channels (NOAA, 2013)",
     "order": 10,
     "slug_name": "maintained-channels-noaa-2013272",
@@ -4863,6 +4936,7 @@
   "model": "data_manager.layer",
   "pk": 275,
   "fields": {
+    "uuid": "275ee444-9acb-4edc-9433-1c3fd7913871",
     "name": "Marine Hydrokinetic Projects (NOAA, 2013)",
     "order": 10,
     "slug_name": "marine-hydrokinetic-projects-noaa-2013275",
@@ -4951,6 +5025,7 @@
   "model": "data_manager.layer",
   "pk": 276,
   "fields": {
+    "uuid": "9feb9378-529b-4b41-be7e-b8cf20356617",
     "name": "Wave Resource Potential (DOE, 2011)",
     "order": 10,
     "slug_name": "wave-resource-potential-doe-2011276",
@@ -5041,6 +5116,7 @@
   "model": "data_manager.layer",
   "pk": 277,
   "fields": {
+    "uuid": "2f6a0baf-8359-4161-8809-d9b78fba90c9",
     "name": "Principle Ports (NOAA, 2013)",
     "order": 10,
     "slug_name": "principle-ports-noaa-2013277",
@@ -5131,6 +5207,7 @@
   "model": "data_manager.layer",
   "pk": 278,
   "fields": {
+    "uuid": "8dfaddbf-ae65-4ed8-b90f-dc82088dfd9d",
     "name": "Wind Technology Depth Zones (NOAA, 2013)",
     "order": 10,
     "slug_name": "wind-technology-depth-zones-noaa-2013278",
@@ -5223,6 +5300,7 @@
   "model": "data_manager.layer",
   "pk": 280,
   "fields": {
+    "uuid": "e20007d7-bcf7-4d77-830e-5ed2eb2cf6dc",
     "name": "Other Vessel Density (NOAA, 2012)",
     "order": 10,
     "slug_name": "other-vessel-density-noaa-2012280",
@@ -5311,6 +5389,7 @@
   "model": "data_manager.layer",
   "pk": 281,
   "fields": {
+    "uuid": "8d07a462-d641-4c43-b369-67e3713e1b76",
     "name": "Fishing Vessel Density (NOAA, 2013)",
     "order": 10,
     "slug_name": "fishing-vessel-density-noaa-2013281",
@@ -5401,6 +5480,7 @@
   "model": "data_manager.layer",
   "pk": 282,
   "fields": {
+    "uuid": "bfe9d06e-545a-4684-849c-ac230f1feadc",
     "name": "Pleasure Craft and Sailing Vessel Density (NOAA, 2013)",
     "order": 10,
     "slug_name": "pleasure-craft-and-sailing-vessel-density-noaa-2013282",
@@ -5491,6 +5571,7 @@
   "model": "data_manager.layer",
   "pk": 283,
   "fields": {
+    "uuid": "d8035b00-3f87-4bbb-a3fb-0c7fe8c2bb0d",
     "name": "Tanker Vessel Density (NOAA, 2013)",
     "order": 10,
     "slug_name": "tanker-vessel-density-noaa-2013283",
@@ -5581,6 +5662,7 @@
   "model": "data_manager.layer",
   "pk": 284,
   "fields": {
+    "uuid": "6486923c-15df-420c-b70a-8b060be782d7",
     "name": "All Vessel Density (NOAA, 2013)",
     "order": 10,
     "slug_name": "all-vessel-density-noaa-2013284",
@@ -5671,6 +5753,7 @@
   "model": "data_manager.layer",
   "pk": 285,
   "fields": {
+    "uuid": "e26df5cd-5493-4d17-a252-4538faf2b64e",
     "name": "Wrecks and Obstructions (NOAA, 2013)",
     "order": 10,
     "slug_name": "wrecks-and-obstructions-noaa-2013285",
@@ -5761,6 +5844,7 @@
   "model": "data_manager.layer",
   "pk": 287,
   "fields": {
+    "uuid": "196b6bd2-0129-4914-a68c-cc952fb08e19",
     "name": "Average Annual Wind Potential (EPA, 2011) TEST",
     "order": 10,
     "slug_name": "average-annual-wind-potential-epa-2011-test287",
@@ -5849,6 +5933,7 @@
   "model": "data_manager.layer",
   "pk": 288,
   "fields": {
+    "uuid": "d8d4e9f0-0000-419e-84e8-67def42ef76a",
     "name": "Average Annual Rainfall - Inches (EPA, 2011) TEST",
     "order": 10,
     "slug_name": "average-annual-rainfall-inches-epa-2011-test288",
@@ -5937,6 +6022,7 @@
   "model": "data_manager.layer",
   "pk": 289,
   "fields": {
+    "uuid": "168e41f1-5177-4be6-b951-9e18d59bf7eb",
     "name": "Watershed Boundary Dataset (USGS, 2012)",
     "order": 10,
     "slug_name": "watershed-boundary-dataset-usgs-2012289",
@@ -6027,6 +6113,7 @@
   "model": "data_manager.layer",
   "pk": 294,
   "fields": {
+    "uuid": "9b4c68cd-5a6f-4203-aa19-bfb2e9924414",
     "name": "Outfalls (EPA, 2012)",
     "order": 10,
     "slug_name": "outfalls-epa-2012294",
@@ -6117,6 +6204,7 @@
   "model": "data_manager.layer",
   "pk": 295,
   "fields": {
+    "uuid": "905b5525-2583-40c0-96f6-ce802b02bd8f",
     "name": "Land Cover (EPA, 2014)",
     "order": 10,
     "slug_name": "land-cover-epa-2014295",
@@ -6207,6 +6295,7 @@
   "model": "data_manager.layer",
   "pk": 298,
   "fields": {
+    "uuid": "82c6027f-dde2-43f1-a25e-90337f85e140",
     "name": "Wind Resource Potential (DOE, 2011)",
     "order": 10,
     "slug_name": "wind-resource-potential-doe-2011298",
@@ -6297,6 +6386,7 @@
   "model": "data_manager.layer",
   "pk": 299,
   "fields": {
+    "uuid": "c38bd3a9-8317-4fe1-bc9a-b9b062609dbe",
     "name": "Tidal Resource Potential (DOE, 2011)",
     "order": 10,
     "slug_name": "tidal-resource-potential-doe-2011299",
@@ -6385,6 +6475,7 @@
   "model": "data_manager.layer",
   "pk": 300,
   "fields": {
+    "uuid": "a7d2daaf-d940-4d89-a5d9-1b0ea2f7f3bd",
     "name": "Atmosphere",
     "order": 10,
     "slug_name": "atmosphere300",
@@ -6489,6 +6580,7 @@
   "model": "data_manager.layer",
   "pk": 301,
   "fields": {
+    "uuid": "d7855853-1fa4-45cb-8c9b-22eb068bd42a",
     "name": "Surface Currents (CORDC, 2014)",
     "order": 10,
     "slug_name": "surface-currents-cordc-2014301",
@@ -6577,6 +6669,7 @@
   "model": "data_manager.layer",
   "pk": 302,
   "fields": {
+    "uuid": "ac40e778-ad81-4a99-ac54-5b15bedc5a1c",
     "name": "OA Assets Inventory (IOOS, 2014)",
     "order": 10,
     "slug_name": "oa-assets-inventory-ioos-2014302",
@@ -6667,6 +6760,7 @@
   "model": "data_manager.layer",
   "pk": 303,
   "fields": {
+    "uuid": "a7d9db5f-3f25-43f2-84f0-0402792cb9e7",
     "name": "Oceanographic Moorings (OCNMS, ",
     "order": 10,
     "slug_name": "oceanographic-moorings-ocnms303",
@@ -6753,6 +6847,7 @@
   "model": "data_manager.layer",
   "pk": 304,
   "fields": {
+    "uuid": "f1897022-b973-4dbf-8296-cf2ee425c99c",
     "name": "Foam Policy - Counties (WCGA, 2014)",
     "order": 10,
     "slug_name": "foam-policy-counties-wcga-2014304",
@@ -6843,6 +6938,7 @@
   "model": "data_manager.layer",
   "pk": 305,
   "fields": {
+    "uuid": "6719982b-3322-49f2-bdb4-6df756e72410",
     "name": "Plastic Bag Bans  - Cities (WCGA, 2014)",
     "order": 10,
     "slug_name": "plastic-bag-bans-cities-wcga-2014305",
@@ -6933,6 +7029,7 @@
   "model": "data_manager.layer",
   "pk": 306,
   "fields": {
+    "uuid": "516c8e34-2450-409c-a575-93c24205241b",
     "name": "Plastic Bag Bans - Counties (WCGA, 2014)",
     "order": 10,
     "slug_name": "plastic-bag-bans-counties-wcga-2014306",
@@ -7023,6 +7120,7 @@
   "model": "data_manager.layer",
   "pk": 307,
   "fields": {
+    "uuid": "c655acd9-718c-46ef-b4c0-3202d008ef3e",
     "name": "Foam Policy - Cities (WCGA, 2014)",
     "order": 10,
     "slug_name": "foam-policy-cities-wcga-2014307",
@@ -7113,6 +7211,7 @@
   "model": "data_manager.layer",
   "pk": 310,
   "fields": {
+    "uuid": "25f69ef9-1927-45f6-9620-17d76f081589",
     "name": "Estuaries",
     "order": 10,
     "slug_name": "estuaries310",
@@ -7203,6 +7302,7 @@
   "model": "data_manager.layer",
   "pk": 311,
   "fields": {
+    "uuid": "6d71b7e8-9962-4205-8356-254640b22d22",
     "name": "Marine Debris",
     "order": 10,
     "slug_name": "marine-debris311",
@@ -7296,6 +7396,7 @@
   "model": "data_manager.layer",
   "pk": 314,
   "fields": {
+    "uuid": "62ba3536-8a36-4bc7-b620-1af117eb4239",
     "name": "Ocean Surface Currents - January (CORDC, 2014) ",
     "order": 10,
     "slug_name": "ocean-surface-currents-january-cordc-2014314",
@@ -7386,6 +7487,7 @@
   "model": "data_manager.layer",
   "pk": 316,
   "fields": {
+    "uuid": "32306b36-e1b9-4094-9234-cca5224986fa",
     "name": "Coastal Zone Boundary (NOAA, 2014)",
     "order": 10,
     "slug_name": "coastal-zone-boundary-noaa-2014316",
@@ -7478,6 +7580,7 @@
   "model": "data_manager.layer",
   "pk": 317,
   "fields": {
+    "uuid": "8fb70cdd-1162-496f-a563-3004355cf1e6",
     "name": "High Frequency Radar Ranges (NOAA, 2013)",
     "order": 10,
     "slug_name": "high-frequency-radar-ranges-noaa-2013317",
@@ -7564,6 +7667,7 @@
   "model": "data_manager.layer",
   "pk": 321,
   "fields": {
+    "uuid": "d05429ca-1bb3-4035-99ca-85a9599f48e7",
     "name": "Weather Stations (NOAA, 2013)",
     "order": 10,
     "slug_name": "weather-stations-noaa-2013321",
@@ -7654,6 +7758,7 @@
   "model": "data_manager.layer",
   "pk": 324,
   "fields": {
+    "uuid": "084402ef-0c62-4db2-ba16-d3b3808bbba3",
     "name": "Ecosystems and Functions",
     "order": 10,
     "slug_name": "ecosystems-and-functions324",
@@ -7744,6 +7849,7 @@
   "model": "data_manager.layer",
   "pk": 326,
   "fields": {
+    "uuid": "3c509cc7-3ddc-4618-a377-0e446d9dd67d",
     "name": "California State Parks (CDPR, 2012)",
     "order": 10,
     "slug_name": "california-state-parks-cdpr-2012326",
@@ -7834,6 +7940,7 @@
   "model": "data_manager.layer",
   "pk": 346,
   "fields": {
+    "uuid": "50ce2660-5ca9-4434-ab61-e099a5c97192",
     "name": "California Impaired Waters (CSWCB, 2010)",
     "order": 10,
     "slug_name": "california-impaired-waters-cswcb-2010346",
@@ -7922,6 +8029,7 @@
   "model": "data_manager.layer",
   "pk": 347,
   "fields": {
+    "uuid": "ba0d9a0a-5343-440c-8da6-3a02e9ac46d5",
     "name": "US State and Territorial Boundaries (USCB, 2012)",
     "order": 10,
     "slug_name": "us-state-and-territorial-boundaries-uscb-2012347",
@@ -8012,6 +8120,7 @@
   "model": "data_manager.layer",
   "pk": 350,
   "fields": {
+    "uuid": "b547b598-bea4-49b4-b018-252f8c55b109",
     "name": "Oregon Renewable Energy Test Site (OSU, 2012)",
     "order": 10,
     "slug_name": "oregon-renewable-energy-test-site-osu-2012350",
@@ -8104,6 +8213,7 @@
   "model": "data_manager.layer",
   "pk": 351,
   "fields": {
+    "uuid": "5bd2e475-546f-472d-8887-e1468e8f644a",
     "name": "Oregon Commercial Fishing - Astoria (Ecotrust, 2011)",
     "order": 10,
     "slug_name": "oregon-commercial-fishing-astoria-ecotrust-2011351",
@@ -8194,6 +8304,7 @@
   "model": "data_manager.layer",
   "pk": 352,
   "fields": {
+    "uuid": "c8125d30-6b3e-4aeb-8920-75bae1c6d26a",
     "name": "Oregon Commercial Fishing - Florence (Ecotrust, 2011)",
     "order": 10,
     "slug_name": "oregon-commercial-fishing-florence-ecotrust-2011352",
@@ -8284,6 +8395,7 @@
   "model": "data_manager.layer",
   "pk": 355,
   "fields": {
+    "uuid": "029d2ee8-0e3b-41dd-8684-1d5c2d22ba7e",
     "name": "Oregon Coastal Zone (OCMP, 2001)",
     "order": 10,
     "slug_name": "oregon-coastal-zone-ocmp-2001355",
@@ -8374,6 +8486,7 @@
   "model": "data_manager.layer",
   "pk": 356,
   "fields": {
+    "uuid": "efc704d1-3386-48ba-851c-27c239aa0819",
     "name": "Oregon Statutory Vegetation Line (OCMP, 1967)",
     "order": 10,
     "slug_name": "oregon-statutory-vegetation-line-ocmp-1967356",
@@ -8464,6 +8577,7 @@
   "model": "data_manager.layer",
   "pk": 357,
   "fields": {
+    "uuid": "a2b6bc4a-17c4-4163-9a75-9aec20459e67",
     "name": "Shoreline Classified by ESI (NOAA, 1996)",
     "order": 10,
     "slug_name": "shoreline-classified-by-esi-noaa-1996357",
@@ -8554,6 +8668,7 @@
   "model": "data_manager.layer",
   "pk": 358,
   "fields": {
+    "uuid": "8c700ecd-47e8-474b-934f-e74696221d2f",
     "name": "Oregon Territorial Sea Plan (OCMP, 2013) ",
     "order": 10,
     "slug_name": "oregon-territorial-sea-plan-ocmp-2013358",
@@ -8648,6 +8763,7 @@
   "model": "data_manager.layer",
   "pk": 359,
   "fields": {
+    "uuid": "7418d76e-4378-4fa5-b53f-de14aa161b35",
     "name": "Oregon Submarine Cables (OFCC, 2012)",
     "order": 10,
     "slug_name": "oregon-submarine-cables-ofcc-2012359",
@@ -8738,6 +8854,7 @@
   "model": "data_manager.layer",
   "pk": 361,
   "fields": {
+    "uuid": "5b546655-f223-4257-a8ab-710284ca17ae",
     "name": "Oregon Vulnerability to Sea Level Rise (USGS, 2001)",
     "order": 10,
     "slug_name": "oregon-vulnerability-to-sea-level-rise-usgs-2001361",
@@ -8828,6 +8945,7 @@
   "model": "data_manager.layer",
   "pk": 362,
   "fields": {
+    "uuid": "a5de4509-3495-48c3-a6a7-ba669a1a5085",
     "name": "Oregon Tugboat Towlanes (WSG, 2007) ",
     "order": 10,
     "slug_name": "oregon-tugboat-towlanes-wsg-2007362",
@@ -8918,6 +9036,7 @@
   "model": "data_manager.layer",
   "pk": 363,
   "fields": {
+    "uuid": "19e4ea5d-43e0-4ec3-a5c4-5753c6e302cc",
     "name": "Oregon Offshore Sand, Gravel, and  Shell Deposits (USGS, 1980) ",
     "order": 10,
     "slug_name": "oregon-offshore-sand-gravel-and-shell-deposits-usgs-1980363",
@@ -9008,6 +9127,7 @@
   "model": "data_manager.layer",
   "pk": 364,
   "fields": {
+    "uuid": "c6ace9cd-c757-43c3-a92b-e47744a3e911",
     "name": "Oregon Lithology Map (ATSML, 2008)",
     "order": 10,
     "slug_name": "oregon-lithology-map-atsml-2008364",
@@ -9098,6 +9218,7 @@
   "model": "data_manager.layer",
   "pk": 367,
   "fields": {
+    "uuid": "7b165fb8-26ed-4658-af8e-9011dc3ed9b1",
     "name": "Oregon Commercial Fishing - Brookings (Ecotrust, 2011)",
     "order": 10,
     "slug_name": "oregon-commercial-fishing-brookings-ecotrust-2011367",
@@ -9188,6 +9309,7 @@
   "model": "data_manager.layer",
   "pk": 368,
   "fields": {
+    "uuid": "c76601be-5fcc-43e8-b4a5-ce6abec61e2a",
     "name": "USA Population Change (Esri, 2010)",
     "order": 10,
     "slug_name": "usa-population-change-esri-2010368",
@@ -9278,6 +9400,7 @@
   "model": "data_manager.layer",
   "pk": 369,
   "fields": {
+    "uuid": "6b519d93-b07c-4dd5-803f-e23d2a82b97d",
     "name": "USA Population Growth Rate (Esri, 2010)",
     "order": 10,
     "slug_name": "usa-population-growth-rate-esri-2010369",
@@ -9368,6 +9491,7 @@
   "model": "data_manager.layer",
   "pk": 370,
   "fields": {
+    "uuid": "ba7385f3-2ca7-44c6-b0db-3452dea0adfe",
     "name": "USA Population Projected Growth Rate (Esri, 2010)",
     "order": 10,
     "slug_name": "usa-population-projected-growth-rate-esri-2010370",
@@ -9458,6 +9582,7 @@
   "model": "data_manager.layer",
   "pk": 371,
   "fields": {
+    "uuid": "6197d0eb-50c7-4a66-9aae-97d282a702c2",
     "name": "USA Recent Population Growth (Esri, 2010)",
     "order": 10,
     "slug_name": "usa-recent-population-growth-esri-2010371",
@@ -9548,6 +9673,7 @@
   "model": "data_manager.layer",
   "pk": 372,
   "fields": {
+    "uuid": "658a695c-4a82-42f8-a23d-0a765fd5f840",
     "name": "USA Social Vulnerability (Esri, 2013)",
     "order": 10,
     "slug_name": "usa-social-vulnerability-esri-2013372",
@@ -9638,6 +9764,7 @@
   "model": "data_manager.layer",
   "pk": 375,
   "fields": {
+    "uuid": "1d06d23f-c47c-4673-86fb-848190e87e37",
     "name": "Coastal Energy Facilities (NOAA, 2014)",
     "order": 10,
     "slug_name": "coastal-energy-facilities-noaa-2014375",
@@ -9730,6 +9857,7 @@
   "model": "data_manager.layer",
   "pk": 376,
   "fields": {
+    "uuid": "164080ea-7043-4302-bd64-26f797879978",
     "name": "Tidal Resource Potential - Mean Power Density (DOE, 2011)",
     "order": 10,
     "slug_name": "tidal-resource-potential-mean-power-density-doe-2011376",
@@ -9820,6 +9948,7 @@
   "model": "data_manager.layer",
   "pk": 377,
   "fields": {
+    "uuid": "d8a63963-78dd-4fc7-8c3e-cb3f724b1243",
     "name": "Weather Radar Impact Zones (NOAA, 2012)",
     "order": 10,
     "slug_name": "weather-radar-impact-zones-noaa-2012377",
@@ -9910,6 +10039,7 @@
   "model": "data_manager.layer",
   "pk": 379,
   "fields": {
+    "uuid": "2cb64c40-edc9-424b-8e91-27bbc845004b",
     "name": "Environmental Sensitivity Index - Cartographic (NOAA, 2004)",
     "order": 10,
     "slug_name": "environmental-sensitivity-index-cartographic-noaa-2004379",
@@ -10000,6 +10130,7 @@
   "model": "data_manager.layer",
   "pk": 381,
   "fields": {
+    "uuid": "10adbf83-f020-4b4d-ab2a-cc8be806980d",
     "name": "Environmental Sensitivity Index - Shoreline (NOAA, 2013)",
     "order": 10,
     "slug_name": "environmental-sensitivity-index-shoreline-noaa-2013381",
@@ -10090,6 +10221,7 @@
   "model": "data_manager.layer",
   "pk": 382,
   "fields": {
+    "uuid": "12805ea2-040f-4a3f-895e-47dc3c8379e0",
     "name": "Environmental Sensitivity Index - Most Sensitive (NOAA, 2013)",
     "order": 10,
     "slug_name": "environmental-sensitivity-index-most-sensitive-noaa-2013382",
@@ -10180,6 +10312,7 @@
   "model": "data_manager.layer",
   "pk": 383,
   "fields": {
+    "uuid": "41ad3c2f-6be9-4858-9bfa-b4fa7dab4668",
     "name": "Estuarine Bathymetry (NOAA, 2013)",
     "order": 10,
     "slug_name": "estuarine-bathymetry-noaa-2013383",
@@ -10270,6 +10403,7 @@
   "model": "data_manager.layer",
   "pk": 384,
   "fields": {
+    "uuid": "2af72cea-6c53-46bd-b0e6-f224a4ed63d2",
     "name": "Precautionary Areas (NOAA, 2001)",
     "order": 10,
     "slug_name": "precautionary-areas-noaa-2001384",
@@ -10360,6 +10494,7 @@
   "model": "data_manager.layer",
   "pk": 385,
   "fields": {
+    "uuid": "bf47fbb7-5d15-4f6a-8aac-a4f18e94929f",
     "name": "Disposal Areas (NOAA, 2001)",
     "order": 10,
     "slug_name": "disposal-areas-noaa-2001385",
@@ -10450,6 +10585,7 @@
   "model": "data_manager.layer",
   "pk": 386,
   "fields": {
+    "uuid": "4a04fa0d-965b-45a4-826d-13c6d7c54bd1",
     "name": "Raster Nautical Charts (NOAA, 2014)",
     "order": 10,
     "slug_name": "raster-nautical-charts-noaa-2014386",
@@ -10540,6 +10676,7 @@
   "model": "data_manager.layer",
   "pk": 389,
   "fields": {
+    "uuid": "723c9663-549e-498f-8af1-e0aad8745c91",
     "name": "Seafloor Lithology (ATSML, 2014)",
     "order": 10,
     "slug_name": "seafloor-lithology-atsml-2014389",
@@ -10630,6 +10767,7 @@
   "model": "data_manager.layer",
   "pk": 390,
   "fields": {
+    "uuid": "69a3e20e-8f53-400e-9e89-c7d7653d454e",
     "name": "Military Installations (USCB, 2010)",
     "order": 10,
     "slug_name": "military-installations-uscb-2010390",
@@ -10720,6 +10858,7 @@
   "model": "data_manager.layer",
   "pk": 391,
   "fields": {
+    "uuid": "3b261729-91be-4edc-8bf4-f1d9d611ad98",
     "name": "US Census Tracts (USCB, 2010)",
     "order": 10,
     "slug_name": "us-census-tracts-uscb-2010391",
@@ -10810,6 +10949,7 @@
   "model": "data_manager.layer",
   "pk": 392,
   "fields": {
+    "uuid": "35658dc0-1b3d-462e-b49b-702d23ee719f",
     "name": "Ocean Surface Currents - March (CORDC, 2014) ",
     "order": 10,
     "slug_name": "ocean-surface-currents-march-cordc-2014392",
@@ -10900,6 +11040,7 @@
   "model": "data_manager.layer",
   "pk": 393,
   "fields": {
+    "uuid": "4bb6ffec-128e-475d-a245-31d1422ff37b",
     "name": "Ocean Surface Currents - June (CORDC, 2014) ",
     "order": 10,
     "slug_name": "ocean-surface-currents-june-cordc-2014393",
@@ -10990,6 +11131,7 @@
   "model": "data_manager.layer",
   "pk": 394,
   "fields": {
+    "uuid": "1c19bc98-e214-4f76-a865-8883f4965ad2",
     "name": "Ocean Surface Currents - September (CORDC, 2014) ",
     "order": 10,
     "slug_name": "ocean-surface-currents-september-cordc-2014394",
@@ -11080,6 +11222,7 @@
   "model": "data_manager.layer",
   "pk": 396,
   "fields": {
+    "uuid": "09ee80f5-8533-4ebf-bb3a-65a1085d41cd",
     "name": "Monthly Averaged Winds - January (COAMPS, 2014) ",
     "order": 10,
     "slug_name": "monthly-averaged-winds-january-coamps-2014396",
@@ -11170,6 +11313,7 @@
   "model": "data_manager.layer",
   "pk": 397,
   "fields": {
+    "uuid": "4abea76b-bf13-4a6a-922a-cff495c39dca",
     "name": "Monthly Averaged Winds - March (COAMPS, 2014) ",
     "order": 10,
     "slug_name": "monthly-averaged-winds-march-coamps-2014397",
@@ -11260,6 +11404,7 @@
   "model": "data_manager.layer",
   "pk": 398,
   "fields": {
+    "uuid": "a99f6640-6a27-4600-ad6f-ad2f8de26c79",
     "name": "Monthly Averaged Winds - June (COAMPS, 2014) ",
     "order": 10,
     "slug_name": "monthly-averaged-winds-june-coamps-2014398",
@@ -11350,6 +11495,7 @@
   "model": "data_manager.layer",
   "pk": 399,
   "fields": {
+    "uuid": "fee00cd5-9496-405b-a744-8e3020850d95",
     "name": "Monthly Averaged Winds - August (COAMPS, 2014) ",
     "order": 10,
     "slug_name": "monthly-averaged-winds-august-coamps-2014399",
@@ -11440,6 +11586,7 @@
   "model": "data_manager.layer",
   "pk": 400,
   "fields": {
+    "uuid": "ab4e2354-5c97-4f8f-8e94-6a1804c21849",
     "name": "Coastal Vulnerability Index (USGS, 2011)",
     "order": 10,
     "slug_name": "coastal-vulnerability-index-usgs-2011400",
@@ -11532,6 +11679,7 @@
   "model": "data_manager.layer",
   "pk": 401,
   "fields": {
+    "uuid": "7d537218-d6f5-420e-924f-67ff52ff9b03",
     "name": "Sidescan SONAR Mosaic (USGS, 2010)",
     "order": 10,
     "slug_name": "sidescan-sonar-mosaic-usgs-2010401",
@@ -11622,6 +11770,7 @@
   "model": "data_manager.layer",
   "pk": 402,
   "fields": {
+    "uuid": "ff6614b2-92cf-4fab-8829-e38a128fbdfe",
     "name": "Seafloor Sediment - USSeabed (USGS, 2011)",
     "order": 10,
     "slug_name": "seafloor-sediment-usseabed-usgs-2011402",
@@ -11712,6 +11861,7 @@
   "model": "data_manager.layer",
   "pk": 403,
   "fields": {
+    "uuid": "72d007a4-ff58-4528-a53b-6d17940cfb23",
     "name": "Sea Level Rise",
     "order": 10,
     "slug_name": "sea-level-rise403",
@@ -11802,6 +11952,7 @@
   "model": "data_manager.layer",
   "pk": 405,
   "fields": {
+    "uuid": "f341930e-4e62-43dd-aa84-e6bfc6379a7e",
     "name": "California Long Term Shoreline Change Rates (USGS, 2011)",
     "order": 10,
     "slug_name": "california-long-term-shoreline-change-rates-usgs-2011405",
@@ -11892,6 +12043,7 @@
   "model": "data_manager.layer",
   "pk": 406,
   "fields": {
+    "uuid": "2043d63a-de28-4457-abe4-4a2299bcefb4",
     "name": "California Shoreline Change Baseline (USGS, 2011)",
     "order": 10,
     "slug_name": "california-shoreline-change-baseline-usgs-2011406",
@@ -11982,6 +12134,7 @@
   "model": "data_manager.layer",
   "pk": 407,
   "fields": {
+    "uuid": "fe238ea8-4c32-4460-bcee-3045ad179d0e",
     "name": "California Short Term Shoreline Change Rates (USGS, 2011)",
     "order": 10,
     "slug_name": "california-short-term-shoreline-change-rates-usgs-2011407",
@@ -12072,6 +12225,7 @@
   "model": "data_manager.layer",
   "pk": 408,
   "fields": {
+    "uuid": "806087cc-600b-4456-9e9f-7776a82afc22",
     "name": "California Historic Shoreline (USGS, 2011)",
     "order": 10,
     "slug_name": "california-historic-shoreline-usgs-2011408",
@@ -12162,6 +12316,7 @@
   "model": "data_manager.layer",
   "pk": 410,
   "fields": {
+    "uuid": "09e5ad8c-ab8c-4a68-a845-8974044dda93",
     "name": "Danger Zones and Restricted Areas (NOAA, 2012)",
     "order": 10,
     "slug_name": "danger-zones-and-restricted-areas-noaa-2012410",
@@ -12252,6 +12407,7 @@
   "model": "data_manager.layer",
   "pk": 411,
   "fields": {
+    "uuid": "6a73b33b-2c25-42cc-b025-6a892688635e",
     "name": "Undersea Place Names (NOAA, 2014)",
     "order": 10,
     "slug_name": "undersea-place-names-noaa-2014411",
@@ -12342,6 +12498,7 @@
   "model": "data_manager.layer",
   "pk": 426,
   "fields": {
+    "uuid": "8adba1d8-5290-49b5-ac45-2583e5c61ad9",
     "name": "Blue Whale, Pacific Summer ",
     "order": 10,
     "slug_name": "blue-whale-pacific-summer426",
@@ -12432,6 +12589,7 @@
   "model": "data_manager.layer",
   "pk": 427,
   "fields": {
+    "uuid": "56f66fe0-d651-4ba5-ad30-22da7e79e894",
     "name": "Fin Whale, Pacific Summer ",
     "order": 10,
     "slug_name": "fin-whale-pacific-summer427",
@@ -12522,6 +12680,7 @@
   "model": "data_manager.layer",
   "pk": 428,
   "fields": {
+    "uuid": "e78c3950-22b3-476f-b1c7-d3c27a2f0193",
     "name": "Humpback Whale, Pacific Summer",
     "order": 10,
     "slug_name": "humpback-whale-pacific-summer428",
@@ -12612,6 +12771,7 @@
   "model": "data_manager.layer",
   "pk": 429,
   "fields": {
+    "uuid": "98b8b083-4316-4ebd-9985-1399c9bd9f53",
     "name": "Sperm Whale, Pacific Summer",
     "order": 10,
     "slug_name": "sperm-whale-pacific-summer429",
@@ -12702,6 +12862,7 @@
   "model": "data_manager.layer",
   "pk": 430,
   "fields": {
+    "uuid": "07b56e68-5230-4cae-afe1-00e2f9abc998",
     "name": "COAMPS Ground and Sea Surface Temperature, 4km (Navy, 2015)",
     "order": 10,
     "slug_name": "coamps-ground-and-sea-surface-temperature-4km-navy-2015430",
@@ -12792,6 +12953,7 @@
   "model": "data_manager.layer",
   "pk": 441,
   "fields": {
+    "uuid": "7900b69d-204c-4476-9eb9-30d4774395b7",
     "name": "COAMPS Air Pressure, 4km (Navy, 2015)",
     "order": 10,
     "slug_name": "coamps-air-pressure-4km-navy-2015441",
@@ -12882,6 +13044,7 @@
   "model": "data_manager.layer",
   "pk": 442,
   "fields": {
+    "uuid": "d55f3598-8642-4e12-9202-eb8a6e1f9dfe",
     "name": "COAMPS Air Temperature, 2m (Navy, 2015)",
     "order": 10,
     "slug_name": "coamps-air-temperature-2m-navy-2015442",
@@ -12972,6 +13135,7 @@
   "model": "data_manager.layer",
   "pk": 443,
   "fields": {
+    "uuid": "80a20510-1a22-4ebd-ba93-f34b645f5394",
     "name": "COAMPS Relative Humidity (Navy, 2015)",
     "order": 10,
     "slug_name": "coamps-relative-humidity-navy-2015443",
@@ -13062,6 +13226,7 @@
   "model": "data_manager.layer",
   "pk": 445,
   "fields": {
+    "uuid": "5e1eb180-d008-439e-b4c0-14ad0f21e3fd",
     "name": "COAMPS Solar Radiation, 4km (Navy, 2015)",
     "order": 10,
     "slug_name": "coamps-solar-radiation-4km-navy-2015445",
@@ -13152,6 +13317,7 @@
   "model": "data_manager.layer",
   "pk": 446,
   "fields": {
+    "uuid": "e0dae13f-8d30-45ef-97cf-48af23b80755",
     "name": "COAMPS Visibility, 4km (Navy, 2015)",
     "order": 10,
     "slug_name": "coamps-visibility-4km-navy-2015446",
@@ -13242,6 +13408,7 @@
   "model": "data_manager.layer",
   "pk": 447,
   "fields": {
+    "uuid": "a8054791-9d67-4c61-95d3-b083705fe17e",
     "name": "COAMPS Historic Air Temperature, 2m (Navy, 2013)",
     "order": 10,
     "slug_name": "coamps-historic-air-temperature-2m-navy-2013447",
@@ -13332,6 +13499,7 @@
   "model": "data_manager.layer",
   "pk": 448,
   "fields": {
+    "uuid": "9ce95b81-cbe8-4c18-a9cf-b8784317bd2d",
     "name": "COAMPS Historic Ground and Sea Surface Temperature, 3km (Navy, 2013)",
     "order": 10,
     "slug_name": "coamps-historic-ground-and-sea-surface-temperature-3km-navy-2013448",
@@ -13422,6 +13590,7 @@
   "model": "data_manager.layer",
   "pk": 449,
   "fields": {
+    "uuid": "98db3e88-f90b-41de-ab22-3a73eadd554a",
     "name": "COAMPS Historic Wind Velocity, 3km (Navy, 2015)",
     "order": 10,
     "slug_name": "coamps-historic-wind-velocity-3km-navy-2015449",
@@ -13512,6 +13681,7 @@
   "model": "data_manager.layer",
   "pk": 451,
   "fields": {
+    "uuid": "2d7ab708-c9d1-4e5a-ac93-8f28e649acf8",
     "name": "Surface Temperature (NCEP, 2015)",
     "order": 10,
     "slug_name": "surface-temperature-ncep-2015451",
@@ -13602,6 +13772,7 @@
   "model": "data_manager.layer",
   "pk": 453,
   "fields": {
+    "uuid": "b57a36fd-7441-4b9f-8aa7-3649e5d11e50",
     "name": "NCOM Surface Velocity (Navy, 2014)",
     "order": 10,
     "slug_name": "ncom-surface-velocity-navy-2014453",
@@ -13692,6 +13863,7 @@
   "model": "data_manager.layer",
   "pk": 454,
   "fields": {
+    "uuid": "538999e8-faa9-4744-a032-ac6302eb5b9f",
     "name": "Sea Surface Temperature (NASA, 2013)",
     "order": 10,
     "slug_name": "sea-surface-temperature-nasa-2013454",
@@ -13782,6 +13954,7 @@
   "model": "data_manager.layer",
   "pk": 455,
   "fields": {
+    "uuid": "9c1fbc9d-c8b3-4dcf-a56e-5bb70d1e9d63",
     "name": "tEST SLR ",
     "order": 10,
     "slug_name": "test-slr455",
@@ -13868,6 +14041,7 @@
   "model": "data_manager.layer",
   "pk": 456,
   "fields": {
+    "uuid": "539f7a82-cf14-4848-ac82-2f9fc5d8c0d3",
     "name": "TEST SLR 3ft",
     "order": 10,
     "slug_name": "test-slr-3ft456",
@@ -13954,6 +14128,7 @@
   "model": "data_manager.layer",
   "pk": 457,
   "fields": {
+    "uuid": "4b6224ad-ae9a-451b-bb8d-72f9b9911a41",
     "name": "TEST SLR 6FT",
     "order": 10,
     "slug_name": "test-slr-6ft457",
@@ -14040,6 +14215,7 @@
   "model": "data_manager.layer",
   "pk": 458,
   "fields": {
+    "uuid": "709d1f19-20f9-43d4-bb68-6a2ef6d90dc6",
     "name": "Seagrasses (NOAA, 2015)",
     "order": 10,
     "slug_name": "seagrasses-noaa-2015458",
@@ -14130,6 +14306,7 @@
   "model": "data_manager.layer",
   "pk": 460,
   "fields": {
+    "uuid": "596cd294-b415-4885-9d0e-aa389a2326ee",
     "name": "Renewable Ocean Energy",
     "order": 10,
     "slug_name": "renewable-ocean-energy460",
@@ -14229,6 +14406,7 @@
   "model": "data_manager.layer",
   "pk": 461,
   "fields": {
+    "uuid": "71dff8d0-54ba-44d9-a0bf-1f5341c1cddc",
     "name": "Flood Hazard Zones (FEMA, 2015)",
     "order": 10,
     "slug_name": "flood-hazard-zones-fema-2015461",
@@ -14319,6 +14497,7 @@
   "model": "data_manager.layer",
   "pk": 462,
   "fields": {
+    "uuid": "58df8c64-83c3-405b-bb73-29efa3b20c5e",
     "name": "Flood Hazard Zones 2 (FEMA, 2015)",
     "order": 10,
     "slug_name": "flood-hazard-zones-2-fema-2015462",
@@ -14409,6 +14588,7 @@
   "model": "data_manager.layer",
   "pk": 463,
   "fields": {
+    "uuid": "8b502e59-2bb0-417a-a30a-07072c432f1a",
     "name": "OR and WA Ocean Uses Atlas (NOAA, 2015)",
     "order": 10,
     "slug_name": "or-and-wa-ocean-uses-atlas-noaa-2015463",
@@ -14499,6 +14679,7 @@
   "model": "data_manager.layer",
   "pk": 464,
   "fields": {
+    "uuid": "7547b750-7d28-4f1b-9fb1-880cf9f7a688",
     "name": "Commercial Fishery Closure Areas (WCODN, 2015)",
     "order": 10,
     "slug_name": "commercial-fishery-closure-areas-wcodn-2015464",
@@ -14589,6 +14770,7 @@
   "model": "data_manager.layer",
   "pk": 465,
   "fields": {
+    "uuid": "0af405e8-fb7d-458d-947c-176faa03655a",
     "name": "Recreational Fishery Closures (WCODN, 2015)",
     "order": 10,
     "slug_name": "recreational-fishery-closures-wcodn-2015465",
@@ -14679,6 +14861,7 @@
   "model": "data_manager.layer",
   "pk": 466,
   "fields": {
+    "uuid": "38263a11-2472-4d7f-ba75-e841c7ff3126",
     "name": "Rockfish Conservation Areas (WCODN, 2015)",
     "order": 10,
     "slug_name": "rockfish-conservation-areas-wcodn-2015466",
@@ -14769,6 +14952,7 @@
   "model": "data_manager.layer",
   "pk": 470,
   "fields": {
+    "uuid": "66f3a906-6f8b-4ce0-9a08-9f6f7f2535ec",
     "name": "OCS Withdrawal Areas (BOEM 2017)",
     "order": 10,
     "slug_name": "ocs-withdrawal-areas-boem-2017470",
@@ -14859,6 +15043,7 @@
   "model": "data_manager.layer",
   "pk": 472,
   "fields": {
+    "uuid": "0229f63e-15ec-488a-b6ce-1dbe8c2955b9",
     "name": "OCS Planning Areas (BOEM 2003)",
     "order": 10,
     "slug_name": "ocs-planning-areas-boem-2003472",
@@ -14949,6 +15134,7 @@
   "model": "data_manager.layer",
   "pk": 473,
   "fields": {
+    "uuid": "c43247b2-79b3-49f1-985c-efee43cf388a",
     "name": "Pacific Pipelines (BOEM 2007)",
     "order": 10,
     "slug_name": "pacific-pipelines-boem-2007473",
@@ -15039,6 +15225,7 @@
   "model": "data_manager.layer",
   "pk": 475,
   "fields": {
+    "uuid": "384390f8-4337-4dae-b05f-b466f7a86301",
     "name": "West Coast Littoral Cells - Shoreline (WCODN, 2015)",
     "order": 10,
     "slug_name": "west-coast-littoral-cells-shoreline-wcodn-2015475",
@@ -15129,6 +15316,7 @@
   "model": "data_manager.layer",
   "pk": 476,
   "fields": {
+    "uuid": "06e89ee0-91c2-4c70-a6ac-8dc8917039d5",
     "name": "West Coast Littoral Cells - Polygon (WCODN, 2015)",
     "order": 10,
     "slug_name": "west-coast-littoral-cells-polygon-wcodn-2015476",
@@ -15219,6 +15407,7 @@
   "model": "data_manager.layer",
   "pk": 477,
   "fields": {
+    "uuid": "671b245b-d1e7-48db-8129-085750059dcb",
     "name": "DOD Offshore Wind Mission Compatibility Assessments (BOEM, 2014)",
     "order": 10,
     "slug_name": "dod-offshore-wind-mission-compatibility-assessments-boem-2014477",
@@ -15309,6 +15498,7 @@
   "model": "data_manager.layer",
   "pk": 478,
   "fields": {
+    "uuid": "62d9f02c-8fa5-4388-865d-9f1255aaef25",
     "name": "National Marine Sanctuaries (NOAA, 2015)",
     "order": 10,
     "slug_name": "national-marine-sanctuaries-noaa-2015478",
@@ -15399,6 +15589,7 @@
   "model": "data_manager.layer",
   "pk": 479,
   "fields": {
+    "uuid": "c6c06bce-491a-4008-a500-bbe5aa43971d",
     "name": "Wind Planning Areas (BOEM)",
     "order": 10,
     "slug_name": "wind-planning-areas-boem479",
@@ -15489,6 +15680,7 @@
   "model": "data_manager.layer",
   "pk": 480,
   "fields": {
+    "uuid": "9f2be7c2-3fe8-40c8-8774-b33144f559d6",
     "name": "Permitted Marine Hydrokinetic Projects (NOAA/FERC 2016)",
     "order": 10,
     "slug_name": "permitted-marine-hydrokinetic-projects-noaaferc-2016480",
@@ -15581,6 +15773,7 @@
   "model": "data_manager.layer",
   "pk": 481,
   "fields": {
+    "uuid": "de9bb853-038e-4a40-b192-52af1c96390c",
     "name": "Marine Hydrokinetic Planning Areas (BOEM, 2016)",
     "order": 10,
     "slug_name": "marine-hydrokinetic-planning-areas-boem-2016481",
@@ -15671,6 +15864,7 @@
   "model": "data_manager.layer",
   "pk": 482,
   "fields": {
+    "uuid": "4cd3fe8e-3f98-48a2-bbe2-d61b3f83540a",
     "name": "Washington",
     "order": 10,
     "slug_name": "washington482",
@@ -15765,6 +15959,7 @@
   "model": "data_manager.layer",
   "pk": 483,
   "fields": {
+    "uuid": "a86c6885-8e36-41d2-9c07-95359cf80ca6",
     "name": "Oregon / Northern California",
     "order": 10,
     "slug_name": "oregon-northern-california483",
@@ -15858,6 +16053,7 @@
   "model": "data_manager.layer",
   "pk": 486,
   "fields": {
+    "uuid": "d51a9a1c-992f-4d31-8e7d-ce7093489ffe",
     "name": "OR Marine Reserves and MPAs (ODFW, 2012)",
     "order": 10,
     "slug_name": "or-marine-reserves-and-mpas-odfw-2012486",
@@ -15948,6 +16144,7 @@
   "model": "data_manager.layer",
   "pk": 487,
   "fields": {
+    "uuid": "9e300c40-63af-499e-9c28-cc8bf242503f",
     "name": "WA Northern Sea Otter Summer Concentrations (WDFW)",
     "order": 10,
     "slug_name": "wa-northern-sea-otter-summer-concentrations-wdfw487",
@@ -16040,6 +16237,7 @@
   "model": "data_manager.layer",
   "pk": 488,
   "fields": {
+    "uuid": "abacbb4a-829b-4913-b405-937fcb024c64",
     "name": "WA Commercial Groundfish Fishing Effort (WDFW, 2015)",
     "order": 10,
     "slug_name": "wa-commercial-groundfish-fishing-effort-wdfw-2015488",
@@ -16132,6 +16330,7 @@
   "model": "data_manager.layer",
   "pk": 489,
   "fields": {
+    "uuid": "1907fce8-4a20-4a03-8a8f-06b4335bb458",
     "name": "WA Recreational Salmon Fishing Effort (WDFW, 2015)",
     "order": 10,
     "slug_name": "wa-recreational-salmon-fishing-effort-wdfw-2015489",
@@ -16222,6 +16421,7 @@
   "model": "data_manager.layer",
   "pk": 490,
   "fields": {
+    "uuid": "aea15fb8-f68d-4bcd-ac62-4f9573efe380",
     "name": "WA All Recreational Activities (Surfrider, 2015)",
     "order": 10,
     "slug_name": "wa-all-recreational-activities-surfrider-2015490",
@@ -16312,6 +16512,7 @@
   "model": "data_manager.layer",
   "pk": 491,
   "fields": {
+    "uuid": "f7bc246c-3805-406e-a30f-f1aef94fac16",
     "name": "WA Tanker Ship Transits (WAMSP, 2013-2014)",
     "order": 10,
     "slug_name": "wa-tanker-ship-transits-wamsp-2013-2014491",
@@ -16402,6 +16603,7 @@
   "model": "data_manager.layer",
   "pk": 492,
   "fields": {
+    "uuid": "988262c6-b400-4714-9292-4ce79548ba9c",
     "name": "(WMST IMG) SST Climatology August",
     "order": 1,
     "slug_name": "wmst-img-sst-climatology-august492",
@@ -16492,6 +16694,7 @@
   "model": "data_manager.layer",
   "pk": 493,
   "fields": {
+    "uuid": "5bc86616-c2e8-4ac5-a7d6-44e236b505f7",
     "name": "(WMST XML) SST climatology August",
     "order": 2,
     "slug_name": "wmst-xml-sst-climatology-august493",
@@ -16582,6 +16785,7 @@
   "model": "data_manager.layer",
   "pk": 494,
   "fields": {
+    "uuid": "7f056cb6-7c5d-46db-a670-cd2b40fec539",
     "name": "(WMS HTML) Base Territorial Sea Poly",
     "order": 3,
     "slug_name": "wms-html-base-territorial-sea-poly494",
@@ -16672,6 +16876,7 @@
   "model": "data_manager.layer",
   "pk": 495,
   "fields": {
+    "uuid": "63a05344-17f3-4f9b-a3a8-74c034fa1f93",
     "name": "(WMS GML) USGS Sediment",
     "order": 4,
     "slug_name": "wms-gml-usgs-sediment495",
@@ -16762,6 +16967,7 @@
   "model": "data_manager.layer",
   "pk": 496,
   "fields": {
+    "uuid": "9a6a5c97-ee94-44f4-b2f9-9c1361c051a1",
     "name": "(WMS Plain) Dredged Material",
     "order": 5,
     "slug_name": "wms-plain-dredged-material496",
@@ -16852,6 +17058,7 @@
   "model": "data_manager.layer",
   "pk": 497,
   "fields": {
+    "uuid": "f176fade-4a69-45f6-8afc-2338c458cf87",
     "name": "Vector Tile Layer",
     "order": 100,
     "slug_name": "vector-tile-layer497",
@@ -16940,6 +17147,7 @@
   "model": "data_manager.layer",
   "pk": 498,
   "fields": {
+    "uuid": "95874246-e06d-45f6-b55e-dd759e18df27",
     "name": "(WMS HTML) NANOOS",
     "order": 10,
     "slug_name": "wms-html-nanoos498",
@@ -17030,6 +17238,7 @@
   "model": "data_manager.layer",
   "pk": 499,
   "fields": {
+    "uuid": "d4276def-4d36-4eb2-b775-08e0a1774f18",
     "name": "(WMS Plain) NANOOS",
     "order": 10,
     "slug_name": "wms-plain-nanoos499",
@@ -17120,6 +17329,7 @@
   "model": "data_manager.layer",
   "pk": 500,
   "fields": {
+    "uuid": "7800c86d-3ca5-44d3-8021-7aaa40530d47",
     "name": "(WMS JSON) NANOOS",
     "order": 10,
     "slug_name": "wms-json-nanoos500",
@@ -17210,6 +17420,7 @@
   "model": "data_manager.layer",
   "pk": 501,
   "fields": {
+    "uuid": "60c280ad-a695-4f28-ae3c-e913d7cf20ce",
     "name": "Oregon GLD Offshort Polygon",
     "order": 10,
     "slug_name": "oregon-gld-offshort-polygon501",
@@ -17300,6 +17511,7 @@
   "model": "data_manager.layer",
   "pk": 502,
   "fields": {
+    "uuid": "61f5ec15-97ac-4556-9edb-87b13739d8c4",
     "name": "AIS 2016 Monthly Data Sliders",
     "order": 1,
     "slug_name": "ais-2016-monthly-data-sliders502",
@@ -17388,6 +17600,7 @@
   "model": "data_manager.layer",
   "pk": 503,
   "fields": {
+    "uuid": "4703c83d-2039-4ac0-969a-d58ec07db19c",
     "name": "AIS 2016 January: All",
     "order": 101,
     "slug_name": "ais-2016-january-all503",
@@ -17476,6 +17689,7 @@
   "model": "data_manager.layer",
   "pk": 504,
   "fields": {
+    "uuid": "d24ef521-33ae-4164-b9e7-d9474c09a0fd",
     "name": "AIS 2016 February: All",
     "order": 102,
     "slug_name": "ais-2016-february-all504",
@@ -17564,6 +17778,7 @@
   "model": "data_manager.layer",
   "pk": 505,
   "fields": {
+    "uuid": "daa09e1a-e9fa-4ae4-87df-529dead6a957",
     "name": "AIS 2016 March: All",
     "order": 103,
     "slug_name": "ais-2016-march-all505",
@@ -17652,6 +17867,7 @@
   "model": "data_manager.layer",
   "pk": 506,
   "fields": {
+    "uuid": "4cbfd61e-2e1e-44b8-87b1-c98ad909a137",
     "name": "WMS Attribute Test Layers",
     "order": 10,
     "slug_name": "wms-attribute-test-layers506",
@@ -17749,6 +17965,7 @@
   "model": "data_manager.layer",
   "pk": 507,
   "fields": {
+    "uuid": "5fa9219e-bc8c-4ce7-974a-690447598037",
     "name": "GeoPortal Proxy Test",
     "order": 0,
     "slug_name": "geoportal-proxy-test507",
@@ -17837,6 +18054,7 @@
   "model": "data_manager.layer",
   "pk": 508,
   "fields": {
+    "uuid": "5230873d-47e0-4a08-ba94-73be22089f7e",
     "name": "GeoPortal Source Baseline",
     "order": 10,
     "slug_name": "geoportal-source-baseline508",
@@ -17925,6 +18143,7 @@
   "model": "data_manager.layer",
   "pk": 509,
   "fields": {
+    "uuid": "832a1a13-4535-48e1-a7d4-2bc3886d2e5a",
     "name": "Soils: SDM-WMS",
     "order": 10,
     "slug_name": "soils-sdm-wms509",
@@ -18013,6 +18232,7 @@
   "model": "data_manager.layer",
   "pk": 510,
   "fields": {
+    "uuid": "ea7595ef-95c1-45b4-a5bf-e89a6ece9ae5",
     "name": "Coastal Tribal Lands",
     "order": 1,
     "slug_name": "coastal-tribal-lands_new",
@@ -18099,6 +18319,7 @@
   "model": "data_manager.layer",
   "pk": 511,
   "fields": {
+    "uuid": "6f01f417-fb6d-45d1-b3b1-8cee4aac6f1e",
     "name": "West Coast Wind Speed - Annual Average",
     "order": 10,
     "slug_name": "west-coast-wind-speed-annual-average511",
@@ -18189,6 +18410,7 @@
   "model": "data_manager.layer",
   "pk": 512,
   "fields": {
+    "uuid": "30802520-52bb-4dc5-abe6-9712ed88a3eb",
     "name": "West Coast Wind Speed",
     "order": 10,
     "slug_name": "west-coast-wind-speed_new",
@@ -18280,6 +18502,7 @@
   "model": "data_manager.layer",
   "pk": 513,
   "fields": {
+    "uuid": "3cac5d74-7a8b-4d59-a222-13c4b7abf01d",
     "name": "West Coast Wind Speed - Jan Average",
     "order": 10,
     "slug_name": "west-coast-wind-speed-jan-average513",
@@ -18368,6 +18591,7 @@
   "model": "data_manager.layer",
   "pk": 514,
   "fields": {
+    "uuid": "2d46fb71-47ff-4bc1-bae5-7a7846946910",
     "name": "West Coast Wind Speed - Feb Average",
     "order": 10,
     "slug_name": "west-coast-wind-speed-feb-average514",
@@ -18456,6 +18680,7 @@
   "model": "data_manager.layer",
   "pk": 515,
   "fields": {
+    "uuid": "8f63dec9-aba1-4393-967e-0e30c2fb8255",
     "name": "Wind Speed Monthly Average",
     "order": 10,
     "slug_name": "wind-speed-monthly-average515",
@@ -18546,6 +18771,7 @@
   "model": "data_manager.layer",
   "pk": 516,
   "fields": {
+    "uuid": "39de6102-e91e-4f5b-a69c-0d4ab7b038bd",
     "name": "West Coast Wind Speed - Mar Average",
     "order": 10,
     "slug_name": "west-coast-wind-speed-mar-average_new",
@@ -18634,6 +18860,7 @@
   "model": "data_manager.layer",
   "pk": 517,
   "fields": {
+    "uuid": "2dc385ff-7fe2-4a3d-95a1-5d07467270c7",
     "name": "West Coast Wind Speed - Apr Average",
     "order": 10,
     "slug_name": "west-coast-wind-speed-apr-average_new",
@@ -18722,6 +18949,7 @@
   "model": "data_manager.layer",
   "pk": 518,
   "fields": {
+    "uuid": "bc858f1e-fee5-4ae1-a986-62716085102b",
     "name": "West Coast Wind Speed - May Average",
     "order": 10,
     "slug_name": "west-coast-wind-speed-may-average_new",
@@ -18810,6 +19038,7 @@
   "model": "data_manager.layer",
   "pk": 519,
   "fields": {
+    "uuid": "21c058a8-f2b4-4949-b899-17a7472aaafe",
     "name": "West Coast Wind Speed - Jun Average",
     "order": 10,
     "slug_name": "west-coast-wind-speed-jun-average_new",
@@ -18898,6 +19127,7 @@
   "model": "data_manager.layer",
   "pk": 520,
   "fields": {
+    "uuid": "2c342e76-fd6f-4b2d-9d0e-ff5e7d65dee3",
     "name": "West Coast Wind Speed - Jul Average",
     "order": 10,
     "slug_name": "west-coast-wind-speed-jul-average_new",
@@ -18986,6 +19216,7 @@
   "model": "data_manager.layer",
   "pk": 521,
   "fields": {
+    "uuid": "a6eb99d8-2031-40c5-9ed0-8745cbea5ba7",
     "name": "West Coast Wind Speed - Aug Average",
     "order": 10,
     "slug_name": "west-coast-wind-speed-aug-average_new",
@@ -19074,6 +19305,7 @@
   "model": "data_manager.layer",
   "pk": 522,
   "fields": {
+    "uuid": "c585b6c9-1f98-44bc-ba5a-b92231915d43",
     "name": "West Coast Wind Speed - Sep Average",
     "order": 10,
     "slug_name": "west-coast-wind-speed-sep-average_new",
@@ -19162,6 +19394,7 @@
   "model": "data_manager.layer",
   "pk": 523,
   "fields": {
+    "uuid": "3df4838f-e631-4856-a2c3-b7a0765b07ee",
     "name": "West Coast Wind Speed - Oct Average",
     "order": 10,
     "slug_name": "west-coast-wind-speed-oct-average_new",
@@ -19250,6 +19483,7 @@
   "model": "data_manager.layer",
   "pk": 524,
   "fields": {
+    "uuid": "802c35ea-97d3-46ae-9c62-c8b0c7800a38",
     "name": "West Coast Wind Speed - Nov Average",
     "order": 10,
     "slug_name": "west-coast-wind-speed-nov-average_new",
@@ -19338,6 +19572,7 @@
   "model": "data_manager.layer",
   "pk": 525,
   "fields": {
+    "uuid": "c0d03549-7024-4b9d-8a04-e8f80b009634",
     "name": "West Coast Wind Speed - Dec Average",
     "order": 10,
     "slug_name": "west-coast-wind-speed-dec-average_new",
@@ -19426,6 +19661,7 @@
   "model": "data_manager.layer",
   "pk": 526,
   "fields": {
+    "uuid": "033e94be-f8bc-4106-9ea7-b52273179909",
     "name": "Seabed Induration - SGH Map for Washington, Oregon and Northern California, Version 4.0",
     "order": 10,
     "slug_name": "seabed-induration-sgh-map-for-washington-oregon-and-northern-california-version-40526",
@@ -19515,6 +19751,7 @@
   "model": "data_manager.layer",
   "pk": 527,
   "fields": {
+    "uuid": "2848ad2b-7a97-4a38-a790-917355a3bb64",
     "name": "100-yr Flood Zones",
     "order": 1,
     "slug_name": "100-yr-flood-zones527",
@@ -19605,6 +19842,7 @@
   "model": "data_manager.layer",
   "pk": 528,
   "fields": {
+    "uuid": "7aea979c-70c7-4027-9b8e-9cd395ea4fa6",
     "name": "1300 Meter Bathymetry Contour",
     "order": 10,
     "slug_name": "1300-meter-bathymetry-contour528",
@@ -19692,6 +19930,7 @@
   "model": "data_manager.layer",
   "pk": 529,
   "fields": {
+    "uuid": "225eb91f-0696-4124-abca-f26e16d55e97",
     "name": "500-yr Flood Zones",
     "order": 2,
     "slug_name": "500-yr-flood-zones529",
@@ -19782,6 +20021,7 @@
   "model": "data_manager.layer",
   "pk": 530,
   "fields": {
+    "uuid": "ac2a79c0-7f10-4ab3-aef0-664e21896382",
     "name": "Aids To Navigation",
     "order": 1,
     "slug_name": "aids-to-navigation530",
@@ -19872,6 +20112,7 @@
   "model": "data_manager.layer",
   "pk": 531,
   "fields": {
+    "uuid": "aaf99dc2-b101-4e20-98a6-7b69c927a44c",
     "name": "AIS Transit Counts: All Vessels (Data Slider)",
     "order": 1,
     "slug_name": "ais-transit-counts-all-vessels-data-slider531",
@@ -19962,6 +20203,7 @@
   "model": "data_manager.layer",
   "pk": 532,
   "fields": {
+    "uuid": "3db5185e-0f07-44e0-a4c5-c7fc4dc9185e",
     "name": "AIS Vessel Transit Counts: All Vessels (2015)",
     "order": 10,
     "slug_name": "ais-vessel-transit-counts-all-vessels-2015532",
@@ -20050,6 +20292,7 @@
   "model": "data_manager.layer",
   "pk": 533,
   "fields": {
+    "uuid": "ba83ce7e-8bf8-4c96-91dc-ac1595e2a156",
     "name": "AIS Vessel Transit Counts: All Vessels (2016)",
     "order": 10,
     "slug_name": "ais-vessel-transit-counts-all-vessels-2016533",
@@ -20138,6 +20381,7 @@
   "model": "data_manager.layer",
   "pk": 534,
   "fields": {
+    "uuid": "e8d1bdb9-8f2e-4e17-a76b-3f58a123ebaa",
     "name": "AIS Vessel Transit Counts: All Vessels (2017)",
     "order": 10,
     "slug_name": "ais-vessel-transit-counts-all-vessels-2017534",
@@ -20226,6 +20470,7 @@
   "model": "data_manager.layer",
   "pk": 535,
   "fields": {
+    "uuid": "1389e45b-0fad-4c13-b7b6-0a39fbd2027c",
     "name": "AIS Vessel Transit Counts: Cargo (2016)",
     "order": 10,
     "slug_name": "ais-vessel-transit-counts-cargo-2016535",
@@ -20314,6 +20559,7 @@
   "model": "data_manager.layer",
   "pk": 536,
   "fields": {
+    "uuid": "c6b39d77-5889-4b58-8b4e-7be9fe435b15",
     "name": "AIS Vessel Transit Counts: Cargo (2017)",
     "order": 10,
     "slug_name": "ais-vessel-transit-counts-cargo-2017536",
@@ -20402,6 +20648,7 @@
   "model": "data_manager.layer",
   "pk": 537,
   "fields": {
+    "uuid": "48aad3b8-6e05-4c8c-b7ee-d1ddb74eaa62",
     "name": "AIS Vessel Transit Counts: Cargo (Data Slider)",
     "order": 2,
     "slug_name": "ais-vessel-transit-counts-cargo-data-slider537",
@@ -20492,6 +20739,7 @@
   "model": "data_manager.layer",
   "pk": 538,
   "fields": {
+    "uuid": "9d8fd22b-d38d-4b00-931d-3657382ea6bf",
     "name": "AIS Vessel Transit Counts: Fishing (2016)",
     "order": 10,
     "slug_name": "ais-vessel-transit-counts-fishing-2016538",
@@ -20580,6 +20828,7 @@
   "model": "data_manager.layer",
   "pk": 539,
   "fields": {
+    "uuid": "fedf9cb5-9e11-4cfb-8033-0edcb60da638",
     "name": "AIS Vessel Transit Counts: Fishing (2017)",
     "order": 10,
     "slug_name": "ais-vessel-transit-counts-fishing-2017539",
@@ -20668,6 +20917,7 @@
   "model": "data_manager.layer",
   "pk": 540,
   "fields": {
+    "uuid": "c3818838-76b1-4a84-96c3-a8335f7527b7",
     "name": "AIS Vessel Transit Counts: Fishing (Data Slider)",
     "order": 1,
     "slug_name": "ais-vessel-transit-counts-fishing-data-slider540",
@@ -20758,6 +21008,7 @@
   "model": "data_manager.layer",
   "pk": 541,
   "fields": {
+    "uuid": "3013d8b0-9b53-44cc-8702-eb744acdd473",
     "name": "AIS Vessel Transit Counts: Passenger (2016)",
     "order": 10,
     "slug_name": "ais-vessel-transit-counts-passenger-2016541",
@@ -20846,6 +21097,7 @@
   "model": "data_manager.layer",
   "pk": 542,
   "fields": {
+    "uuid": "18d04d08-0af5-4286-bd54-773a0b5facc7",
     "name": "AIS Vessel Transit Counts: Passenger (2017)",
     "order": 10,
     "slug_name": "ais-vessel-transit-counts-passenger-2017542",
@@ -20934,6 +21186,7 @@
   "model": "data_manager.layer",
   "pk": 543,
   "fields": {
+    "uuid": "b5f5d755-3a95-4444-9e9d-16adb3d322f3",
     "name": "AIS Vessel Transit Counts: Passenger (Data Slider)",
     "order": 3,
     "slug_name": "ais-vessel-transit-counts-passenger-data-slider543",
@@ -21024,6 +21277,7 @@
   "model": "data_manager.layer",
   "pk": 544,
   "fields": {
+    "uuid": "0d13d21d-93e5-424e-ba48-4e5a017e8264",
     "name": "AIS Vessel Transit Counts: Pleasure Craft and Sailing (2016)",
     "order": 10,
     "slug_name": "ais-vessel-transit-counts-pleasure-craft-and-sailing-2016544",
@@ -21112,6 +21366,7 @@
   "model": "data_manager.layer",
   "pk": 545,
   "fields": {
+    "uuid": "a1378c44-754e-4075-9567-fa6b158c4881",
     "name": "AIS Vessel Transit Counts: Pleasure Craft and Sailing (2017)",
     "order": 10,
     "slug_name": "ais-vessel-transit-counts-pleasure-craft-and-sailing-2017545",
@@ -21200,6 +21455,7 @@
   "model": "data_manager.layer",
   "pk": 546,
   "fields": {
+    "uuid": "e3740e95-0be5-46d2-b538-4d1f3f78eb2d",
     "name": "AIS Vessel Transit Counts: Pleasure Craft and Sailing (Data Slider)",
     "order": 10,
     "slug_name": "ais-vessel-transit-counts-pleasure-craft-and-sailing-data-slider546",
@@ -21290,6 +21546,7 @@
   "model": "data_manager.layer",
   "pk": 547,
   "fields": {
+    "uuid": "d09be47e-c20a-4d63-88d7-bd9ebf7147ec",
     "name": "AIS Vessel Transit Counts: Tanker (2016)",
     "order": 10,
     "slug_name": "ais-vessel-transit-counts-tanker-2016547",
@@ -21378,6 +21635,7 @@
   "model": "data_manager.layer",
   "pk": 548,
   "fields": {
+    "uuid": "f7bc42c5-1869-4cdb-9112-71efec846846",
     "name": "AIS Vessel Transit Counts: Tanker (2017)",
     "order": 10,
     "slug_name": "ais-vessel-transit-counts-tanker-2017548",
@@ -21466,6 +21724,7 @@
   "model": "data_manager.layer",
   "pk": 549,
   "fields": {
+    "uuid": "192497c3-e502-4252-ac6a-b1f1cee4499c",
     "name": "AIS Vessel Transit Counts: Tanker (Data Slider)",
     "order": 4,
     "slug_name": "ais-vessel-transit-counts-tanker-data-slider549",
@@ -21556,6 +21815,7 @@
   "model": "data_manager.layer",
   "pk": 550,
   "fields": {
+    "uuid": "bbd32556-0687-48f6-8ae2-cca0ce6689c9",
     "name": "AIS Vessel Transit Counts: Tug and Tow (2016)",
     "order": 10,
     "slug_name": "ais-vessel-transit-counts-tug-and-tow-2016550",
@@ -21644,6 +21904,7 @@
   "model": "data_manager.layer",
   "pk": 551,
   "fields": {
+    "uuid": "939c456c-1cf2-4e91-b463-ca4abdebf28f",
     "name": "AIS Vessel Transit Counts: Tug and Tow (2017)",
     "order": 10,
     "slug_name": "ais-vessel-transit-counts-tug-and-tow-2017551",
@@ -21732,6 +21993,7 @@
   "model": "data_manager.layer",
   "pk": 552,
   "fields": {
+    "uuid": "bffeb3e5-3a0b-4966-8e0a-385ef28149ea",
     "name": "AIS Vessel Transit Counts: Tug and Tow (Data Slider)",
     "order": 5,
     "slug_name": "ais-vessel-transit-counts-tug-and-tow-data-slider552",
@@ -21822,6 +22084,7 @@
   "model": "data_manager.layer",
   "pk": 553,
   "fields": {
+    "uuid": "237f5fba-6c12-421e-9a73-6b5ecdc55a21",
     "name": "April Average Wind Speed",
     "order": 10,
     "slug_name": "april-average-wind-speed553",
@@ -21910,6 +22173,7 @@
   "model": "data_manager.layer",
   "pk": 554,
   "fields": {
+    "uuid": "162178da-1078-4fb9-a4f7-d463c94e1ad6",
     "name": "Astoria All Fishing Sectors Fisheries Uses and Values Grid, Ecotrust, 2010",
     "order": 2,
     "slug_name": "astoria-all-fishing-sectors-fisheries-uses-and-values-grid-ecotrust-2010554",
@@ -22000,6 +22264,7 @@
   "model": "data_manager.layer",
   "pk": 555,
   "fields": {
+    "uuid": "28d5c9a1-250f-4dc9-99d1-7384d8cbfa1c",
     "name": "Astoria Commercial Dungeness Crab Fishery Uses and Values Grid, Ecotrust, 2012",
     "order": 3,
     "slug_name": "astoria-commercial-dungeness-crab-fishery-uses-and-values-grid-ecotrust-2012555",
@@ -22090,6 +22355,7 @@
   "model": "data_manager.layer",
   "pk": 556,
   "fields": {
+    "uuid": "83fd2d98-2cfe-46e9-a4eb-6d7cf7794ffb",
     "name": "Astoria Commercial Passenger Fishing Vessel Fisheries Uses and Values Grid, Ecotrust, 2010",
     "order": 4,
     "slug_name": "astoria-commercial-passenger-fishing-vessel-fisheries-uses-and-values-grid-ecotrust-2010556",
@@ -22180,6 +22446,7 @@
   "model": "data_manager.layer",
   "pk": 557,
   "fields": {
+    "uuid": "bbc7dd32-76c4-4f44-a1d2-9f60261274aa",
     "name": "At-sea Midwater Trawl Catcher-Processor Intensity (2002-2005)",
     "order": 10,
     "slug_name": "at-sea-midwater-trawl-catcher-processor-intensity-2002-2005557",
@@ -22268,6 +22535,7 @@
   "model": "data_manager.layer",
   "pk": 558,
   "fields": {
+    "uuid": "1ecc309c-1b82-499f-9313-11fa9d83d537",
     "name": "At-sea Midwater Trawl Catcher-Processor Intensity (2006-2010)",
     "order": 10,
     "slug_name": "at-sea-midwater-trawl-catcher-processor-intensity-2006-2010558",
@@ -22356,6 +22624,7 @@
   "model": "data_manager.layer",
   "pk": 559,
   "fields": {
+    "uuid": "41119053-2394-4dc4-a666-d531639ed523",
     "name": "At-sea Midwater Trawl Catcher-Processor Intensity (2011-2015)",
     "order": 10,
     "slug_name": "at-sea-midwater-trawl-catcher-processor-intensity-2011-2015559",
@@ -22444,6 +22713,7 @@
   "model": "data_manager.layer",
   "pk": 560,
   "fields": {
+    "uuid": "e7a9153e-bad6-4f36-9ec3-e6eba9837f51",
     "name": "At-sea Midwater Trawl Catcher-Processor Intensity (2016-2017)",
     "order": 10,
     "slug_name": "at-sea-midwater-trawl-catcher-processor-intensity-2016-2017560",
@@ -22532,6 +22802,7 @@
   "model": "data_manager.layer",
   "pk": 561,
   "fields": {
+    "uuid": "39d7f45e-6ab0-453d-bca9-d2bd4868a1c7",
     "name": "At-sea Midwater Trawl Catcher-Processor Intensity (Data Slider)",
     "order": 5,
     "slug_name": "at-sea-midwater-trawl-catcher-processor-intensity-data-slider561",
@@ -22622,6 +22893,7 @@
   "model": "data_manager.layer",
   "pk": 562,
   "fields": {
+    "uuid": "0ed95060-59d7-4283-9619-dfd743d76534",
     "name": "At-sea Midwater Trawl Mothership Intensity (2002-2005)",
     "order": 10,
     "slug_name": "at-sea-midwater-trawl-mothership-intensity-2002-2005562",
@@ -22710,6 +22982,7 @@
   "model": "data_manager.layer",
   "pk": 563,
   "fields": {
+    "uuid": "67f4223f-f2f5-4e6f-9746-e324c1f69503",
     "name": "At-sea Midwater Trawl Mothership Intensity (2006-2010)",
     "order": 10,
     "slug_name": "at-sea-midwater-trawl-mothership-intensity-2006-2010563",
@@ -22798,6 +23071,7 @@
   "model": "data_manager.layer",
   "pk": 564,
   "fields": {
+    "uuid": "5a6cbb92-f475-4f61-8e0a-d671352db03f",
     "name": "At-sea Midwater Trawl Mothership Intensity (2011-2015)",
     "order": 10,
     "slug_name": "at-sea-midwater-trawl-mothership-intensity-2011-2015564",
@@ -22886,6 +23160,7 @@
   "model": "data_manager.layer",
   "pk": 565,
   "fields": {
+    "uuid": "19f75ac0-0381-42ef-8138-5d9b9f5bb2bf",
     "name": "At-sea MIdwater Trawl Mothership Intensity (2016-2017)",
     "order": 10,
     "slug_name": "at-sea-midwater-trawl-mothership-intensity-2016-2017565",
@@ -22974,6 +23249,7 @@
   "model": "data_manager.layer",
   "pk": 566,
   "fields": {
+    "uuid": "92a6628d-1565-4159-aeb1-92c6088b6514",
     "name": "At-sea Midwater Trawl Mothership Intensity (Data Slider)",
     "order": 6,
     "slug_name": "at-sea-midwater-trawl-mothership-intensity-data-slider566",
@@ -23064,6 +23340,7 @@
   "model": "data_manager.layer",
   "pk": 567,
   "fields": {
+    "uuid": "5472a109-c7c4-4324-8951-6164ad6d55ed",
     "name": "August Average Wind Speed",
     "order": 10,
     "slug_name": "august-average-wind-speed567",
@@ -23152,6 +23429,7 @@
   "model": "data_manager.layer",
   "pk": 568,
   "fields": {
+    "uuid": "e2d90ee4-d185-4eb9-9eeb-e8fb69bc25a6",
     "name": "Bathymetric Contours",
     "order": 10,
     "slug_name": "bathymetric-contours568",
@@ -23242,6 +23520,7 @@
   "model": "data_manager.layer",
   "pk": 569,
   "fields": {
+    "uuid": "732b22c3-8f52-48a8-ab7e-d208e2ae8ab6",
     "name": "Bathymetry",
     "order": 1,
     "slug_name": "bathymetry569",
@@ -23335,6 +23614,7 @@
   "model": "data_manager.layer",
   "pk": 570,
   "fields": {
+    "uuid": "9d2d5c09-9f0c-43bd-a66b-e102b2b47527",
     "name": "Biologically Important Areas for Cetaceans - Feeding",
     "order": 1,
     "slug_name": "biologically-important-areas-for-cetaceans-feeding570",
@@ -23425,6 +23705,7 @@
   "model": "data_manager.layer",
   "pk": 571,
   "fields": {
+    "uuid": "fc345921-cbe3-4c2b-9f66-46dbf0a77f44",
     "name": "Biologically Important Areas for Cetaceans - Migration",
     "order": 2,
     "slug_name": "biologically-important-areas-for-cetaceans-migration571",
@@ -23515,6 +23796,7 @@
   "model": "data_manager.layer",
   "pk": 572,
   "fields": {
+    "uuid": "3a570d18-ec39-4216-b9bf-dbc349a863e3",
     "name": "Birds",
     "order": 1,
     "slug_name": "birds572",
@@ -23609,6 +23891,7 @@
   "model": "data_manager.layer",
   "pk": 573,
   "fields": {
+    "uuid": "92fc0c82-0836-4958-8a3f-fffa844c7b24",
     "name": "Blue Whale Summer Density",
     "order": 3,
     "slug_name": "blue-whale-summer-density573",
@@ -23699,6 +23982,7 @@
   "model": "data_manager.layer",
   "pk": 574,
   "fields": {
+    "uuid": "bec54069-7218-44f4-95ce-0508af17cc49",
     "name": "BOEM Block Aliquots",
     "order": 1,
     "slug_name": "boem-block-aliquots574",
@@ -23789,6 +24073,7 @@
   "model": "data_manager.layer",
   "pk": 575,
   "fields": {
+    "uuid": "f5781a02-a6c5-4038-b294-2ceb26a60296",
     "name": "BOEM Limit of OCSLA 8(g) zone",
     "order": 2,
     "slug_name": "boem-limit-of-ocsla-8g-zone575",
@@ -23879,6 +24164,7 @@
   "model": "data_manager.layer",
   "pk": 576,
   "fields": {
+    "uuid": "6ac91783-9d61-4420-8d85-c01501b1a1b0",
     "name": "BOEM OCS Lease Blocks",
     "order": 3,
     "slug_name": "boem-ocs-lease-blocks576",
@@ -23969,6 +24255,7 @@
   "model": "data_manager.layer",
   "pk": 577,
   "fields": {
+    "uuid": "2e25f6a9-6782-488d-ad03-cbe1152367b6",
     "name": "Boundaries",
     "order": 1,
     "slug_name": "boundaries577",
@@ -24078,6 +24365,7 @@
   "model": "data_manager.layer",
   "pk": 578,
   "fields": {
+    "uuid": "5b47a1bb-4e49-47cb-b7b0-b69592e78bce",
     "name": "Brookings, Gold Beach All Fishing Sectors Fisheries Uses and Values Grid, Ecotrust, 2010",
     "order": 7,
     "slug_name": "brookings-gold-beach-all-fishing-sectors-fisheries-uses-and-values-grid-ecotrust-2010578",
@@ -24168,6 +24456,7 @@
   "model": "data_manager.layer",
   "pk": 579,
   "fields": {
+    "uuid": "b344ef5e-23a5-46d2-bcbb-b067b429b69f",
     "name": "Brookings, Gold Beach Commercial Dungeness Crab Fisheries Uses and Values Grid, Ecotrust, 2010",
     "order": 8,
     "slug_name": "brookings-gold-beach-commercial-dungeness-crab-fisheries-uses-and-values-grid-ecotrust-2010579",
@@ -24258,6 +24547,7 @@
   "model": "data_manager.layer",
   "pk": 580,
   "fields": {
+    "uuid": "55015d92-718a-4539-9301-bc6cde95d218",
     "name": "California Sea Lion Haulout Counts (ODFW 2011)",
     "order": 4,
     "slug_name": "california-sea-lion-haulout-counts-odfw-2011580",
@@ -24348,6 +24638,7 @@
   "model": "data_manager.layer",
   "pk": 581,
   "fields": {
+    "uuid": "dc01d83e-beab-41c2-9349-b92644e68ec3",
     "name": "Canopy-Forming Kelp, 1989-2014",
     "order": 1,
     "slug_name": "canopy-forming-kelp-1989-2014581",
@@ -24439,6 +24730,7 @@
   "model": "data_manager.layer",
   "pk": 582,
   "fields": {
+    "uuid": "9c497ef4-5bf6-458a-812d-3041162ee846",
     "name": "Catch Shares Bottom Trawl Intensity (2011-2015)",
     "order": 10,
     "slug_name": "catch-shares-bottom-trawl-intensity-2011-2015582",
@@ -24527,6 +24819,7 @@
   "model": "data_manager.layer",
   "pk": 583,
   "fields": {
+    "uuid": "fd7ff85a-7d17-489d-bc3b-e1d97aac20a0",
     "name": "Catch Shares Bottom Trawl Intensity (2016-2017)",
     "order": 10,
     "slug_name": "catch-shares-bottom-trawl-intensity-2016-2017583",
@@ -24615,6 +24908,7 @@
   "model": "data_manager.layer",
   "pk": 584,
   "fields": {
+    "uuid": "282faf61-69a7-470d-9b75-24021dea47c3",
     "name": "Catch Shares Bottom Trawl Intensity (Data Slider)",
     "order": 9,
     "slug_name": "catch-shares-bottom-trawl-intensity-data-slider584",
@@ -24705,6 +24999,7 @@
   "model": "data_manager.layer",
   "pk": 585,
   "fields": {
+    "uuid": "9f9354c9-eb98-48b5-90bb-f78d18e9a317",
     "name": "Catch Shares Hook-and-Line Intensity (2011 - 2017)",
     "order": 10,
     "slug_name": "catch-shares-hook-and-line-intensity-2011-2017585",
@@ -24795,6 +25090,7 @@
   "model": "data_manager.layer",
   "pk": 586,
   "fields": {
+    "uuid": "1ff8b58c-bc95-48f2-8158-5edfc0c05966",
     "name": "Catch Shares Pot Intensity (2011-2015)",
     "order": 10,
     "slug_name": "catch-shares-pot-intensity-2011-2015586",
@@ -24883,6 +25179,7 @@
   "model": "data_manager.layer",
   "pk": 587,
   "fields": {
+    "uuid": "ac27d665-f26c-474f-8d82-8fc429dbf1f6",
     "name": "Catch Shares Pot Intensity (2016-2017)",
     "order": 10,
     "slug_name": "catch-shares-pot-intensity-2016-2017587",
@@ -24971,6 +25268,7 @@
   "model": "data_manager.layer",
   "pk": 588,
   "fields": {
+    "uuid": "e04703d3-876e-43d8-85b2-b5509177ab0a",
     "name": "Catch Shares Pot Intensity (Data Slider)",
     "order": 11,
     "slug_name": "catch-shares-pot-intensity-data-slider588",
@@ -25061,6 +25359,7 @@
   "model": "data_manager.layer",
   "pk": 589,
   "fields": {
+    "uuid": "d572b7eb-b535-44c4-ad53-ebf6d352de0b",
     "name": "Circulation",
     "order": 2,
     "slug_name": "circulation589",
@@ -25153,6 +25452,7 @@
   "model": "data_manager.layer",
   "pk": 590,
   "fields": {
+    "uuid": "f971c98f-7f0e-4d0a-a3d0-9362daceb905",
     "name": "City Limits, ODOT, 2020",
     "order": 1,
     "slug_name": "city-limits-odot-2020590",
@@ -25243,6 +25543,7 @@
   "model": "data_manager.layer",
   "pk": 591,
   "fields": {
+    "uuid": "2cf4b40f-92a3-43a7-9275-674dec13d590",
     "name": "Coastal Audubon Important Bird Areas",
     "order": 1,
     "slug_name": "coastal-audubon-important-bird-areas591",
@@ -25333,6 +25634,7 @@
   "model": "data_manager.layer",
   "pk": 592,
   "fields": {
+    "uuid": "06ecd077-0ed3-4699-b7e9-bee1b6be475c",
     "name": "Coastal Census Statistics",
     "order": 10,
     "slug_name": "coastal-census-statistics592",
@@ -25423,6 +25725,7 @@
   "model": "data_manager.layer",
   "pk": 593,
   "fields": {
+    "uuid": "d9e03c70-6a2b-45dd-a3d2-81482fc875ea",
     "name": "Coastal Critical Habitat Designations",
     "order": 1,
     "slug_name": "coastal-critical-habitat-designations593",
@@ -25513,6 +25816,7 @@
   "model": "data_manager.layer",
   "pk": 594,
   "fields": {
+    "uuid": "60f30c8d-9a19-4343-a228-aacafd8c3cab",
     "name": "Coastal Energy Facilities",
     "order": 2,
     "slug_name": "coastal-energy-facilities594",
@@ -25603,6 +25907,7 @@
   "model": "data_manager.layer",
   "pk": 595,
   "fields": {
+    "uuid": "6639375f-8dce-4636-9505-7becedabc8d0",
     "name": "Coastal Populated Places",
     "order": 2,
     "slug_name": "coastal-populated-places595",
@@ -25693,6 +25998,7 @@
   "model": "data_manager.layer",
   "pk": 596,
   "fields": {
+    "uuid": "ee8820c6-12b7-421f-ae63-52f4ecc642da",
     "name": "Coastal Ports, Ecotrust 2011",
     "order": 3,
     "slug_name": "coastal-ports-ecotrust-2011596",
@@ -25783,6 +26089,7 @@
   "model": "data_manager.layer",
   "pk": 597,
   "fields": {
+    "uuid": "db4cc5e6-2bd4-4990-9bbf-1b46cc82b06e",
     "name": "Coastal States",
     "order": 3,
     "slug_name": "coastal-states597",
@@ -25873,6 +26180,7 @@
   "model": "data_manager.layer",
   "pk": 598,
   "fields": {
+    "uuid": "145fd7db-03df-45d9-93ca-ac39a6124982",
     "name": "Coastal Tribal Lands",
     "order": 4,
     "slug_name": "coastal-tribal-lands598",
@@ -25963,6 +26271,7 @@
   "model": "data_manager.layer",
   "pk": 599,
   "fields": {
+    "uuid": "606d46e6-8f31-4fae-8da8-208faccd80b4",
     "name": "Coastal Zone Management Act",
     "order": 5,
     "slug_name": "coastal-zone-management-act599",
@@ -26053,6 +26362,7 @@
   "model": "data_manager.layer",
   "pk": 600,
   "fields": {
+    "uuid": "31c2c1e0-ec5c-44fb-b6dd-c48db47a8521",
     "name": "Coast Guard Jurisdictions",
     "order": 1,
     "slug_name": "coast-guard-jurisdictions600",
@@ -26143,6 +26453,7 @@
   "model": "data_manager.layer",
   "pk": 601,
   "fields": {
+    "uuid": "6622ef2c-c507-4a75-8604-0369af41e4f2",
     "name": "Collision Regulation Demarcation Lines (COLREGS)",
     "order": 6,
     "slug_name": "collision-regulation-demarcation-lines-colregs601",
@@ -26233,6 +26544,7 @@
   "model": "data_manager.layer",
   "pk": 602,
   "fields": {
+    "uuid": "0a92447d-a4ef-4e33-9d76-c73686db83ba",
     "name": "Conservation",
     "order": 2,
     "slug_name": "conservation602",
@@ -26333,6 +26645,7 @@
   "model": "data_manager.layer",
   "pk": 603,
   "fields": {
+    "uuid": "91aee665-a77e-44bf-8724-ad171df5efa9",
     "name": "Counties",
     "order": 7,
     "slug_name": "counties603",
@@ -26423,6 +26736,7 @@
   "model": "data_manager.layer",
   "pk": 604,
   "fields": {
+    "uuid": "97c46a0f-663f-4644-a217-c259781e82b3",
     "name": "Current and Historical Estuary Extent",
     "order": 10,
     "slug_name": "current-and-historical-estuary-extent604",
@@ -26513,6 +26827,7 @@
   "model": "data_manager.layer",
   "pk": 605,
   "fields": {
+    "uuid": "6bfbb65f-4507-461a-838c-85e5ec61f3db",
     "name": "Current Magnitude and Direction",
     "order": 10,
     "slug_name": "current-magnitude-and-direction605",
@@ -26603,6 +26918,7 @@
   "model": "data_manager.layer",
   "pk": 606,
   "fields": {
+    "uuid": "c2d2054a-ec92-43f0-9dde-125952c7c194",
     "name": "Danger Zones and Restricted Areas",
     "order": 2,
     "slug_name": "danger-zones-and-restricted-areas606",
@@ -26693,6 +27009,7 @@
   "model": "data_manager.layer",
   "pk": 607,
   "fields": {
+    "uuid": "3ffab364-e4c4-4c0f-8690-a40312c2a9a9",
     "name": "December Average Wind Speed",
     "order": 10,
     "slug_name": "december-average-wind-speed607",
@@ -26781,6 +27098,7 @@
   "model": "data_manager.layer",
   "pk": 608,
   "fields": {
+    "uuid": "13d66950-d471-4350-971f-bdf570f19884",
     "name": "Deep Sea Corals and Sponges",
     "order": 10,
     "slug_name": "deep-sea-corals-and-sponges608",
@@ -26871,6 +27189,7 @@
   "model": "data_manager.layer",
   "pk": 609,
   "fields": {
+    "uuid": "b3e73112-097a-4214-979f-7964b6f62bd3",
     "name": "Depoe Bay All Fishing Sectors Fisheries Uses & Values Grid, Ecotrust, 2010",
     "order": 12,
     "slug_name": "depoe-bay-all-fishing-sectors-fisheries-uses-values-grid-ecotrust-2010609",
@@ -26961,6 +27280,7 @@
   "model": "data_manager.layer",
   "pk": 610,
   "fields": {
+    "uuid": "f0eaab79-baa0-4ff7-8625-7256209e3588",
     "name": "Depoe Bay Commercial Dungeness Crab Fishery Uses and Values Grid, Ecotrust, 2012",
     "order": 13,
     "slug_name": "depoe-bay-commercial-dungeness-crab-fishery-uses-and-values-grid-ecotrust-2012610",
@@ -27051,6 +27371,7 @@
   "model": "data_manager.layer",
   "pk": 611,
   "fields": {
+    "uuid": "80e19cf4-b388-4e36-99fe-f043d7f7132f",
     "name": "DoD Offshore Wind Mission Compatibility Assessments",
     "order": 4,
     "slug_name": "dod-offshore-wind-mission-compatibility-assessments611",
@@ -27142,6 +27463,7 @@
   "model": "data_manager.layer",
   "pk": 612,
   "fields": {
+    "uuid": "6b4a39c3-1203-49f1-a671-12f660dfcce4",
     "name": "EFH 700 fathom Bottom Trawl Closure, PFMC, 2020",
     "order": 2,
     "slug_name": "efh-700-fathom-bottom-trawl-closure-pfmc-2020612",
@@ -27232,6 +27554,7 @@
   "model": "data_manager.layer",
   "pk": 613,
   "fields": {
+    "uuid": "074976ea-3881-4ffb-a5bd-bec75bcd05de",
     "name": "EFH Areas Protected from Fishing",
     "order": 3,
     "slug_name": "efh-areas-protected-from-fishing613",
@@ -27322,6 +27645,7 @@
   "model": "data_manager.layer",
   "pk": 614,
   "fields": {
+    "uuid": "efe61fb0-3bab-4bb8-af7f-713bf24ea150",
     "name": "EFH Conservation Areas, PFMC, 2020",
     "order": 4,
     "slug_name": "efh-conservation-areas-pfmc-2020614",
@@ -27412,6 +27736,7 @@
   "model": "data_manager.layer",
   "pk": 615,
   "fields": {
+    "uuid": "11059261-ed01-4755-b18a-d921960687eb",
     "name": "EFH Deep-sea Ecosystem Conservation Area, PFMC, 2020",
     "order": 5,
     "slug_name": "efh-deep-sea-ecosystem-conservation-area-pfmc-2020615",
@@ -27502,6 +27827,7 @@
   "model": "data_manager.layer",
   "pk": 616,
   "fields": {
+    "uuid": "c036206d-a2a7-4ef9-a9ed-468c0087c907",
     "name": "EFH Rockfish Conservation Area lines (2019-2020), PFMC, 2020",
     "order": 6,
     "slug_name": "efh-rockfish-conservation-area-lines-2019-2020-pfmc-2020616",
@@ -27592,6 +27918,7 @@
   "model": "data_manager.layer",
   "pk": 617,
   "fields": {
+    "uuid": "798bae41-ebfa-4d84-aa80-b66844fb9784",
     "name": "Electric Power Substations",
     "order": 4,
     "slug_name": "electric-power-substations617",
@@ -27682,6 +28009,7 @@
   "model": "data_manager.layer",
   "pk": 618,
   "fields": {
+    "uuid": "2b562e96-00e0-4b75-8aba-bd2c0ff31812",
     "name": "Energy",
     "order": 3,
     "slug_name": "energy618",
@@ -27778,6 +28106,7 @@
   "model": "data_manager.layer",
   "pk": 619,
   "fields": {
+    "uuid": "4997191e-72a6-4014-ba8c-6d63e022e0eb",
     "name": "Energy Policy Act",
     "order": 8,
     "slug_name": "energy-policy-act619",
@@ -27868,6 +28197,7 @@
   "model": "data_manager.layer",
   "pk": 620,
   "fields": {
+    "uuid": "ef6994f5-f8ba-4ab8-9613-4f1da87537cf",
     "name": "Estuarine Biotic Habitat",
     "order": 10,
     "slug_name": "estuarine-biotic-habitat620",
@@ -27958,6 +28288,7 @@
   "model": "data_manager.layer",
   "pk": 621,
   "fields": {
+    "uuid": "04ce0095-5b3a-42de-a170-78a86e8735d8",
     "name": "Estuary Sea Level Rise, 2030 Scenario (.75ft)",
     "order": 10,
     "slug_name": "estuary-sea-level-rise-2030-scenario-75ft621",
@@ -28048,6 +28379,7 @@
   "model": "data_manager.layer",
   "pk": 622,
   "fields": {
+    "uuid": "7833af9f-950f-4bb2-96b4-793a5f0f968c",
     "name": "Estuary Sea Level Rise, 2050 Scenario (1.5ft)",
     "order": 10,
     "slug_name": "estuary-sea-level-rise-2050-scenario-15ft622",
@@ -28138,6 +28470,7 @@
   "model": "data_manager.layer",
   "pk": 623,
   "fields": {
+    "uuid": "59c3f087-c426-4de7-a8b4-fcb6366ef626",
     "name": "Estuary Sea Level Rise, 2100 Scenario (4.6ft)",
     "order": 10,
     "slug_name": "estuary-sea-level-rise-2100-scenario-46ft623",
@@ -28228,6 +28561,7 @@
   "model": "data_manager.layer",
   "pk": 624,
   "fields": {
+    "uuid": "f337128c-241c-4a9c-9ca5-81f1330bccc3",
     "name": "Exclusive Economic Zone (EEZ)",
     "order": 10,
     "slug_name": "exclusive-economic-zone-eez624",
@@ -28316,6 +28650,7 @@
   "model": "data_manager.layer",
   "pk": 625,
   "fields": {
+    "uuid": "06535590-ee61-46cf-96ed-26541c7ee8e7",
     "name": "Facilities with NPDES Permits, EPA, 2019",
     "order": 5,
     "slug_name": "facilities-with-npdes-permits-epa-2019625",
@@ -28406,6 +28741,7 @@
   "model": "data_manager.layer",
   "pk": 626,
   "fields": {
+    "uuid": "208e79ba-43af-4545-af41-2c9a9c5f831a",
     "name": "Fault Lines",
     "order": 3,
     "slug_name": "fault-lines626",
@@ -28496,6 +28832,7 @@
   "model": "data_manager.layer",
   "pk": 627,
   "fields": {
+    "uuid": "e31598f1-b612-4dc2-b351-28d234b51353",
     "name": "February Average Wind Speed",
     "order": 10,
     "slug_name": "february-average-wind-speed627",
@@ -28584,6 +28921,7 @@
   "model": "data_manager.layer",
   "pk": 628,
   "fields": {
+    "uuid": "0ad5d77b-b326-4d92-a75a-a0751ad4e86f",
     "name": "Federal and State Waters",
     "order": 9,
     "slug_name": "federal-and-state-waters628",
@@ -28674,6 +29012,7 @@
   "model": "data_manager.layer",
   "pk": 629,
   "fields": {
+    "uuid": "141dc4b7-3ed2-4c3b-bc6d-06adb4612225",
     "name": "Federal Consistency Geographic Location Descriptions",
     "order": 10,
     "slug_name": "federal-consistency-geographic-location-descriptions629",
@@ -28764,6 +29103,7 @@
   "model": "data_manager.layer",
   "pk": 630,
   "fields": {
+    "uuid": "230bf34d-aa0e-485a-8a79-6931d59155a4",
     "name": "Fin Whale Summer Density",
     "order": 5,
     "slug_name": "fin-whale-summer-density630",
@@ -28854,6 +29194,7 @@
   "model": "data_manager.layer",
   "pk": 631,
   "fields": {
+    "uuid": "87091340-a1d6-4541-a28d-ca23b2468e2c",
     "name": "Fish",
     "order": 2,
     "slug_name": "fish631",
@@ -28948,6 +29289,7 @@
   "model": "data_manager.layer",
   "pk": 632,
   "fields": {
+    "uuid": "11a9befd-3425-44c2-9886-19a5043869f7",
     "name": "Fishing",
     "order": 4,
     "slug_name": "fishing632",
@@ -29073,6 +29415,7 @@
   "model": "data_manager.layer",
   "pk": 633,
   "fields": {
+    "uuid": "cd85bd25-b2aa-43e3-a406-ad175a3b35ad",
     "name": "Florence All Fishing Sectors Fisheries Uses and Values Grid, Ecotrust, 2010",
     "order": 14,
     "slug_name": "florence-all-fishing-sectors-fisheries-uses-and-values-grid-ecotrust-2010633",
@@ -29163,6 +29506,7 @@
   "model": "data_manager.layer",
   "pk": 634,
   "fields": {
+    "uuid": "1a5d7745-978b-47e8-b124-5a20b68b3b6d",
     "name": "Florence Commercial Dungeness Crab Fishery Uses and Values Grid, Ecotrust, 2012",
     "order": 15,
     "slug_name": "florence-commercial-dungeness-crab-fishery-uses-and-values-grid-ecotrust-2012634",
@@ -29253,6 +29597,7 @@
   "model": "data_manager.layer",
   "pk": 635,
   "fields": {
+    "uuid": "53ee9d28-89c1-41e8-8755-47b087762dbe",
     "name": "Formerly Used Defense Sites",
     "order": 3,
     "slug_name": "formerly-used-defense-sites635",
@@ -29343,6 +29688,7 @@
   "model": "data_manager.layer",
   "pk": 636,
   "fields": {
+    "uuid": "10d43fad-3b3f-4895-bc4b-fddf80b54241",
     "name": "Garibaldi All Fishing Sectors Fisheries Uses and Values Grid, Ecotrust, 2010",
     "order": 16,
     "slug_name": "garibaldi-all-fishing-sectors-fisheries-uses-and-values-grid-ecotrust-2010636",
@@ -29433,6 +29779,7 @@
   "model": "data_manager.layer",
   "pk": 637,
   "fields": {
+    "uuid": "3481b822-5670-4aed-b843-ea9a9e62582e",
     "name": "GLORIA National Seafloor Geology",
     "order": 10,
     "slug_name": "gloria-national-seafloor-geology637",
@@ -29523,6 +29870,7 @@
   "model": "data_manager.layer",
   "pk": 638,
   "fields": {
+    "uuid": "03a4d95b-5fb8-4129-a690-f000785234a8",
     "name": "Gray Whale Migration Corridor",
     "order": 6,
     "slug_name": "gray-whale-migration-corridor638",
@@ -29613,6 +29961,7 @@
   "model": "data_manager.layer",
   "pk": 639,
   "fields": {
+    "uuid": "95c163ff-bd80-4309-8fb4-5cb516252167",
     "name": "Groundfish biodiversity Maps - Predicted probabilities of abundance hotspots",
     "order": 10,
     "slug_name": "groundfish-biodiversity-maps-predicted-probabilities-of-abundance-hotspots639",
@@ -29703,6 +30052,7 @@
   "model": "data_manager.layer",
   "pk": 640,
   "fields": {
+    "uuid": "6f5e7733-9477-4b93-b324-4643bf2ef7ef",
     "name": "Groundfish biodiversity maps - Predicted probabilities of biomass hotspots",
     "order": 10,
     "slug_name": "groundfish-biodiversity-maps-predicted-probabilities-of-biomass-hotspots640",
@@ -29793,6 +30143,7 @@
   "model": "data_manager.layer",
   "pk": 641,
   "fields": {
+    "uuid": "58ee2738-cb39-4a03-8de4-9ea2bf6aa8d4",
     "name": "Groundfish biodiversity maps - Predicted probabilities of nearshore assemblage abundance hotspots",
     "order": 10,
     "slug_name": "groundfish-biodiversity-maps-predicted-probabilities-of-nearshore-assemblage-abundance-hotspots641",
@@ -29883,6 +30234,7 @@
   "model": "data_manager.layer",
   "pk": 642,
   "fields": {
+    "uuid": "21729aab-5222-454f-b539-5f8e53b9b6da",
     "name": "Groundfish biodiversity maps - Predicted probabilities of species number hotspots",
     "order": 10,
     "slug_name": "groundfish-biodiversity-maps-predicted-probabilities-of-species-number-hotspots642",
@@ -29973,6 +30325,7 @@
   "model": "data_manager.layer",
   "pk": 643,
   "fields": {
+    "uuid": "cf096b0a-3430-4e39-96d6-785f159b34ff",
     "name": "Habitat",
     "order": 3,
     "slug_name": "habitat643",
@@ -30065,6 +30418,7 @@
   "model": "data_manager.layer",
   "pk": 644,
   "fields": {
+    "uuid": "962aebf2-f59e-4018-966d-b406f5845fc0",
     "name": "Habitat Areas of Particular Concern",
     "order": 7,
     "slug_name": "habitat-areas-of-particular-concern644",
@@ -30155,6 +30509,7 @@
   "model": "data_manager.layer",
   "pk": 645,
   "fields": {
+    "uuid": "e30aa3a9-56dc-438f-8d65-8a9a8d7741a4",
     "name": "Hazards",
     "order": 5,
     "slug_name": "hazards645",
@@ -30254,6 +30609,7 @@
   "model": "data_manager.layer",
   "pk": 646,
   "fields": {
+    "uuid": "0789ff64-be45-4baf-b777-952a4b6a8cac",
     "name": "Heritage",
     "order": 6,
     "slug_name": "heritage646",
@@ -30349,6 +30705,7 @@
   "model": "data_manager.layer",
   "pk": 647,
   "fields": {
+    "uuid": "3f7fa926-47ea-4889-83eb-6cc9c161218a",
     "name": "Historic Lighthouses",
     "order": 1,
     "slug_name": "historic-lighthouses647",
@@ -30439,6 +30796,7 @@
   "model": "data_manager.layer",
   "pk": 648,
   "fields": {
+    "uuid": "f937ecab-7519-41b4-a10e-ae33055c611e",
     "name": "Humpback Whale Summer Density",
     "order": 7,
     "slug_name": "humpback-whale-summer-density648",
@@ -30529,6 +30887,7 @@
   "model": "data_manager.layer",
   "pk": 649,
   "fields": {
+    "uuid": "cbb52b3e-b481-4283-80f3-c5892dbeb19e",
     "name": "Infrastructure",
     "order": 7,
     "slug_name": "infrastructure649",
@@ -30629,6 +30988,7 @@
   "model": "data_manager.layer",
   "pk": 650,
   "fields": {
+    "uuid": "546a5471-2911-427a-b830-e2ceb1f3c48b",
     "name": "Invertebrates",
     "order": 10,
     "slug_name": "invertebrates650",
@@ -30719,6 +31079,7 @@
   "model": "data_manager.layer",
   "pk": 651,
   "fields": {
+    "uuid": "7f9ba6c6-2c22-4005-b516-43abf9dadf03",
     "name": "January Average Wind Speed",
     "order": 10,
     "slug_name": "january-average-wind-speed651",
@@ -30807,6 +31168,7 @@
   "model": "data_manager.layer",
   "pk": 652,
   "fields": {
+    "uuid": "2bc2983f-09e1-4847-869c-84ac357fa44b",
     "name": "July Average Wind Speed",
     "order": 10,
     "slug_name": "july-average-wind-speed652",
@@ -30895,6 +31257,7 @@
   "model": "data_manager.layer",
   "pk": 653,
   "fields": {
+    "uuid": "5cf4e110-680e-4323-add4-f684e2fab2fe",
     "name": "June Average Wind Speed",
     "order": 10,
     "slug_name": "june-average-wind-speed653",
@@ -30983,6 +31346,7 @@
   "model": "data_manager.layer",
   "pk": 654,
   "fields": {
+    "uuid": "d877460e-04b7-405d-b353-06bf15ce8446",
     "name": "Kelp Surveys, ODFW, 1990, 1996 - 1999, 2010",
     "order": 2,
     "slug_name": "kelp-surveys-odfw-1990-1996-1999-2010654",
@@ -31073,6 +31437,7 @@
   "model": "data_manager.layer",
   "pk": 655,
   "fields": {
+    "uuid": "7f684dd9-2885-4cf7-b5c3-572c5cdf0e72",
     "name": "Leatherback Sea Turtle Critical Habitat",
     "order": 8,
     "slug_name": "leatherback-sea-turtle-critical-habitat655",
@@ -31163,6 +31528,7 @@
   "model": "data_manager.layer",
   "pk": 656,
   "fields": {
+    "uuid": "1c0a89a5-af3c-464f-b2c1-3d12786ca79a",
     "name": "Limited Entry Bottom Trawl Intensity (2002-2006)",
     "order": 10,
     "slug_name": "limited-entry-bottom-trawl-intensity-2002-2006656",
@@ -31251,6 +31617,7 @@
   "model": "data_manager.layer",
   "pk": 657,
   "fields": {
+    "uuid": "2dce5198-ff20-49eb-a6e7-946d57cb9e1f",
     "name": "Limited Entry Bottom Trawl Intensity (2006-2010)",
     "order": 10,
     "slug_name": "limited-entry-bottom-trawl-intensity-2006-2010657",
@@ -31339,6 +31706,7 @@
   "model": "data_manager.layer",
   "pk": 658,
   "fields": {
+    "uuid": "e9ee6a5c-786f-4813-92b3-b1c49e7d6215",
     "name": "Limited Entry Bottom Trawl Intensity (Data Slider)",
     "order": 17,
     "slug_name": "limited-entry-bottom-trawl-intensity-data-slider658",
@@ -31429,6 +31797,7 @@
   "model": "data_manager.layer",
   "pk": 659,
   "fields": {
+    "uuid": "9641a3d2-eab6-4327-8997-3255baabe021",
     "name": "March Average Wind Speed",
     "order": 10,
     "slug_name": "march-average-wind-speed659",
@@ -31517,6 +31886,7 @@
   "model": "data_manager.layer",
   "pk": 660,
   "fields": {
+    "uuid": "db362165-36a1-4b80-8f0f-dc1bac27a5db",
     "name": "Marine Mammals and Turtles",
     "order": 10,
     "slug_name": "marine-mammals-and-turtles660",
@@ -31620,6 +31990,7 @@
   "model": "data_manager.layer",
   "pk": 661,
   "fields": {
+    "uuid": "85384e1b-f578-47e4-9e8b-7f072952d26f",
     "name": "Marine Place Names",
     "order": 11,
     "slug_name": "marine-place-names661",
@@ -31710,6 +32081,7 @@
   "model": "data_manager.layer",
   "pk": 662,
   "fields": {
+    "uuid": "fd1345f9-7e84-49ce-9587-08ea6bb8d53a",
     "name": "Marine Plants and Algae",
     "order": 11,
     "slug_name": "marine-plants-and-algae662",
@@ -31802,6 +32174,7 @@
   "model": "data_manager.layer",
   "pk": 663,
   "fields": {
+    "uuid": "e98826d3-7fe8-4535-b122-2671322e6b77",
     "name": "Marine Reserve Comparison Study Areas, ODFW, 2020",
     "order": 1,
     "slug_name": "marine-reserve-comparison-study-areas-odfw-2020663",
@@ -31892,6 +32265,7 @@
   "model": "data_manager.layer",
   "pk": 664,
   "fields": {
+    "uuid": "22fcf379-20aa-4951-98a4-26079363a529",
     "name": "Marine Reserves and Protected Areas, ODFW, 2019",
     "order": 8,
     "slug_name": "marine-reserves-and-protected-areas-odfw-2019664",
@@ -31982,6 +32356,7 @@
   "model": "data_manager.layer",
   "pk": 665,
   "fields": {
+    "uuid": "532eff03-a8d7-4a4f-a6d5-5c931d527bf0",
     "name": "Marine Substrates",
     "order": 3,
     "slug_name": "marine-substrates665",
@@ -32078,6 +32453,7 @@
   "model": "data_manager.layer",
   "pk": 666,
   "fields": {
+    "uuid": "ed9aef8f-ec2d-4aa3-84af-49cc129715d3",
     "name": "Maritime Industry",
     "order": 8,
     "slug_name": "maritime-industry666",
@@ -32172,6 +32548,7 @@
   "model": "data_manager.layer",
   "pk": 667,
   "fields": {
+    "uuid": "54e0c0dd-7380-4ed7-a577-87ca041f4074",
     "name": "May Average Wind Speed",
     "order": 10,
     "slug_name": "may-average-wind-speed667",
@@ -32260,6 +32637,7 @@
   "model": "data_manager.layer",
   "pk": 668,
   "fields": {
+    "uuid": "619d349a-14a5-4908-a94b-09417a66aab1",
     "name": "Mean Tidal Current",
     "order": 10,
     "slug_name": "mean-tidal-current668",
@@ -32350,6 +32728,7 @@
   "model": "data_manager.layer",
   "pk": 669,
   "fields": {
+    "uuid": "688a4f5e-766f-4be6-9005-6b9f8ad8c9b8",
     "name": "Military",
     "order": 9,
     "slug_name": "military669",
@@ -32445,6 +32824,7 @@
   "model": "data_manager.layer",
   "pk": 670,
   "fields": {
+    "uuid": "61c367e1-6d94-4f6d-acff-724acb50476f",
     "name": "Military Operating Area Boundaries",
     "order": 4,
     "slug_name": "military-operating-area-boundaries670",
@@ -32535,6 +32915,7 @@
   "model": "data_manager.layer",
   "pk": 671,
   "fields": {
+    "uuid": "b81c38da-0327-4cbd-9ebd-451373a236d8",
     "name": "MultiBeam Echosounder Surveys (1998-2019)",
     "order": 10,
     "slug_name": "multibeam-echosounder-surveys-1998-2019671",
@@ -32625,6 +33006,7 @@
   "model": "data_manager.layer",
   "pk": 672,
   "fields": {
+    "uuid": "a3a187d8-1441-4fff-b523-84241f99661a",
     "name": "NASCA Submarine Cables",
     "order": 6,
     "slug_name": "nasca-submarine-cables672",
@@ -32715,6 +33097,7 @@
   "model": "data_manager.layer",
   "pk": 673,
   "fields": {
+    "uuid": "60ef677b-d2ef-4995-8979-e017f7bd53d4",
     "name": "National Marine Sanctuaries",
     "order": 12,
     "slug_name": "national-marine-sanctuaries673",
@@ -32805,6 +33188,7 @@
   "model": "data_manager.layer",
   "pk": 674,
   "fields": {
+    "uuid": "4820c81f-2318-40e7-aa82-234d2b35b6b5",
     "name": "National Register of Historic Places",
     "order": 2,
     "slug_name": "national-register-of-historic-places674",
@@ -32895,6 +33279,7 @@
   "model": "data_manager.layer",
   "pk": 675,
   "fields": {
+    "uuid": "1601e01f-bf88-4645-bc18-ea07da4fd526",
     "name": "Nearshore Research Inventory Areas, OCMP, 2012",
     "order": 2,
     "slug_name": "nearshore-research-inventory-areas-ocmp-2012675",
@@ -32985,6 +33370,7 @@
   "model": "data_manager.layer",
   "pk": 676,
   "fields": {
+    "uuid": "b684061c-ed62-4fcd-a354-583194c7723e",
     "name": "Nearshore Research Inventory Lines, OCMP, 2012",
     "order": 3,
     "slug_name": "nearshore-research-inventory-lines-ocmp-2012676",
@@ -33075,6 +33461,7 @@
   "model": "data_manager.layer",
   "pk": 677,
   "fields": {
+    "uuid": "97f19d50-5a39-499b-b6dc-d5483c7cb5b3",
     "name": "Nearshore Research Inventory Points, OCMP, 2012",
     "order": 4,
     "slug_name": "nearshore-research-inventory-points-ocmp-2012677",
@@ -33165,6 +33552,7 @@
   "model": "data_manager.layer",
   "pk": 678,
   "fields": {
+    "uuid": "7852bef5-12a4-4cf0-ac02-7dba2a9cd0c4",
     "name": "Nearshore Research Inventory Stations, OCMP, 2012",
     "order": 5,
     "slug_name": "nearshore-research-inventory-stations-ocmp-2012678",
@@ -33255,6 +33643,7 @@
   "model": "data_manager.layer",
   "pk": 679,
   "fields": {
+    "uuid": "1799e6cf-6e59-4ae4-814f-e0f7c786a260",
     "name": "Nearshore Research Inventory Transects, OCMP, 2012",
     "order": 6,
     "slug_name": "nearshore-research-inventory-transects-ocmp-2012679",
@@ -33345,6 +33734,7 @@
   "model": "data_manager.layer",
   "pk": 680,
   "fields": {
+    "uuid": "aee97452-7d92-41ac-9816-141a8e2b3761",
     "name": "Newport All Sector Fisheries Uses Grid, Ecotrust, 2010",
     "order": 18,
     "slug_name": "newport-all-sector-fisheries-uses-grid-ecotrust-2010680",
@@ -33435,6 +33825,7 @@
   "model": "data_manager.layer",
   "pk": 681,
   "fields": {
+    "uuid": "c5ed35fb-31b9-4515-a564-c125c6fea8f7",
     "name": "Newport Charter and Recreational Fisheries Uses Grid, Ecotrust, 2010",
     "order": 19,
     "slug_name": "newport-charter-and-recreational-fisheries-uses-grid-ecotrust-2010681",
@@ -33525,6 +33916,7 @@
   "model": "data_manager.layer",
   "pk": 682,
   "fields": {
+    "uuid": "bc5b50b8-75cc-48be-af28-e64c007cafdc",
     "name": "Newport Commercial Dungeness Crab Fishery Uses and Values Grid, Ecotrust, 2012",
     "order": 20,
     "slug_name": "newport-commercial-dungeness-crab-fishery-uses-and-values-grid-ecotrust-2012682",
@@ -33615,6 +34007,7 @@
   "model": "data_manager.layer",
   "pk": 683,
   "fields": {
+    "uuid": "d17b416b-f29a-4ca5-84e4-e2ec33bfa8cf",
     "name": "NOAA Charted Submarine Cables",
     "order": 7,
     "slug_name": "noaa-charted-submarine-cables683",
@@ -33705,6 +34098,7 @@
   "model": "data_manager.layer",
   "pk": 684,
   "fields": {
+    "uuid": "823c2159-8b83-4f57-b1a7-cd2a35b098c7",
     "name": "Non-Catch Shares Hook-and-Line Intensity (2002-2010)",
     "order": 10,
     "slug_name": "non-catch-shares-hook-and-line-intensity-2002-2010684",
@@ -33793,6 +34187,7 @@
   "model": "data_manager.layer",
   "pk": 685,
   "fields": {
+    "uuid": "83910fd2-b2b2-4abc-93ff-83f023ca25c5",
     "name": "Non-Catch Shares Hook-and-Line Intensity (2011-2015)",
     "order": 10,
     "slug_name": "non-catch-shares-hook-and-line-intensity-2011-2015685",
@@ -33881,6 +34276,7 @@
   "model": "data_manager.layer",
   "pk": 686,
   "fields": {
+    "uuid": "e730c190-9313-40a7-8845-cc00f761a031",
     "name": "Non-Catch Shares Hook-and-Line Intensity (2016-2017)",
     "order": 10,
     "slug_name": "non-catch-shares-hook-and-line-intensity-2016-2017686",
@@ -33969,6 +34365,7 @@
   "model": "data_manager.layer",
   "pk": 687,
   "fields": {
+    "uuid": "0f2f43f8-1fad-499f-894c-1d3f68236da3",
     "name": "Non-catch Shares Hook-and-Line Intensity (Data Slider)",
     "order": 21,
     "slug_name": "non-catch-shares-hook-and-line-intensity-data-slider687",
@@ -34059,6 +34456,7 @@
   "model": "data_manager.layer",
   "pk": 688,
   "fields": {
+    "uuid": "13a67743-4ebb-4059-8a50-67e6d5f021fc",
     "name": "Non-Catch Shares Pot Intensity (2002-2010)",
     "order": 10,
     "slug_name": "non-catch-shares-pot-intensity-2002-2010688",
@@ -34147,6 +34545,7 @@
   "model": "data_manager.layer",
   "pk": 689,
   "fields": {
+    "uuid": "8a58f64f-500b-4c69-8a3f-4f17c0f23f97",
     "name": "Non-Catch Shares Pot Intensity (2011-2015)",
     "order": 10,
     "slug_name": "non-catch-shares-pot-intensity-2011-2015689",
@@ -34235,6 +34634,7 @@
   "model": "data_manager.layer",
   "pk": 690,
   "fields": {
+    "uuid": "7541ef02-f87e-49ea-a19b-f4b38a0a7853",
     "name": "Non-Catch Shares Pot Intensity (2016-2017)",
     "order": 10,
     "slug_name": "non-catch-shares-pot-intensity-2016-2017690",
@@ -34323,6 +34723,7 @@
   "model": "data_manager.layer",
   "pk": 691,
   "fields": {
+    "uuid": "c43d0425-5486-4a6f-8ba9-cf5dd0e9e770",
     "name": "Non-Catch Shares Pot Intensity (Data Slider)",
     "order": 22,
     "slug_name": "non-catch-shares-pot-intensity-data-slider691",
@@ -34413,6 +34814,7 @@
   "model": "data_manager.layer",
   "pk": 692,
   "fields": {
+    "uuid": "c95e8483-d9bf-42c0-b3c3-ca462db75675",
     "name": "Northern Elephant Seal Haulouts (ODFW 2011)",
     "order": 9,
     "slug_name": "northern-elephant-seal-haulouts-odfw-2011692",
@@ -34503,6 +34905,7 @@
   "model": "data_manager.layer",
   "pk": 693,
   "fields": {
+    "uuid": "7411a09d-fe6c-434b-a2d1-b653e50ec3fa",
     "name": "November Average Wind Speed",
     "order": 10,
     "slug_name": "november-average-wind-speed693",
@@ -34591,6 +34994,7 @@
   "model": "data_manager.layer",
   "pk": 694,
   "fields": {
+    "uuid": "68f03b25-dbd5-4407-80e3-5ca73d12181c",
     "name": "Ocean Disposal Sites",
     "order": 4,
     "slug_name": "ocean-disposal-sites694",
@@ -34681,6 +35085,7 @@
   "model": "data_manager.layer",
   "pk": 695,
   "fields": {
+    "uuid": "516987bd-5d8d-4ca7-a875-9e9d715d2950",
     "name": "October Average Wind Speed",
     "order": 10,
     "slug_name": "october-average-wind-speed695",
@@ -34769,6 +35174,7 @@
   "model": "data_manager.layer",
   "pk": 696,
   "fields": {
+    "uuid": "ed4f7a5b-0ef2-4005-8529-68adf8808e78",
     "name": "Offshore Wind Technology Depth Zones",
     "order": 5,
     "slug_name": "offshore-wind-technology-depth-zones696",
@@ -34859,6 +35265,7 @@
   "model": "data_manager.layer",
   "pk": 697,
   "fields": {
+    "uuid": "9a9f8685-31a6-4927-932b-2e6ba70ff1a0",
     "name": "OR Counties",
     "order": 10,
     "slug_name": "or-counties697",
@@ -34947,6 +35354,7 @@
   "model": "data_manager.layer",
   "pk": 698,
   "fields": {
+    "uuid": "2eafff20-78b2-461e-afd3-6715d16d26ec",
     "name": "Oregon Coast National Wildlife Refuges, USFWS, 2019",
     "order": 13,
     "slug_name": "oregon-coast-national-wildlife-refuges-usfws-2019698",
@@ -35037,6 +35445,7 @@
   "model": "data_manager.layer",
   "pk": 699,
   "fields": {
+    "uuid": "eca5d993-6ca4-4443-b8c0-f785719aeeea",
     "name": "Oregon Recreation Wildlife Viewing (Surfrider 2010)",
     "order": 10,
     "slug_name": "oregon-recreation-wildlife-viewing-surfrider-2010699",
@@ -35127,6 +35536,7 @@
   "model": "data_manager.layer",
   "pk": 700,
   "fields": {
+    "uuid": "2b153d92-4239-4b01-851f-fa1780e0b492",
     "name": "OR Marine Reserves",
     "order": 10,
     "slug_name": "or-marine-reserves700",
@@ -35215,6 +35625,7 @@
   "model": "data_manager.layer",
   "pk": 701,
   "fields": {
+    "uuid": "6a4183ac-9b16-4f1b-9cd7-4a5e411877b1",
     "name": "OR Ports",
     "order": 10,
     "slug_name": "or-ports701",
@@ -35303,6 +35714,7 @@
   "model": "data_manager.layer",
   "pk": 702,
   "fields": {
+    "uuid": "35cd1b82-6225-4ec8-9384-b1d5f1f9dae9",
     "name": "Outer Continental Shelf Lands Act",
     "order": 14,
     "slug_name": "outer-continental-shelf-lands-act702",
@@ -35393,6 +35805,7 @@
   "model": "data_manager.layer",
   "pk": 703,
   "fields": {
+    "uuid": "93c6ed0f-b953-4c1e-b268-ac09ec0b9433",
     "name": "Pacific Hake Adult Relative Abundance (2012)",
     "order": 10,
     "slug_name": "pacific-hake-adult-relative-abundance-2012703",
@@ -35481,6 +35894,7 @@
   "model": "data_manager.layer",
   "pk": 704,
   "fields": {
+    "uuid": "59636571-b5c9-4c82-93f7-a104593a6b0a",
     "name": "Pacific Hake Adult Relative Abundance (2013)",
     "order": 10,
     "slug_name": "pacific-hake-adult-relative-abundance-2013704",
@@ -35569,6 +35983,7 @@
   "model": "data_manager.layer",
   "pk": 705,
   "fields": {
+    "uuid": "94055364-bcd3-4af2-9a5c-6cff5fd2ed2d",
     "name": "Pacific Hake Adult Relative Abundance (2015)",
     "order": 10,
     "slug_name": "pacific-hake-adult-relative-abundance-2015705",
@@ -35657,6 +36072,7 @@
   "model": "data_manager.layer",
   "pk": 706,
   "fields": {
+    "uuid": "bb22368a-b390-4caa-a898-78cf256bf731",
     "name": "Pacific Hake Adult Relative Abundance (Data Slider)",
     "order": 10,
     "slug_name": "pacific-hake-adult-relative-abundance-data-slider706",
@@ -35747,6 +36163,7 @@
   "model": "data_manager.layer",
   "pk": 707,
   "fields": {
+    "uuid": "05601462-82fc-467d-b32f-2632d8e2ea43",
     "name": "Pacific Harbor Seal Haulout Counts (ODFW 2011)",
     "order": 10,
     "slug_name": "pacific-harbor-seal-haulout-counts-odfw-2011707",
@@ -35837,6 +36254,7 @@
   "model": "data_manager.layer",
   "pk": 708,
   "fields": {
+    "uuid": "87a0882f-542e-4795-8333-f1e00673b602",
     "name": "PaCSEA All Surveys Avg 2011-2012",
     "order": 7,
     "slug_name": "pacsea-all-surveys-avg-2011-2012708",
@@ -35927,6 +36345,7 @@
   "model": "data_manager.layer",
   "pk": 709,
   "fields": {
+    "uuid": "75a41f1f-6ca6-429e-ab25-ffa10c926507",
     "name": "PaCSEA Feb 2012",
     "order": 4,
     "slug_name": "pacsea-feb-2012709",
@@ -36015,6 +36434,7 @@
   "model": "data_manager.layer",
   "pk": 710,
   "fields": {
+    "uuid": "a569db7d-4ca5-4acb-9ac1-69cc77104c08",
     "name": "PaCSEA Jan 2011",
     "order": 1,
     "slug_name": "pacsea-jan-2011710",
@@ -36103,6 +36523,7 @@
   "model": "data_manager.layer",
   "pk": 711,
   "fields": {
+    "uuid": "ba0a7da9-aeca-424b-98f8-0558ab9ce9f1",
     "name": "PaCSEA July 2012",
     "order": 5,
     "slug_name": "pacsea-july-2012711",
@@ -36191,6 +36612,7 @@
   "model": "data_manager.layer",
   "pk": 712,
   "fields": {
+    "uuid": "400e0e54-f055-4b90-87b5-056081df3d67",
     "name": "PaCSEA June 2011",
     "order": 2,
     "slug_name": "pacsea-june-2011712",
@@ -36279,6 +36701,7 @@
   "model": "data_manager.layer",
   "pk": 713,
   "fields": {
+    "uuid": "7eba8c11-0ee0-4b64-8c35-245c282256ce",
     "name": "PaCSEA Oct 2011",
     "order": 3,
     "slug_name": "pacsea-oct-2011713",
@@ -36367,6 +36790,7 @@
   "model": "data_manager.layer",
   "pk": 714,
   "fields": {
+    "uuid": "8c0ee46e-c8e8-4280-9531-8ef8374cf36a",
     "name": "PaCSEA Seabird Transects 2011-2012",
     "order": 8,
     "slug_name": "pacsea-seabird-transects-2011-2012714",
@@ -36457,6 +36881,7 @@
   "model": "data_manager.layer",
   "pk": 715,
   "fields": {
+    "uuid": "ec623a5a-f890-4cfd-a01e-e76513367a3f",
     "name": "PacSEA Seasonal Surveys 2011-2012 (Data Slider)",
     "order": 10,
     "slug_name": "pacsea-seasonal-surveys-2011-2012-data-slider715",
@@ -36547,6 +36972,7 @@
   "model": "data_manager.layer",
   "pk": 716,
   "fields": {
+    "uuid": "f8c3a7d6-e0d8-468a-835e-5925a003ef29",
     "name": "PaCSEA Sep 2012",
     "order": 6,
     "slug_name": "pacsea-sep-2012716",
@@ -36635,6 +37061,7 @@
   "model": "data_manager.layer",
   "pk": 717,
   "fields": {
+    "uuid": "f71d33b7-28bd-4093-a399-721c91a30298",
     "name": "Permitted Marine Hydrokinetic Projects",
     "order": 6,
     "slug_name": "permitted-marine-hydrokinetic-projects717",
@@ -36725,6 +37152,7 @@
   "model": "data_manager.layer",
   "pk": 718,
   "fields": {
+    "uuid": "de3dc30e-bdda-4e93-bb85-fedec77df9f5",
     "name": "PFMC Landmarks and Areas, PFMC, 2020",
     "order": 23,
     "slug_name": "pfmc-landmarks-and-areas-pfmc-2020718",
@@ -36817,6 +37245,7 @@
   "model": "data_manager.layer",
   "pk": 719,
   "fields": {
+    "uuid": "046721a4-4d29-4555-82b0-0874c6eefee1",
     "name": "Pipeline Areas",
     "order": 8,
     "slug_name": "pipeline-areas719",
@@ -36907,6 +37336,7 @@
   "model": "data_manager.layer",
   "pk": 720,
   "fields": {
+    "uuid": "035a1675-ec6c-49a1-aee6-b90959b6348c",
     "name": "Population",
     "order": 10,
     "slug_name": "population720",
@@ -36997,6 +37427,7 @@
   "model": "data_manager.layer",
   "pk": 721,
   "fields": {
+    "uuid": "f0574c58-75c3-4f36-977e-cc60e66bd2a5",
     "name": "Port Orford Commercial Dungeness Crab Fishery Uses and Values Grid, Ecotrust, 2012",
     "order": 24,
     "slug_name": "port-orford-commercial-dungeness-crab-fishery-uses-and-values-grid-ecotrust-2012721",
@@ -37087,6 +37518,7 @@
   "model": "data_manager.layer",
   "pk": 722,
   "fields": {
+    "uuid": "4c1547d2-ef46-441d-9c92-dd9879d22440",
     "name": "Port Orford Commercial Fishing Fisheries Uses and Values Grid, Ecotrust, 2010",
     "order": 25,
     "slug_name": "port-orford-commercial-fishing-fisheries-uses-and-values-grid-ecotrust-2010722",
@@ -37177,6 +37609,7 @@
   "model": "data_manager.layer",
   "pk": 723,
   "fields": {
+    "uuid": "ea81aba3-1590-4cf7-8313-e1859da27d9e",
     "name": "Principal Ports",
     "order": 9,
     "slug_name": "principal-ports723",
@@ -37267,6 +37700,7 @@
   "model": "data_manager.layer",
   "pk": 724,
   "fields": {
+    "uuid": "8e2e984e-4717-4b2a-aaf9-7d690efa9868",
     "name": "Quaternary Fault Lines Offshore Oregon, USGS",
     "order": 10,
     "slug_name": "quaternary-fault-lines-offshore-oregon-usgs724",
@@ -37357,6 +37791,7 @@
   "model": "data_manager.layer",
   "pk": 725,
   "fields": {
+    "uuid": "31fdd0f0-6f41-4200-bf99-0b9f7b697704",
     "name": "Recreation (non-consumptive)",
     "order": 10,
     "slug_name": "recreation-non-consumptive725",
@@ -37448,6 +37883,7 @@
   "model": "data_manager.layer",
   "pk": 726,
   "fields": {
+    "uuid": "a70db759-a008-41a3-8b5e-66da8739a088",
     "name": "Regulated Navigation Areas",
     "order": 24,
     "slug_name": "regulated-navigation-areas726",
@@ -37538,6 +37974,7 @@
   "model": "data_manager.layer",
   "pk": 727,
   "fields": {
+    "uuid": "24750623-507e-4db0-a685-70975a1d0d53",
     "name": "Research",
     "order": 11,
     "slug_name": "research727",
@@ -37634,6 +38071,7 @@
   "model": "data_manager.layer",
   "pk": 728,
   "fields": {
+    "uuid": "a3ee5fda-297f-48b0-9503-92b245846c9f",
     "name": "Research Cables (2020)",
     "order": 10,
     "slug_name": "research-cables-2020728",
@@ -37722,6 +38160,7 @@
   "model": "data_manager.layer",
   "pk": 729,
   "fields": {
+    "uuid": "8fccf0e3-7db4-430d-a8b5-8fbef039c815",
     "name": "Research SubSea Cables, OFCC, 2020",
     "order": 10,
     "slug_name": "research-subsea-cables-ofcc-2020729",
@@ -37813,6 +38252,7 @@
   "model": "data_manager.layer",
   "pk": 730,
   "fields": {
+    "uuid": "c25fdc7c-e3fe-44b9-9dd6-c03d5eee115f",
     "name": "Rocky Shore Managed Areas, ODFW, 2019",
     "order": 24,
     "slug_name": "rocky-shore-managed-areas-odfw-2019730",
@@ -37903,6 +38343,7 @@
   "model": "data_manager.layer",
   "pk": 731,
   "fields": {
+    "uuid": "5ce52767-c970-4b4f-b484-001bfc584e09",
     "name": "Salmon River Recreational Dungeness Crab Fishery Use and Value Grid, Ecotrust, 2010",
     "order": 26,
     "slug_name": "salmon-river-recreational-dungeness-crab-fishery-use-and-value-grid-ecotrust-2010731",
@@ -37993,6 +38434,7 @@
   "model": "data_manager.layer",
   "pk": 732,
   "fields": {
+    "uuid": "602e1cbe-fe59-4eb8-98c5-0931d48c3668",
     "name": "Salmon River Recreational Fisheries Uses and Values Grid, Ecotrust, 2010",
     "order": 27,
     "slug_name": "salmon-river-recreational-fisheries-uses-and-values-grid-ecotrust-2010732",
@@ -38083,6 +38525,7 @@
   "model": "data_manager.layer",
   "pk": 733,
   "fields": {
+    "uuid": "e7990f01-21d1-4828-a2d6-751a13bae6de",
     "name": "Salmon River Recreational Pacific Halibut Fishery Use and Value Grid, Ecotrust, 2010",
     "order": 28,
     "slug_name": "salmon-river-recreational-pacific-halibut-fishery-use-and-value-grid-ecotrust-2010733",
@@ -38173,6 +38616,7 @@
   "model": "data_manager.layer",
   "pk": 734,
   "fields": {
+    "uuid": "f67cec28-1000-47f9-b36b-c8070776aaf9",
     "name": "Salmon River Recreational Rockfish Fishery Use and Value Grid, Ecotrust, 2010",
     "order": 29,
     "slug_name": "salmon-river-recreational-rockfish-fishery-use-and-value-grid-ecotrust-2010734",
@@ -38263,6 +38707,7 @@
   "model": "data_manager.layer",
   "pk": 735,
   "fields": {
+    "uuid": "d7b45c73-a57c-4499-b06f-6fd638afd542",
     "name": "Salmon River Recreational Salmon Fishery Use and Value Grid, Ecotrust, 2010",
     "order": 30,
     "slug_name": "salmon-river-recreational-salmon-fishery-use-and-value-grid-ecotrust-2010735",
@@ -38353,6 +38798,7 @@
   "model": "data_manager.layer",
   "pk": 736,
   "fields": {
+    "uuid": "7a11772c-8596-4b84-9a76-5b9aa3e4d32e",
     "name": "Seabird Colony Relative Ecological Importance",
     "order": 10,
     "slug_name": "seabird-colony-relative-ecological-importance736",
@@ -38443,6 +38889,7 @@
   "model": "data_manager.layer",
   "pk": 737,
   "fields": {
+    "uuid": "2346c8fd-7173-47f8-905c-099322fb2134",
     "name": "Seafloor Induration Data Quality",
     "order": 2,
     "slug_name": "seafloor-induration-data-quality737",
@@ -38533,6 +38980,7 @@
   "model": "data_manager.layer",
   "pk": 738,
   "fields": {
+    "uuid": "df25f469-c614-441d-bab8-6ce5ce684ffb",
     "name": "Seagrasses (March 2015)",
     "order": 10,
     "slug_name": "seagrasses-march-2015738",
@@ -38623,6 +39071,7 @@
   "model": "data_manager.layer",
   "pk": 739,
   "fields": {
+    "uuid": "bec0a522-f8f7-4a51-8996-a3cc9fc22d48",
     "name": "Sediment Thickness",
     "order": 3,
     "slug_name": "sediment-thickness739",
@@ -38713,6 +39162,7 @@
   "model": "data_manager.layer",
   "pk": 740,
   "fields": {
+    "uuid": "3297d3e2-2a65-4194-b255-ae3ecded96ca",
     "name": "Sediment Thickness Contours",
     "order": 10,
     "slug_name": "sediment-thickness-contours740",
@@ -38803,6 +39253,7 @@
   "model": "data_manager.layer",
   "pk": 741,
   "fields": {
+    "uuid": "f43fcd16-cbec-4bbf-86eb-e48f9ffbd157",
     "name": "Sediment Type",
     "order": 10,
     "slug_name": "sediment-type741",
@@ -38893,6 +39344,7 @@
   "model": "data_manager.layer",
   "pk": 742,
   "fields": {
+    "uuid": "032f3dd2-6854-422e-a649-b320af935314",
     "name": "September Average Wind Speed",
     "order": 10,
     "slug_name": "september-average-wind-speed742",
@@ -38981,6 +39433,7 @@
   "model": "data_manager.layer",
   "pk": 743,
   "fields": {
+    "uuid": "d6de0a9a-eb7f-47ac-ac5e-37bfa627380c",
     "name": "Shoreside Midwater Trawl for Hake Intensity (2011-2015)",
     "order": 10,
     "slug_name": "shoreside-midwater-trawl-for-hake-intensity-2011-2015743",
@@ -39069,6 +39522,7 @@
   "model": "data_manager.layer",
   "pk": 744,
   "fields": {
+    "uuid": "e34129d2-9352-4675-807b-f63ebbf77e54",
     "name": "Shoreside Midwater Trawl for Hake Intensity (2016-2017)",
     "order": 10,
     "slug_name": "shoreside-midwater-trawl-for-hake-intensity-2016-2017744",
@@ -39157,6 +39611,7 @@
   "model": "data_manager.layer",
   "pk": 745,
   "fields": {
+    "uuid": "b717f1bb-f2e0-4719-9257-0b2273a6a5f3",
     "name": "Shoreside Midwater Trawl for Hake Intensity (Data Slider)",
     "order": 31,
     "slug_name": "shoreside-midwater-trawl-for-hake-intensity-data-slider745",
@@ -39247,6 +39702,7 @@
   "model": "data_manager.layer",
   "pk": 746,
   "fields": {
+    "uuid": "55e6a773-3b8e-4ed7-95e3-daeea4901ee2",
     "name": "Shoreside Midwater Trawl for Rockfish Intensity (2011-2015)",
     "order": 10,
     "slug_name": "shoreside-midwater-trawl-for-rockfish-intensity-2011-2015746",
@@ -39335,6 +39791,7 @@
   "model": "data_manager.layer",
   "pk": 747,
   "fields": {
+    "uuid": "db98d65c-4c39-4df2-b452-91b0498f4e13",
     "name": "Shoreside Midwater Trawl for Rockfish Intensity (2016-2017)",
     "order": 10,
     "slug_name": "shoreside-midwater-trawl-for-rockfish-intensity-2016-2017747",
@@ -39423,6 +39880,7 @@
   "model": "data_manager.layer",
   "pk": 748,
   "fields": {
+    "uuid": "b000aa6c-e020-4003-a625-0e6cd1883695",
     "name": "Shoreside Midwater Trawl for Rockfish Intensity (Data Slider)",
     "order": 32,
     "slug_name": "shoreside-midwater-trawl-for-rockfish-intensity-data-slider748",
@@ -39513,6 +39971,7 @@
   "model": "data_manager.layer",
   "pk": 749,
   "fields": {
+    "uuid": "42b7f771-12d2-432e-bdb3-a56cb5e50a31",
     "name": "Significant Wave Height and Direction",
     "order": 10,
     "slug_name": "significant-wave-height-and-direction749",
@@ -39603,6 +40062,7 @@
   "model": "data_manager.layer",
   "pk": 750,
   "fields": {
+    "uuid": "38711aeb-3bf7-461b-a90b-c10e924fbe16",
     "name": "SOORC Commercial Dungeness Crab Fishery Uses and Values Grid, Ecotrust, 2012",
     "order": 33,
     "slug_name": "soorc-commercial-dungeness-crab-fishery-uses-and-values-grid-ecotrust-2012750",
@@ -39693,6 +40153,7 @@
   "model": "data_manager.layer",
   "pk": 751,
   "fields": {
+    "uuid": "b834da0a-6acf-41bf-9aa9-ce2d04411a4b",
     "name": "SOORC Commercial Fishing Fisheries Uses and Values Grid, Ecotrust, 2010",
     "order": 34,
     "slug_name": "soorc-commercial-fishing-fisheries-uses-and-values-grid-ecotrust-2010751",
@@ -39783,6 +40244,7 @@
   "model": "data_manager.layer",
   "pk": 752,
   "fields": {
+    "uuid": "6e6a9a2e-46fb-45c4-8996-9f2b1a8d201a",
     "name": "Sperm Whale Summer Density",
     "order": 11,
     "slug_name": "sperm-whale-summer-density752",
@@ -39873,6 +40335,7 @@
   "model": "data_manager.layer",
   "pk": 753,
   "fields": {
+    "uuid": "1f98bd1b-0ade-4622-be7c-e25023424ea3",
     "name": "Steller Sea Lion Critical Habitat",
     "order": 12,
     "slug_name": "steller-sea-lion-critical-habitat753",
@@ -39963,6 +40426,7 @@
   "model": "data_manager.layer",
   "pk": 754,
   "fields": {
+    "uuid": "76d0a364-6884-484e-8972-a48065741d72",
     "name": "Steller Sea Lion Haulout Counts (ODFW 2011)",
     "order": 13,
     "slug_name": "steller-sea-lion-haulout-counts-odfw-2011754",
@@ -40053,6 +40517,7 @@
   "model": "data_manager.layer",
   "pk": 755,
   "fields": {
+    "uuid": "b19424e3-c10e-4356-8747-6a415b7a6c7e",
     "name": "Steller Sea Lion Haulout Use (ODFW 2011)",
     "order": 14,
     "slug_name": "steller-sea-lion-haulout-use-odfw-2011755",
@@ -40143,6 +40608,7 @@
   "model": "data_manager.layer",
   "pk": 756,
   "fields": {
+    "uuid": "e08f978e-dd1a-4b41-a9ca-871a517d13e7",
     "name": "Submerged Lands Act Boundary",
     "order": 25,
     "slug_name": "submerged-lands-act-boundary756",
@@ -40233,6 +40699,7 @@
   "model": "data_manager.layer",
   "pk": 757,
   "fields": {
+    "uuid": "9edcce44-9436-4e7b-9daa-f2435122c295",
     "name": "Surficial Sediment Classification",
     "order": 11,
     "slug_name": "surficial-sediment-classification757",
@@ -40323,6 +40790,7 @@
   "model": "data_manager.layer",
   "pk": 758,
   "fields": {
+    "uuid": "945aacc3-a51e-461e-b816-bbd1e2259f6b",
     "name": "Telecommunications Cables (2020)",
     "order": 10,
     "slug_name": "telecommunications-cables-2020758",
@@ -40411,6 +40879,7 @@
   "model": "data_manager.layer",
   "pk": 759,
   "fields": {
+    "uuid": "b2df3cae-0389-406f-8fb2-25a497fa1c4d",
     "name": "Telecommunication SubSea Cables, OFCC, 2020",
     "order": 11,
     "slug_name": "telecommunication-subsea-cables-ofcc-2020759",
@@ -40501,6 +40970,7 @@
   "model": "data_manager.layer",
   "pk": 760,
   "fields": {
+    "uuid": "579cccab-8f31-4e82-a806-44aec0cb0ed7",
     "name": "Territorial Sea Boundary",
     "order": 10,
     "slug_name": "territorial-sea-boundary760",
@@ -40589,6 +41059,7 @@
   "model": "data_manager.layer",
   "pk": 761,
   "fields": {
+    "uuid": "f9bdcdc8-d219-40ad-a2ce-ca4fd60d5258",
     "name": "Territorial Sea Plan Part V",
     "order": 26,
     "slug_name": "territorial-sea-plan-part-v761",
@@ -40679,6 +41150,7 @@
   "model": "data_manager.layer",
   "pk": 762,
   "fields": {
+    "uuid": "c5c62a85-c1d0-4be7-804f-e9ca25af4da0",
     "name": "Tillamook, Garibaldi Commercial Dungeness Crab Fishery Uses and Values Grid, Ecotrust, 2012",
     "order": 35,
     "slug_name": "tillamook-garibaldi-commercial-dungeness-crab-fishery-uses-and-values-grid-ecotrust-2012762",
@@ -40769,6 +41241,7 @@
   "model": "data_manager.layer",
   "pk": 763,
   "fields": {
+    "uuid": "225cc341-8f0a-4eab-bda7-d5da5ed77984",
     "name": "Trawl Rockfish Conservation Area Trawl Rockfish Cons. Area (removed), PFMC, 2020",
     "order": 25,
     "slug_name": "trawl-rockfish-conservation-area-trawl-rockfish-cons-area-removed-pfmc-2020763",
@@ -40859,6 +41332,7 @@
   "model": "data_manager.layer",
   "pk": 764,
   "fields": {
+    "uuid": "61a40caa-7478-4ccb-bec2-a46a8e34c2b3",
     "name": "TSP Visual Resource Management, Scenic Class Value Viewsheds",
     "order": 3,
     "slug_name": "tsp-visual-resource-management-scenic-class-value-viewsheds764",
@@ -40949,6 +41423,7 @@
   "model": "data_manager.layer",
   "pk": 765,
   "fields": {
+    "uuid": "d5df93c9-d5b8-474a-8348-7e080bb67793",
     "name": "TSP Visual Resource Management, Scenic Quality Evaluations",
     "order": 4,
     "slug_name": "tsp-visual-resource-management-scenic-quality-evaluations765",
@@ -41039,6 +41514,7 @@
   "model": "data_manager.layer",
   "pk": 766,
   "fields": {
+    "uuid": "d2674d44-6394-4535-84c6-8abc470c981b",
     "name": "TSP Visual Resource Management, Special Area Viewsheds",
     "order": 5,
     "slug_name": "tsp-visual-resource-management-special-area-viewsheds766",
@@ -41129,6 +41605,7 @@
   "model": "data_manager.layer",
   "pk": 767,
   "fields": {
+    "uuid": "779fc969-646a-4189-ae3e-6e82621a0500",
     "name": "TSP Visual Resources Management, Special Area Viewpoints",
     "order": 6,
     "slug_name": "tsp-visual-resources-management-special-area-viewpoints767",
@@ -41219,6 +41696,7 @@
   "model": "data_manager.layer",
   "pk": 768,
   "fields": {
+    "uuid": "1313618e-fbbc-4953-9c84-b06b90eab304",
     "name": "Tsunami Regulatory Line 2014",
     "order": 5,
     "slug_name": "tsunami-regulatory-line-2014768",
@@ -41309,6 +41787,7 @@
   "model": "data_manager.layer",
   "pk": 769,
   "fields": {
+    "uuid": "5ef0ea78-f2ef-4ba0-9101-f34208cb4694",
     "name": "Undersea Feature Place Names",
     "order": 11,
     "slug_name": "undersea-feature-place-names769",
@@ -41399,6 +41878,7 @@
   "model": "data_manager.layer",
   "pk": 770,
   "fields": {
+    "uuid": "38c17281-4a80-4163-a4ed-f9c8c36cf5a7",
     "name": "Unexploded Ordnance Areas",
     "order": 5,
     "slug_name": "unexploded-ordnance-areas770",
@@ -41489,6 +41969,7 @@
   "model": "data_manager.layer",
   "pk": 771,
   "fields": {
+    "uuid": "2643e2a7-1e64-4b3a-a17e-13fa2e062aa9",
     "name": "Unofficial State Lateral Boundaries",
     "order": 27,
     "slug_name": "unofficial-state-lateral-boundaries771",
@@ -41579,6 +42060,7 @@
   "model": "data_manager.layer",
   "pk": 772,
   "fields": {
+    "uuid": "ca0e7790-8bf5-4494-9591-73c1f8b7d097",
     "name": "Upwelling (1988 - 2004), TNC, 2005",
     "order": 10,
     "slug_name": "upwelling-1988-2004-tnc-2005772",
@@ -41669,6 +42151,7 @@
   "model": "data_manager.layer",
   "pk": 773,
   "fields": {
+    "uuid": "350250f7-befe-4ea4-a479-9ae85444c8e3",
     "name": "US State Submerged Lands",
     "order": 28,
     "slug_name": "us-state-submerged-lands773",
@@ -41759,6 +42242,7 @@
   "model": "data_manager.layer",
   "pk": 774,
   "fields": {
+    "uuid": "6f687af0-a5ec-4b28-b018-5e1a2cd3e538",
     "name": "Wave Resource Potential",
     "order": 10,
     "slug_name": "wave-resource-potential774",
@@ -41849,6 +42333,7 @@
   "model": "data_manager.layer",
   "pk": 775,
   "fields": {
+    "uuid": "fbcf7f42-979d-4644-b1ee-a8b58e7162b8",
     "name": "Waves",
     "order": 4,
     "slug_name": "waves775",
@@ -41940,6 +42425,7 @@
   "model": "data_manager.layer",
   "pk": 776,
   "fields": {
+    "uuid": "03a32675-d800-439d-8181-fd8ebba83fdd",
     "name": "Weather Radar Impact Zones",
     "order": 10,
     "slug_name": "weather-radar-impact-zones776",
@@ -42030,6 +42516,7 @@
   "model": "data_manager.layer",
   "pk": 777,
   "fields": {
+    "uuid": "c30149d4-fe53-4b8e-80f8-e3351be2e674",
     "name": "West Coast Fishing Ethnography",
     "order": 36,
     "slug_name": "west-coast-fishing-ethnography777",
@@ -42120,6 +42607,7 @@
   "model": "data_manager.layer",
   "pk": 778,
   "fields": {
+    "uuid": "0e7a78d4-9fdd-4246-8b15-b1ad2baed4dd",
     "name": "West Coast Surficial Geologic Habitats",
     "order": 1,
     "slug_name": "west-coast-surficial-geologic-habitats778",
@@ -42211,6 +42699,7 @@
   "model": "data_manager.layer",
   "pk": 779,
   "fields": {
+    "uuid": "5190ec86-dd02-4ce5-bac1-adc6806e1b88",
     "name": "Winds",
     "order": 5,
     "slug_name": "winds779",
@@ -42303,6 +42792,7 @@
   "model": "data_manager.layer",
   "pk": 780,
   "fields": {
+    "uuid": "222e8c13-74a1-453f-8d9b-f0bd1cd5e4a8",
     "name": "Wind Speed and Direction",
     "order": 10,
     "slug_name": "wind-speed-and-direction780",
@@ -42393,6 +42883,7 @@
   "model": "data_manager.layer",
   "pk": 781,
   "fields": {
+    "uuid": "da064859-00a2-4648-98fe-54e1f1ae0fa7",
     "name": "Wind Speed Annual Average",
     "order": 10,
     "slug_name": "wind-speed-annual-average781",
@@ -42483,6 +42974,7 @@
   "model": "data_manager.layer",
   "pk": 782,
   "fields": {
+    "uuid": "711bc6df-37f3-4745-8981-c2eecbbf9535",
     "name": "Wind Speed Monthly Averages",
     "order": 10,
     "slug_name": "wind-speed-monthly-averages782",
@@ -42573,6 +43065,7 @@
   "model": "data_manager.layer",
   "pk": 783,
   "fields": {
+    "uuid": "1ed5488e-8c2f-4f5a-bd8d-75f5e0df2c9c",
     "name": "Wrecks and Obstructions",
     "order": 10,
     "slug_name": "wrecks-and-obstructions783",
@@ -42663,6 +43156,7 @@
   "model": "data_manager.layer",
   "pk": 784,
   "fields": {
+    "uuid": "ca2178e6-a7ac-4a97-aa19-7aef865bafc1",
     "name": "Ocean Disposal Sites",
     "order": 10,
     "slug_name": "ocean-disposal-sites784",
@@ -42752,6 +43246,7 @@
   "model": "data_manager.multilayerdimension",
   "pk": 1,
   "fields": {
+    "uuid": "22f3377b-684e-4eb6-96b3-0b3e6eeef818",
     "name": "Month",
     "label": "Month",
     "order": 1,
@@ -42764,6 +43259,7 @@
   "model": "data_manager.multilayerdimension",
   "pk": 2,
   "fields": {
+    "uuid": "d0026b66-f54e-4a18-8189-214bd6676537",
     "name": "Monthly Averages",
     "label": "MonthlyAverages",
     "order": 100,
@@ -42776,6 +43272,7 @@
   "model": "data_manager.multilayerassociation",
   "pk": 1,
   "fields": {
+    "uuid": "82bfd258-10fb-4e7c-9475-6d15f9264704",
     "name": "Month: Jan",
     "parentLayer": 502,
     "layer": 503
@@ -42785,6 +43282,7 @@
   "model": "data_manager.multilayerassociation",
   "pk": 2,
   "fields": {
+    "uuid": "e7695d64-b58f-4704-a4be-d13159c79416",
     "name": "Month: Feb",
     "parentLayer": 502,
     "layer": 504
@@ -42794,6 +43292,7 @@
   "model": "data_manager.multilayerassociation",
   "pk": 3,
   "fields": {
+    "uuid": "536cdfa3-3419-40a3-b419-141e07ee61a9",
     "name": "Month: Mar",
     "parentLayer": 502,
     "layer": 505
@@ -42803,6 +43302,7 @@
   "model": "data_manager.multilayerassociation",
   "pk": 4,
   "fields": {
+    "uuid": "51906f81-0305-496f-8cdd-7ff04d5172f8",
     "name": "Monthly Averages: JAN",
     "parentLayer": 515,
     "layer": 513
@@ -42812,6 +43312,7 @@
   "model": "data_manager.multilayerassociation",
   "pk": 5,
   "fields": {
+    "uuid": "5978b19b-2b8b-495a-8888-a748933e26bb",
     "name": "Monthly Averages: FEB",
     "parentLayer": 515,
     "layer": 514
@@ -42821,6 +43322,7 @@
   "model": "data_manager.multilayerassociation",
   "pk": 6,
   "fields": {
+    "uuid": "49fe26cb-d77b-4339-9c08-7a54d1b7fa7a",
     "name": "Monthly Averages: MAR",
     "parentLayer": 515,
     "layer": 516
@@ -42830,6 +43332,7 @@
   "model": "data_manager.multilayerassociation",
   "pk": 7,
   "fields": {
+    "uuid": "a8ca75b6-5069-45ec-9294-440458fd9c20",
     "name": "NEW",
     "parentLayer": 515,
     "layer": 517
@@ -42839,6 +43342,7 @@
   "model": "data_manager.multilayerassociation",
   "pk": 8,
   "fields": {
+    "uuid": "7756b993-41c2-4a83-9d31-3900603674b6",
     "name": "NEW",
     "parentLayer": 515,
     "layer": 518
@@ -42848,6 +43352,7 @@
   "model": "data_manager.multilayerassociation",
   "pk": 9,
   "fields": {
+    "uuid": "a47e8fd4-4735-41b1-8b1f-df26d1a50258",
     "name": "NEW",
     "parentLayer": 515,
     "layer": 519
@@ -42857,6 +43362,7 @@
   "model": "data_manager.multilayerassociation",
   "pk": 10,
   "fields": {
+    "uuid": "7e40577f-02fa-4607-839a-731fec32f93b",
     "name": "NEW",
     "parentLayer": 515,
     "layer": 520
@@ -42866,6 +43372,7 @@
   "model": "data_manager.multilayerassociation",
   "pk": 11,
   "fields": {
+    "uuid": "62a53904-1436-4b3e-9106-652860bef152",
     "name": "NEW",
     "parentLayer": 515,
     "layer": 521
@@ -42875,6 +43382,7 @@
   "model": "data_manager.multilayerassociation",
   "pk": 12,
   "fields": {
+    "uuid": "58697b28-cd43-4144-bc9c-4d74eaa35f94",
     "name": "NEW",
     "parentLayer": 515,
     "layer": 522
@@ -42884,6 +43392,7 @@
   "model": "data_manager.multilayerassociation",
   "pk": 13,
   "fields": {
+    "uuid": "c5360f3e-8b4f-4f9c-a2db-53a6393ffcd6",
     "name": "NEW",
     "parentLayer": 515,
     "layer": 523
@@ -42893,6 +43402,7 @@
   "model": "data_manager.multilayerassociation",
   "pk": 14,
   "fields": {
+    "uuid": "4953ca1d-6482-468d-9796-6ee438354db7",
     "name": "NEW",
     "parentLayer": 515,
     "layer": 524
@@ -42902,6 +43412,7 @@
   "model": "data_manager.multilayerassociation",
   "pk": 15,
   "fields": {
+    "uuid": "b2c456a3-641c-4736-83eb-9d7eaaef4667",
     "name": "NEW",
     "parentLayer": 515,
     "layer": 525
@@ -42911,6 +43422,7 @@
   "model": "data_manager.multilayerdimensionvalue",
   "pk": 1,
   "fields": {
+    "uuid": "3c07bc37-e70d-452c-a18f-859a4d40b558",
     "dimension": 1,
     "value": "Jan",
     "label": "Jan",
@@ -42924,6 +43436,7 @@
   "model": "data_manager.multilayerdimensionvalue",
   "pk": 2,
   "fields": {
+    "uuid": "4834eaaf-4e8e-416b-ba4a-85df281d2091",
     "dimension": 1,
     "value": "Feb",
     "label": "Feb",
@@ -42937,6 +43450,7 @@
   "model": "data_manager.multilayerdimensionvalue",
   "pk": 3,
   "fields": {
+    "uuid": "984dad9c-de71-45d0-ad24-f12e7a6ac1f8",
     "dimension": 1,
     "value": "Mar",
     "label": "Mar",
@@ -42950,6 +43464,7 @@
   "model": "data_manager.multilayerdimensionvalue",
   "pk": 4,
   "fields": {
+    "uuid": "e80e6d24-f94f-475d-8661-aee8c8b2cdf5",
     "dimension": 2,
     "value": "J",
     "label": "J",
@@ -42963,6 +43478,7 @@
   "model": "data_manager.multilayerdimensionvalue",
   "pk": 5,
   "fields": {
+    "uuid": "df798516-e3d3-4be7-8fdc-e64433214031",
     "dimension": 2,
     "value": "F",
     "label": "F",
@@ -42976,6 +43492,7 @@
   "model": "data_manager.multilayerdimensionvalue",
   "pk": 6,
   "fields": {
+    "uuid": "3a278bf1-82e9-4f3f-8394-d196ea9f442b",
     "dimension": 2,
     "value": "M",
     "label": "M",
@@ -42989,6 +43506,7 @@
   "model": "data_manager.multilayerdimensionvalue",
   "pk": 7,
   "fields": {
+    "uuid": "65979134-3020-4bc4-9bc7-511f3ec7f7f1",
     "dimension": 2,
     "value": "A",
     "label": "A",
@@ -43002,6 +43520,7 @@
   "model": "data_manager.multilayerdimensionvalue",
   "pk": 8,
   "fields": {
+    "uuid": "c01a4128-fda2-4a7c-ab54-28633d8c04c2",
     "dimension": 2,
     "value": "M",
     "label": "M",
@@ -43015,6 +43534,7 @@
   "model": "data_manager.multilayerdimensionvalue",
   "pk": 9,
   "fields": {
+    "uuid": "a6db3fc9-621c-406b-8f6d-b6a4731c7b91",
     "dimension": 2,
     "value": "J",
     "label": "J",
@@ -43028,6 +43548,7 @@
   "model": "data_manager.multilayerdimensionvalue",
   "pk": 10,
   "fields": {
+    "uuid": "573e2f18-5e89-4396-aeef-4a6497fbba30",
     "dimension": 2,
     "value": "J",
     "label": "J",
@@ -43041,6 +43562,7 @@
   "model": "data_manager.multilayerdimensionvalue",
   "pk": 11,
   "fields": {
+    "uuid": "83e61f27-a866-4ea3-89e6-c1243e24f9b7",
     "dimension": 2,
     "value": "A",
     "label": "A",
@@ -43054,6 +43576,7 @@
   "model": "data_manager.multilayerdimensionvalue",
   "pk": 12,
   "fields": {
+    "uuid": "ad233a15-1de9-4334-92bc-ec843f44586b",
     "dimension": 2,
     "value": "S",
     "label": "S",
@@ -43067,6 +43590,7 @@
   "model": "data_manager.multilayerdimensionvalue",
   "pk": 13,
   "fields": {
+    "uuid": "092c5a20-27be-46b3-8da6-5e0a98c54561",
     "dimension": 2,
     "value": "O",
     "label": "O",
@@ -43080,6 +43604,7 @@
   "model": "data_manager.multilayerdimensionvalue",
   "pk": 14,
   "fields": {
+    "uuid": "aa966314-e169-4f58-8e4a-7fc1164315b9",
     "dimension": 2,
     "value": "N",
     "label": "N",
@@ -43093,6 +43618,7 @@
   "model": "data_manager.multilayerdimensionvalue",
   "pk": 15,
   "fields": {
+    "uuid": "c64bd55b-9cae-452b-b3f3-644132cc7fda",
     "dimension": 2,
     "value": "D",
     "label": "D",
