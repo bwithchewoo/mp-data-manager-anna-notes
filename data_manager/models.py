@@ -591,6 +591,7 @@ class Layer(models.Model, SiteFlags):
         sublayers = [
             {
                 'id': layer.id,
+                'uuid': layer.uuid,
                 'is_sublayer': layer.is_sublayer,
                 'name': layer.name,
                 'order': layer.order,
@@ -649,13 +650,15 @@ class Layer(models.Model, SiteFlags):
                 'is_multilayer': layer.isMultilayer,
                 'is_multilayer_parent': layer.isMultilayerParent,
                 'dimensions': layer.dimensions,
-                'associated_multilayers': layer.associatedMultilayers
+                'associated_multilayers': layer.associatedMultilayers,
+                'date_modified': layer.date_modified
             }
             for layer in self.sublayers.filter(is_sublayer=True)
         ]
         connect_companion_layers_to = [
             {
                 'id': layer.id,
+                'uuid': layer.uuid,
                 'name': layer.name,
                 'order': layer.order,
                 'type': layer.layer_type,
@@ -713,12 +716,14 @@ class Layer(models.Model, SiteFlags):
                 'is_multilayer': layer.isMultilayer,
                 'is_multilayer_parent': layer.isMultilayerParent,
                 'dimensions': layer.dimensions,
-                'associated_multilayers': layer.associatedMultilayers
+                'associated_multilayers': layer.associatedMultilayers,
+                'date_modified': layer.date_modified
             }
             for layer in self.connect_companion_layers_to.all()
         ]
         layers_dict = {
             'id': self.id,
+            'uuid': self.uuid,
             'name': self.name,
             'order': self.order,
             'type': self.layer_type,
@@ -780,7 +785,8 @@ class Layer(models.Model, SiteFlags):
             'dimensions': self.dimensions,
             'associated_multilayers': self.associatedMultilayers,
             'catalog_html': self.catalog_html,
-            'parent': parent
+            'parent': parent,
+            'date_modified': self.date_modified
         }
 
         return layers_dict

@@ -1,10 +1,12 @@
 # Create your views here.
+
+from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
+from django.db import connection
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.views.decorators.cache import cache_page
-from django.conf import settings
-from django.core.exceptions import ObjectDoesNotExist
 from .models import *
 from .serializers import BriefLayerSerializer
 from rest_framework import viewsets
@@ -501,5 +503,36 @@ def migration_layer_details(request):
             data['message'] = str(e)
             pass
 
+    return JsonResponse(data)
+
+def migration_merge_layer(local_id, remote_dict):
+    data = {
+        'status': 'Unknown', 
+        'message': 'Unknown',
+    }
+    remote_dict.pop('id')
+    if local_id:
+        local_layer = Layer.objects.get(id=local_id)
+    else:
+        local_layer = Layer.objects.create(uuid=remote_dict['uuid'])
+    # TODO:
+    #   Address 'sites'
+    #   Address 'sublayers'
+    #   Address 'companion layers'
+    #   Address 'Themes'
+    #   Address 'parent'
+    try:
+        local_layer.__dict__.update(remote_dict)
+        local_layer.save()
+        modified_date = remote_dict['date_modified']
+        sql_command = "UPDATE data_manager_layer set date_modified = '{}' WHERE id = {};".format(modified_date, local_layer.id)
+        with connection.cursor() as cursor:
+            cursor.execute(sql_command)
+            # cursor.execute("COMMIT;")
+        data['status'] = 'Success'
+        data['message'] = 'Layer updated successfully'
+    except Exception as e:
+        data['status'] = 'Error'
+        data['message'] = str(e)
     return JsonResponse(data)
 
