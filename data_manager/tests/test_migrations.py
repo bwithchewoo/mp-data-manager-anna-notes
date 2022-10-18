@@ -1,5 +1,6 @@
 from importlib.util import source_hash
 from django.conf import settings
+from django.contrib.sites.models import Site
 from django.test import TestCase
 from data_manager.models import Layer, Theme, AttributeInfo, LookupInfo, MultilayerAssociation, MultilayerDimension, MultilayerDimensionValue
 from data_manager.views import compare_remote_layers, migration_merge_layer
@@ -98,7 +99,6 @@ class MigrateMergeTest(TestCase):
             * Info to tie REMOTE ro LOCAL (ID?)
             * Authentication! 
         '''
-        endpoint = '/'
         TEST_ROOT = os.path.dirname(os.path.realpath(__file__))
         with open(os.path.join(TEST_ROOT, 'fixtures', 'wcoa_layer_status_API_response.json'), encoding='utf-8') as wcoa_data_file:
             wcoa_dict = json.loads(wcoa_data_file.read())
@@ -155,6 +155,8 @@ class MigrateMergeTest(TestCase):
             remote_override_pair
         ]
 
+        site = Site.objects.get(pk=1)
+
         for pair in SELECTED_IDS:
             # leave layer detail queries to Front End JS.
             with open(os.path.join(TEST_ROOT, 'fixtures', 'remote_layer_detail_response_{}.json'.format(pair['remote']['uuid'])), encoding='utf-8') as remote_layer_details:
@@ -162,7 +164,7 @@ class MigrateMergeTest(TestCase):
 
             print("TESTING {}:{} <-- {}:{}".format(pair['local']['id'], pair['local']['uuid'],pair['remote']['id'], pair['remote']['uuid']))
 
-            response = json.loads(migration_merge_layer(pair['local']['id'], remote_layer_dict).content)
+            response = json.loads(migration_merge_layer(pair['local']['id'], remote_layer_dict, sites=[site]).content)
             self.assertEqual(response['status'], 'Success')
             time.sleep(0.1)
             try:

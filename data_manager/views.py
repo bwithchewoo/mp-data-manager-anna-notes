@@ -1,6 +1,7 @@
 # Create your views here.
 
 from django.conf import settings
+from django.contrib.sites.models import Site
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import connection
 from django.http import HttpResponse, JsonResponse
@@ -505,7 +506,7 @@ def migration_layer_details(request):
 
     return JsonResponse(data)
 
-def migration_merge_layer(local_id, remote_dict):
+def migration_merge_layer(local_id, remote_dict, sites=None):
     data = {
         'status': 'Unknown', 
         'message': 'Unknown',
@@ -515,12 +516,56 @@ def migration_merge_layer(local_id, remote_dict):
         local_layer = Layer.objects.get(id=local_id)
     else:
         local_layer = Layer.objects.create(uuid=remote_dict['uuid'])
-    # TODO:
+
     #   Address 'sites'
+    if not sites:
+        sites = [x.pk for x in Site.objects.all()]
+    remote_dict['site'] = sites
+
     #   Address 'sublayers'
+    remote_dict.pop('subLayers')
+
     #   Address 'companion layers'
+    remote_dict.pop('companion_layers')
+    remote_dict.pop('has_companion')
+
     #   Address 'Themes'
+    #       Weird: themes aren't included in a layer's 'dump' details. A bizarre omission!
+    # remote_dict.pop('themes')
+
     #   Address 'parent'
+    remote_dict.pop('parent')
+
+    #   Address 'sliders'
+    remote_dict.pop('is_multilayer')
+    remote_dict.pop('is_multilayer_parent')
+    remote_dict.pop('associated_multilayers')
+    remote_dict.pop('dimensions')
+
+    #   Address 'attribute info'
+    remote_dict.pop('attributes')
+
+    #   Address 'lookup info'
+    remote_dict.pop('lookups')
+
+    #   Sync dict keys with field names:
+    remote_dict['layer_type'] = remote_dict.pop('type')
+    remote_dict['search_query'] = remote_dict.pop('queryable')
+    remote_dict['data_overview'] = remote_dict.pop('overview')
+    remote_dict['data_download_link'] = remote_dict.pop('data_download')
+    remote_dict['metadata_link'] = remote_dict.pop('metadata')
+    remote_dict['source_link'] = remote_dict.pop('source')
+    remote_dict['tiles_link'] = remote_dict.pop('tiles')
+    remote_dict['vector_outline_color'] = remote_dict.pop('outline_color')
+    remote_dict['vector_outline_opacity'] = remote_dict.pop('outline_opacity')
+    remote_dict['vector_outline_width'] = remote_dict.pop('outline_width')
+    remote_dict['vector_color'] = remote_dict.pop('color')
+    remote_dict['vector_fill'] = remote_dict.pop('fill_opacity')
+    remote_dict['vector_graphic'] = remote_dict.pop('graphic')
+    remote_dict['vector_graphic_scale'] = remote_dict.pop('graphic_scale')
+    remote_dict['is_annotated'] = remote_dict.pop('annotated')
+    
+
     try:
         local_layer.__dict__.update(remote_dict)
         local_layer.save()
@@ -528,7 +573,6 @@ def migration_merge_layer(local_id, remote_dict):
         sql_command = "UPDATE data_manager_layer set date_modified = '{}' WHERE id = {};".format(modified_date, local_layer.id)
         with connection.cursor() as cursor:
             cursor.execute(sql_command)
-            # cursor.execute("COMMIT;")
         data['status'] = 'Success'
         data['message'] = 'Layer updated successfully'
     except Exception as e:
