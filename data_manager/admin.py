@@ -1,7 +1,11 @@
 from django.conf import settings
 from django.contrib import admin
+from django.core.exceptions import PermissionDenied
+from django.template.response import TemplateResponse
+from django.urls import path, reverse
 from django import forms
 from .models import *
+from .forms import RemotePortalMigrationForm
 import nested_admin
 
 from import_export import fields, resources
@@ -85,7 +89,60 @@ class LayerForm(forms.ModelForm):
             'lookup_table': admin.widgets.FilteredSelectMultiple('Lookup table', False),
         }
 
-class LayerAdmin(ImportExportMixin, nested_admin.NestedModelAdmin):
+class RemoteImportExportMixin(ImportExportMixin):
+    import_template_name = 'admin/data_manager/import.html'
+    compare_remote_template_name = 'admin/data_manager/compare_remote_layers.html'
+
+    remote_import_form_class = RemotePortalMigrationForm
+
+    # def get_remote_import_form_class(self, request):
+    def get_remote_import_form_class(self, request=None):
+        return self.remote_import_form_class
+
+    # def create_remote_import_form(self, request):
+    def create_remote_import_form(self, request=None):
+        if request:
+            form_class= self.get_remote_import_form_class(request)
+        else:
+            form_class= self.get_remote_import_form_class()
+        return form_class()
+    
+    def get_context_data(self, **kwargs):
+        context_data = super(RemoteImportExportMixin, self).get_context_data(**kwargs)
+        # context_data['remote_import_form'] = self.create_remote_import_form(request)
+        context_data['remote_import_form'] = self.create_remote_import_form()
+        return context_data
+
+    def import_remote_action(self, request, *args, **kwargs):
+        if not self.has_import_permission(request):
+            raise PermissionDenied
+
+        view_context = self.get_import_context_data()
+        view_context['opts'] = self.model._meta
+
+        # import ipdb; ipdb.set_trace()
+
+        # TODO
+        #   * Get Remote Portal Object
+        #   * Get Remote Portal Endpoint for layer status
+        #   * Build layer status comparison dict
+        #   * Feed comparison dict back to template
+
+        return TemplateResponse(request, [self.compare_remote_template_name], view_context)
+
+    def get_urls(self):
+        urls = super().get_urls()
+        info = self.get_model_info()
+        opts = self.model._meta
+        remote_import_urls = [
+            path('import_remote/',
+                self.admin_site.admin_view(self.import_remote_action),
+                name='%s_%s_import_remote' % info),
+        ]
+        return remote_import_urls + urls
+
+
+class LayerAdmin(RemoteImportExportMixin, nested_admin.NestedModelAdmin):
     resource_class = LayerResource
     form = LayerForm
     list_display = ('name', 'layer_type', 'date_modified', 'Theme_', 'order', 'data_publish_date', 'data_source', 'primary_site', 'preview_site', 'url')
@@ -292,9 +349,12 @@ class LookupInfoAdmin(admin.ModelAdmin):
 class DataNeedAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
 
+
+
 if hasattr(settings, 'DATA_MANAGER_ADMIN'):
     admin.site.register(Theme, ThemeAdmin)
     admin.site.register(Layer, LayerAdmin)
     admin.site.register(AttributeInfo, AttributeInfoAdmin)
     admin.site.register(LookupInfo, LookupInfoAdmin)
     admin.site.register(DataNeed, DataNeedAdmin)
+    admin.site.register(ExternalPortal)

@@ -1120,3 +1120,22 @@ class MultilayerDimensionValue(models.Model):
         if self.id:
             # AssertionError: MultilayerDimensionValue object can't be deleted because its id attribute is set to None.
             super(MultilayerDimensionValue, self).delete(*args, **kwargs)
+
+
+class ExternalPortal(models.Model):
+    name = models.CharField(max_length=255, blank=True, null=True, default=None)
+    url = models.URLField(help_text='URL endpoint of the remote Portal')
+
+    def __str__(self):
+        if not self.name == None:
+            return self.name
+        else:
+            return str(self.url)
+
+    @property
+    def layer_status_endpoint(self):
+        return "{}/data_manager/migration/layer_status".format(self.url)
+
+    @property
+    def layer_detail_endpoint(self):
+        return "{}/data_manager/migration/layer_detail/".format(self.url)
