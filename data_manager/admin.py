@@ -120,22 +120,28 @@ class RemoteImportExportMixin(ImportExportMixin):
         view_context = self.get_import_context_data()
         view_context['opts'] = self.model._meta
 
-        # import ipdb; ipdb.set_trace()
 
-        # TODO
-        #   * Get Remote Portal Object
-        #   * Get Remote Portal Endpoint for layer status
-        #   * Build layer status comparison dict
-        #   * Feed comparison dict back to template
+        if request.method == 'POST':
+            import ipdb; ipdb.set_trace()
+            form =  RemotePortalMigrationForm(request.POST)
 
-        return TemplateResponse(request, [self.compare_remote_template_name], view_context)
+            if form.is_valid():
+                print('foop')
+
+            # TODO
+            #   * Get Remote Portal Object
+            #   * Get Remote Portal Endpoint for layer status
+            #   * Build layer status comparison dict
+            #   * Feed comparison dict back to template
+
+            return TemplateResponse(request, [self.compare_remote_template_name], view_context)
 
     def get_urls(self):
         urls = super().get_urls()
         info = self.get_model_info()
         opts = self.model._meta
         remote_import_urls = [
-            path('import_remote/',
+            path('import_remote',
                 self.admin_site.admin_view(self.import_remote_action),
                 name='%s_%s_import_remote' % info),
         ]

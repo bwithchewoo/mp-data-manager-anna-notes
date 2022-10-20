@@ -18,13 +18,14 @@
 
         {% block import_remote_form %}
         
-            <form action="/django-admin/data_manager/layer/import_remote" method="post" enctype="multipart/form-data">
+            <form method="post" action="/django-admin/data_manager/layer/import_remote">
                 {% csrf_token %}
                 <p>This tool allows you to import layers from remote instances of Madrona Portal.</p>
+
                 {{ remote_import_form.as_p }}
 
                 <div class="submit-row">
-                    <input type="submit" class="default" name="get_remote" value="Review Remote Layers">
+                    <input class="default" type="submit" value="Submit">
                 </div>
 
             </form>
