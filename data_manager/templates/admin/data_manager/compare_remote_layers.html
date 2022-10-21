@@ -1,8 +1,107 @@
 {% extends "admin/import_export/base.html" %}
 
+{% block extrahead %}
+    {{ block.super }}
+    <script type="text/javascript">
+        $(document).ready(
+            function() {
+                let local_layers = {{ local_status}};
+            }
+        );
+    </script>
+{% endblock %}
+
 {% block content %}
 
     <h1>Remote Comparison</h1>
-    <p>....</p>
+    {% if not results.code == 200 %}
+        <h2>Error:</h2>
+        <p>{{results.message}}</p>
+    {% else %}
+        {% if remote_status %}
+            {% if remote_status.layers %}
+                <p>layer count: {{remote_status.layers|length}}</p>
+            {% endif %} 
+        {% endif %}
+        <!-- <form method="post" action="/django-admin/data_manager/layer/import_remote"> -->
+
+        <!-- </form> -->
+        <table>
+            <tr>
+                <th>Merge</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Action</th>
+                <!--
+                    <th>UIID</th>
+                    <th>Source</th>
+                    <th>remote stamp</th>
+                    <th>local stamp</th>
+                    <th>modified</th>
+                    <th>newest</th>
+                -->
+            </tr>
+            {% for layer in remote_status.layers %}
+                {% if not layer.source == 'local' %}
+                    <tr id="layer_row_{{layer.id}}">
+                        <td>
+                            {% if layer.source == 'match' %}
+                                <button type="button" onclick="window.alert('sync {{layer.id}}')">
+                                    sync
+                                </button>
+                            {% else %}
+                                <button type="button" onclick="window.alert('import {{layer.id}}')">
+                                    import
+                                </button>
+                            {% endif %}
+                        </td>
+                        
+                        <td>{{ layer.remote_name }}</td>
+                        
+                        <td>
+                            {% if layer.newest == 'remote' %}
+                                newer
+                            {% elif layer.newest == 'local' %}
+                                older
+                            {% else %}
+                                {% if layer.source == 'match' %}
+                                    match
+                                {% else %}
+                                    new
+                                {% endif %}
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if layer.source == 'match' %}
+                                <select name="merge" id="merge_{{layer.id}}">
+                                    <option value="Create">Create</option>
+                                    {% for local_layer in local_status %}
+                                        <option value="{{local_layer.id}}">{{local_layer.local_name}}</option>
+                                    {% endfor %}
+                                </select>
+                            {% elif layer.source == 'remote' %}
+                                Sync
+                            {% else %}
+                                ???
+                            {% endif %}
+                        </td>
+
+                        <!--
+                            <td>{{layer.id}}</td>
+                            <td>{{layer.source}}</td>
+    
+                            <td>{{layer.remote_modified}}</td>
+                            <td>{{layer.local_modified}}</td>
+                            <td>{{layer.modified}}</td>
+                            <td>{{layer.newest}}</td>
+
+                        -->
+
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    {% endif %}
 
 {% endblock %} {# end content #}

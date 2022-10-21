@@ -4,12 +4,17 @@ from django.core.exceptions import PermissionDenied
 from django.template.response import TemplateResponse
 from django.urls import path, reverse
 from django import forms
-from .models import *
-from .forms import RemotePortalMigrationForm
-import nested_admin
 
 from import_export import fields, resources
 from import_export.admin import ImportExportMixin
+
+import nested_admin
+import requests
+
+from .models import *
+from .forms import RemotePortalMigrationForm
+from .views import compare_remote_layers
+
 
 class ThemeAdmin(admin.ModelAdmin):
     list_display = ('display_name', 'name', 'order', 'primary_site', 'preview_site')
@@ -119,20 +124,38 @@ class RemoteImportExportMixin(ImportExportMixin):
 
         view_context = self.get_import_context_data()
         view_context['opts'] = self.model._meta
-
+        results = {
+            'status': 'Error',
+            'code': 500,
+            'message': 'Unknown Error',
+            'data': {}
+        }
 
         if request.method == 'POST':
-            import ipdb; ipdb.set_trace()
             form =  RemotePortalMigrationForm(request.POST)
 
             if form.is_valid():
-                print('foop')
+                portal_id = int(form['portal'].value())
 
-            # TODO
-            #   * Get Remote Portal Object
-            #   * Get Remote Portal Endpoint for layer status
-            #   * Build layer status comparison dict
-            #   * Feed comparison dict back to template
+                #   * Get Remote Portal Object
+                portal = ExternalPortal.objects.get(pk=portal_id)
+                #   * Get Remote Portal Endpoint for layer status
+                remote_status = requests.get(f"{portal.layer_status_endpoint}")
+                #   * Build layer status comparison dict
+                comparison_results = compare_remote_layers(remote_status.json())
+                #   * Feed comparison dict back to template
+                results = {
+                    'status': 'Success',
+                    'code': 200,
+                    'message': 'Success',
+                    # 'data': comparison_results
+                }
+                remote_status = {'layers': [comparison_results['layers'][x] for x in comparison_results['layers'].keys() if not comparison_results['layers'][x]['source'] == 'local']}
+                local_status = {'layers': [comparison_results['layers'][x] for x in comparison_results['layers'].keys() if comparison_results['layers'][x]['source'] == 'local']}
+                
+            view_context['results'] = results
+            view_context['remote_status'] = remote_status
+            view_context['local_status'] = local_status
 
             return TemplateResponse(request, [self.compare_remote_template_name], view_context)
 
