@@ -1,11 +1,37 @@
 {% extends "admin/import_export/base.html" %}
+{% load static %}
 
 {% block extrahead %}
     {{ block.super }}
+    <script type="text/javascript" src="{% static 'jquery/dist/jquery.js' %}"></script>
+    <!-- <script type="text/javascript" src="{% static 'bootstrap/dist/js/bootstrap.js' %}"></script> -->
+    <script type="text/javascript" src="{% static 'bootstrap3-typeahead/bootstrap3-typeahead.js' %}"></script>
     <script type="text/javascript">
+        local_layers = {'layers': []};
         $(document).ready(
             function() {
-                let local_layers = {{ local_status}};
+                local_layers = {{ local_status|safe }};
+                // The below code taken nearly verbatim from bassjobsen's Bootstrap3-Typeahead example:
+                // https://github.com/bassjobsen/Bootstrap-3-Typeahead#using-json-objects-instead-of-simple-strings
+                var $input = $(".typeahead");
+                $input.typeahead({
+                    source: local_layers['layers'],
+                    autoSelect: true
+                });
+                $input.change(function() {
+                    var current = $input.typeahead("getActive");
+                    if (current) {
+                        // Some item from your model is active!
+                        if (current.name == $input.val()) {
+                        // This means the exact match is found. Use toLowerCase() if you want case insensitive match.
+                        } else {
+                        // This means it is only a partial match, you can either add a new item
+                        // or take the active if you don't want new items
+                        }
+                    } else {
+                        // Nothing is active so it is a new value (or maybe empty value)
+                    }
+                });
             }
         );
     </script>
@@ -18,28 +44,13 @@
         <h2>Error:</h2>
         <p>{{results.message}}</p>
     {% else %}
-        {% if remote_status %}
-            {% if remote_status.layers %}
-                <p>layer count: {{remote_status.layers|length}}</p>
-            {% endif %} 
-        {% endif %}
-        <!-- <form method="post" action="/django-admin/data_manager/layer/import_remote"> -->
-
-        <!-- </form> -->
+        <p>Import from: <a href="{{ remote_portal.url }}" target="_blank"><b>{{ remote_portal.name }}</b></a></p>
         <table>
             <tr>
                 <th>Merge</th>
                 <th>Name</th>
-                <th>Age</th>
-                <th>Action</th>
-                <!--
-                    <th>UIID</th>
-                    <th>Source</th>
-                    <th>remote stamp</th>
-                    <th>local stamp</th>
-                    <th>modified</th>
-                    <th>newest</th>
-                -->
+                <th>Status</th>
+                <th>Local Layer</th>
             </tr>
             {% for layer in remote_status.layers %}
                 {% if not layer.source == 'local' %}
@@ -73,30 +84,8 @@
                         </td>
 
                         <td>
-                            {% if layer.source == 'match' %}
-                                <select name="merge" id="merge_{{layer.id}}">
-                                    <option value="Create">Create</option>
-                                    {% for local_layer in local_status %}
-                                        <option value="{{local_layer.id}}">{{local_layer.local_name}}</option>
-                                    {% endfor %}
-                                </select>
-                            {% elif layer.source == 'remote' %}
-                                Sync
-                            {% else %}
-                                ???
-                            {% endif %}
+                            <input type="text" class="typeahead" data-provide="typeahead" placeholder="Create New">
                         </td>
-
-                        <!--
-                            <td>{{layer.id}}</td>
-                            <td>{{layer.source}}</td>
-    
-                            <td>{{layer.remote_modified}}</td>
-                            <td>{{layer.local_modified}}</td>
-                            <td>{{layer.modified}}</td>
-                            <td>{{layer.newest}}</td>
-
-                        -->
 
                     </tr>
                 {% endif %}

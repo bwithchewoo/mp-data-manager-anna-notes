@@ -7,6 +7,7 @@ from django import forms
 
 from import_export import fields, resources
 from import_export.admin import ImportExportMixin
+import json
 
 import nested_admin
 import requests
@@ -130,6 +131,9 @@ class RemoteImportExportMixin(ImportExportMixin):
             'message': 'Unknown Error',
             'data': {}
         }
+        portal_id = None
+        portal_name = None
+        portal_url = None
 
         if request.method == 'POST':
             form =  RemotePortalMigrationForm(request.POST)
@@ -139,6 +143,9 @@ class RemoteImportExportMixin(ImportExportMixin):
 
                 #   * Get Remote Portal Object
                 portal = ExternalPortal.objects.get(pk=portal_id)
+                portal_name = portal.name
+                portal_url = portal.url
+
                 #   * Get Remote Portal Endpoint for layer status
                 remote_status = requests.get(f"{portal.layer_status_endpoint}")
                 #   * Build layer status comparison dict
@@ -152,10 +159,20 @@ class RemoteImportExportMixin(ImportExportMixin):
                 }
                 remote_status = {'layers': [comparison_results['layers'][x] for x in comparison_results['layers'].keys() if not comparison_results['layers'][x]['source'] == 'local']}
                 local_status = {'layers': [comparison_results['layers'][x] for x in comparison_results['layers'].keys() if comparison_results['layers'][x]['source'] == 'local']}
-                
+                for layer in local_status['layers']:
+                    layer.pop('local_modified')
+                    layer.pop('remote_modified')
+                    layer['name'] = layer['local_name']
+
+
             view_context['results'] = results
             view_context['remote_status'] = remote_status
-            view_context['local_status'] = local_status
+            view_context['local_status'] = json.dumps(local_status)
+            view_context['remote_portal'] = {
+                'id': portal_id,
+                'name': portal_name,
+                'url': portal_url
+            }
 
             return TemplateResponse(request, [self.compare_remote_template_name], view_context)
 

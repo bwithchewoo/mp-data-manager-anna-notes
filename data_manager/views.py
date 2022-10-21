@@ -409,6 +409,7 @@ def compare_remote_layers(remote_layer_dict):
             'remote_name': theme['name'],
             'remote_modified': datetime.strptime("{}+0000".format(theme['date_modified']), '%Y-%m-%dT%H:%M:%S.%fZ%z'),
             'local_name': None,
+            'local_pk': None,
             'local_modified': None,
             'newest': None,
         }
@@ -429,6 +430,7 @@ def compare_remote_layers(remote_layer_dict):
         comparison_entry = comparison_dict['themes'][key]
 
         comparison_entry['local_name'] = theme.name
+        comparison_entry['local_pk'] = theme.pk
         comparison_entry['local_modified'] = theme.date_modified
 
         if comparison_entry['source'] == 'match':
@@ -450,6 +452,7 @@ def compare_remote_layers(remote_layer_dict):
             'remote_name': layer['name'],
             'remote_modified': datetime.strptime("{}+0000".format(layer['date_modified']), '%Y-%m-%dT%H:%M:%S.%fZ%z'),
             'local_name': None,
+            'local_pk': None,
             'local_modified': None,
             'newest': None,
         }
@@ -470,6 +473,7 @@ def compare_remote_layers(remote_layer_dict):
         comparison_entry = comparison_dict['layers'][key]
 
         comparison_entry['local_name'] = layer.name
+        comparison_entry['local_pk'] = layer.pk
         comparison_entry['local_modified'] = layer.date_modified
 
         if comparison_entry['source'] == 'match':
