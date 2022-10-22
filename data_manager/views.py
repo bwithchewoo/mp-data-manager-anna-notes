@@ -12,6 +12,8 @@ from .models import *
 from .serializers import BriefLayerSerializer
 from rest_framework import viewsets
 
+import json, requests
+
 class LayerViewSet(viewsets.ReadOnlyModelViewSet):
     """
     A simple ViewSet for layers.
@@ -584,3 +586,23 @@ def migration_merge_layer(local_id, remote_dict, sites=None):
         data['message'] = str(e)
     return JsonResponse(data)
 
+def migration_merge_layer_request(request):
+    if request.POST:
+        portal_id = request.POST.get('portal_id')
+        local_id = request.POST.get('local_id')
+        remote_uuid = request.POST.get('remote_uuid')
+        portal = ExternalPortal.objects.get(pk=int(portal_id))
+        # local_layer = Layer.objects.get(pk=int(local_id))
+
+        # TODO: Can we post without authorization?
+        remote_layer_dict = requests.post(
+            f"{portal.layer_detail_endpoint}",
+            data = json.dumps({
+                'layers': [
+                    remote_uuid,
+                ]
+            })
+        )
+        # import ipdb; ipdb.set_trace()
+        merge_json_response = migration_merge_layer(local_id, json.loads(remote_layer_dict), sites=request.site)
+        return merge_json_response

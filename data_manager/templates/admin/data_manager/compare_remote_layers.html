@@ -19,27 +19,46 @@
                     autoSelect: true
                 });
                 $input.change(function() {
-                    var current = $input.typeahead("getActive");
-                    if (current) {
+                    $this = $(this);
+                    var current = $this.typeahead("getActive");
+                    if (current){
                         // Some item from your model is active!
-                        if (current.name == $input.val()) {
-                        // This means the exact match is found. Use toLowerCase() if you want case insensitive match.
+                        
+                        if (current.name == $this.val()) {
+                            // This means the exact match is found. Use toLowerCase() if you want case insensitive match.
+                            $('#' + this.id + '_id').val(current.local_pk);
                         } else {
-                        // This means it is only a partial match, you can either add a new item
-                        // or take the active if you don't want new items
+                            // This means it is only a partial match, you can either add a new item
+                            // or take the active if you don't want new items
+                            $('#' + this.id).val(null);
+                            $('#' + this.id + '_id').val(null);
                         }
                     } else {
                         // Nothing is active so it is a new value (or maybe empty value)
+                        $('#' + this.id).val(null);
+                        $('#' + this.id + '_id').val(null);
                     }
                 });
             }
         );
+
+        begin_sync = function(uuid) {
+            let local_id = null;
+            // local_id = $('#'+ uuid + '_local_merge_selection').val()
+            $.post('/data_manager/migration/merge_layer', {
+                'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
+                'portal_id': "{{remote_portal.id }}",
+                'local_id': $("#" + uuid + "_local_merge_selection_id").val(),
+                'remote_uuid': uuid
+            });
+        };
     </script>
 {% endblock %}
 
 {% block content %}
 
     <h1>Remote Comparison</h1>
+    {% csrf_token %}
     {% if not results.code == 200 %}
         <h2>Error:</h2>
         <p>{{results.message}}</p>
@@ -56,15 +75,13 @@
                 {% if not layer.source == 'local' %}
                     <tr id="layer_row_{{layer.id}}">
                         <td>
-                            {% if layer.source == 'match' %}
-                                <button type="button" onclick="window.alert('sync {{layer.id}}')">
-                                    sync
-                                </button>
-                            {% else %}
-                                <button type="button" onclick="window.alert('import {{layer.id}}')">
-                                    import
-                                </button>
-                            {% endif %}
+                            <button type="button" onclick="begin_sync('{{layer.id}}')">
+                                {% if layer.source == 'match' %}
+                                    Sync
+                                {% else %}
+                                    Import
+                                {% endif %}
+                            </button>
                         </td>
                         
                         <td>{{ layer.remote_name }}</td>
@@ -84,7 +101,8 @@
                         </td>
 
                         <td>
-                            <input type="text" class="typeahead" data-provide="typeahead" placeholder="Create New">
+                            <input id="{{layer.id}}_local_merge_selection" type="text" class="typeahead" data-provide="typeahead" placeholder="Create New">
+                            <input id="{{layer.id}}_local_merge_selection_id" type="text">
                         </td>
 
                     </tr>

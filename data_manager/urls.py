@@ -22,4 +22,6 @@ urlpatterns = [
     re_path(r'^get_catalog_records', views.get_catalog_records),
     re_path(r'^migration/layer_status', views.layer_status),
     re_path(r'^migration/layer_details', views.migration_layer_details),
+    re_path(r'^migration/merge_layer', views.migration_merge_layer_request),
+
 ]
