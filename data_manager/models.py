@@ -1138,4 +1138,8 @@ class ExternalPortal(models.Model):
 
     @property
     def layer_detail_endpoint(self):
-        return "{}/data_manager/migration/layer_detail/".format(self.url)
+        return "{}/data_manager/migration/layer_details/".format(self.url)
+
+    @property
+    def get_layer_detail_endpoint(self):
+        return f"{self.url}/data_manager/migration/get_layer_details/"

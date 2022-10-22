@@ -491,7 +491,7 @@ def compare_remote_layers(remote_layer_dict):
     
     return comparison_dict
 
-def migration_layer_details(request):
+def migration_layer_details(request, uuid=None):
     data = {
         'status': 'Unknown', 
         'message': 'Unknown',
@@ -504,7 +504,19 @@ def migration_layer_details(request):
             for layer_key in layer_ids:
                 layer = Layer.all_objects.get(uuid=layer_key)
                 data['layers'][layer_key] = layer.toDict
+            data['status'] = 'Success'
+            data['message'] = 'layer(s) details retrieved'
             
+        except Exception as e:
+            data['status'] = 'Error'
+            data['message'] = str(e)
+            pass
+    elif not uuid == None:
+        try:
+            layer = Layer.all_objects.get(uuid=uuid)
+            data['layers'][uuid] = layer.toDict
+            data['status'] = 'Success'
+            data['message'] = 'layer details retrieved'
         except Exception as e:
             data['status'] = 'Error'
             data['message'] = str(e)
@@ -595,14 +607,9 @@ def migration_merge_layer_request(request):
         # local_layer = Layer.objects.get(pk=int(local_id))
 
         # TODO: Can we post without authorization?
-        remote_layer_dict = requests.post(
-            f"{portal.layer_detail_endpoint}",
-            data = json.dumps({
-                'layers': [
-                    remote_uuid,
-                ]
-            })
-        )
+        remote_layers_response = requests.get(f"{portal.get_layer_detail_endpoint}{remote_uuid}/")
+        
         # import ipdb; ipdb.set_trace()
-        merge_json_response = migration_merge_layer(local_id, json.loads(remote_layer_dict), sites=request.site)
+        remote_layer_dict = remote_layers_response.json()['layers'][remote_uuid]
+        merge_json_response = migration_merge_layer(local_id, remote_layer_dict, sites=request.site)
         return merge_json_response

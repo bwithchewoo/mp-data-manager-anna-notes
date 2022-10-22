@@ -1,5 +1,5 @@
 # from django.conf.urls import url, include, patterns
-from django.urls import re_path, include
+from django.urls import path, re_path, include
 from rest_framework import routers
 from . import views
 
@@ -22,6 +22,7 @@ urlpatterns = [
     re_path(r'^get_catalog_records', views.get_catalog_records),
     re_path(r'^migration/layer_status', views.layer_status),
     re_path(r'^migration/layer_details', views.migration_layer_details),
+    path('migration/get_layer_details/<str:uuid>/', views.migration_layer_details),
     re_path(r'^migration/merge_layer', views.migration_merge_layer_request),
 
 ]
