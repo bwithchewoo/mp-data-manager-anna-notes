@@ -118,10 +118,10 @@
                                 {% if remote_status.layers|get_item:layer.uuid|get_item:"source" == 'match' %}
                                     <!-- match -->
                                     <input id="{{theme.uuid}}_{{layer.uuid}}_local_merge_selection" type="text" disabled value="{{remote_status.layers|get_item:layer.uuid|get_item:'local_name'}}">
-                                    <input id="{{theme.uuid}}_{{layer.uuid}}_local_merge_selection_id" type="text" disabled value="{{remote_status.layers|get_item:layer.uuid|get_item:'local_pk'}}">
+                                    <input id="{{theme.uuid}}_{{layer.uuid}}_local_merge_selection_id" type="hidden" disabled value="{{remote_status.layers|get_item:layer.uuid|get_item:'local_pk'}}">
                                 {% else %}
                                     <input id="{{theme.uuid}}_{{layer.uuid}}_local_merge_selection" type="text" class="typeahead" data-provide="typeahead" placeholder="Create New">
-                                    <input id="{{theme.uuid}}_{{layer.uuid}}_local_merge_selection_id" type="text">
+                                    <input id="{{theme.uuid}}_{{layer.uuid}}_local_merge_selection_id" type="hidden">
                                 {% endif %}
                             </td>
                         </tr>
@@ -162,10 +162,10 @@
                                     {% if remote_status.layers|get_item:sublayer.uuid|get_item:"source" == 'match' %}
                                         <!-- match -->
                                         <input id="{{theme.uuid}}_{{layer.uuid}}_{{sublayer.uuid}}_local_merge_selection" type="text" disabled value="{{remote_status.layers|get_item:sublayer.uuid|get_item:'local_name'}}">
-                                        <input id="{{theme.uuid}}_{{layer.uuid}}_{{sublayer.uuid}}_local_merge_selection_id" type="text" disabled value="{{remote_status.layers|get_item:sublayer.uuid|get_item:'local_pk'}}">
+                                        <input id="{{theme.uuid}}_{{layer.uuid}}_{{sublayer.uuid}}_local_merge_selection_id" type="hidden" disabled value="{{remote_status.layers|get_item:sublayer.uuid|get_item:'local_pk'}}">
                                     {% else %}
                                         <input id="{{theme.uuid}}_{{layer.uuid}}_{{sublayer.uuid}}_local_merge_selection" type="text" class="typeahead" data-provide="typeahead" placeholder="Create New">
-                                        <input id="{{theme.uuid}}_{{layer.uuid}}_{{sublayer.uuid}}_local_merge_selection_id" type="text">
+                                        <input id="{{theme.uuid}}_{{layer.uuid}}_{{sublayer.uuid}}_local_merge_selection_id" type="hidden">
                                     {% endif %}
                                 </td>
                             </tr>
