@@ -551,7 +551,7 @@ def migration_layer_details(request, uuid=None):
 
     return JsonResponse(data)
 
-def migration_merge_layer(local_id, remote_dict, sites=None):
+def migration_merge_layer(local_id, remote_dict, sites=[]):
     data = {
         'status': 'Unknown', 
         'message': 'Unknown',
@@ -563,9 +563,10 @@ def migration_merge_layer(local_id, remote_dict, sites=None):
         local_layer = Layer.objects.create(uuid=remote_dict['uuid'])
 
     #   Address 'sites'
-    if not sites:
-        sites = [x.pk for x in Site.objects.all()]
-    remote_dict['site'] = sites
+    if not sites or len(sites) == 0:
+        sites = [x for x in Site.objects.all()]
+    for site in sites:
+        local_layer.site.add(site)
 
     #   Address 'sublayers'
     remote_dict.pop('subLayers')
@@ -633,10 +634,14 @@ def migration_merge_layer_request(request):
         portal = ExternalPortal.objects.get(pk=int(portal_id))
         # local_layer = Layer.objects.get(pk=int(local_id))
 
-        # TODO: Can we post without authorization?
         remote_layers_response = requests.get(f"{portal.get_layer_detail_endpoint}{remote_uuid}/")
         
-        # import ipdb; ipdb.set_trace()
         remote_layer_dict = remote_layers_response.json()['layers'][remote_uuid]
-        merge_json_response = migration_merge_layer(local_id, remote_layer_dict, sites=request.site)
+        if not (type(request.site) == Site):
+            try:
+                site = Site.objects.get(domain=request.get_host())
+                request.site = site
+            except Exception as e:
+                request.site = None
+        merge_json_response = migration_merge_layer(local_id, remote_layer_dict, sites=[request.site,])
         return merge_json_response
