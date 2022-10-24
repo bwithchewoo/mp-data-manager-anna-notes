@@ -104,13 +104,14 @@ class Theme(models.Model, SiteFlags):
                 themes_dict = cache.get('data_manager_theme_%d_%d' % (self.id, site_id))
             if not themes_dict:
                 themes_dict = self.toDict
-                themes_dict['layers'] = [layer.id for layer in Layer.all_objects.filter(site__in=[site_id],is_sublayer=False,themes__in=[self.id]).exclude(layer_type='placeholder')]
+                themes_dict['layers'] = [layer.id for layer in Layer.all_objects.filter(site__in=[site_id],is_sublayer=False,themes__in=[self.id]).exclude(layer_type='placeholder').order_by('order', 'name')]
                 if site_id:
                     # Cache for 1 week, will be reset if layer data changes
                     cache.set('data_manager_theme_%d_%d' % (self.id, site_id), themes_dict, 60*60*24*7)
                 else:
                     for site in Site.objects.all():
                         cache.set('data_manager_theme_%d_%d' % (self.id, site.id), themes_dict, 60*60*24*7)
+        
         return themes_dict
 
 

@@ -380,11 +380,30 @@ def layer_status(request):
         'layers': {}    
     }
 
-    for theme in Theme.all_objects.all().order_by('uuid'):
+    for theme in Theme.all_objects.all().order_by('order', 'name', 'uuid'):
+        theme_dict = theme.dictCache(site_id=request.site.id)
+        if not theme_dict:
+            import ipdb; ipdb.set_trace()
         data['themes'][str(theme.uuid)] = {
             'name': theme.name,
-            'date_modified': theme.date_modified
+            'date_modified': theme.date_modified,
+            'layers': []
         }
+        for layer_id in theme_dict['layers']:
+            layer = Layer.all_objects.get(pk=layer_id)
+            layer_data = {
+                'name': layer.name,
+                'date_modified': layer.date_modified,
+                'sublayers': []
+            }
+            for sublayer in layer.sublayers.all().order_by('order', 'name'):
+                layer_data['sublayers'].append({
+                    'name': sublayer.name,
+                    'date_modified': sublayer.date_modified
+                })
+            
+            data['themes'][str(theme.uuid)]['layers'].append(layer_data)
+
     for layer in Layer.all_objects.all().order_by('uuid'):
         data['layers'][str(layer.uuid)] = {
             'name': layer.name,
