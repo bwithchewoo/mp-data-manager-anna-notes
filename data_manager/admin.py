@@ -149,6 +149,7 @@ class RemoteImportExportMixin(ImportExportMixin):
                 #   * Get Remote Portal Endpoint for layer status
                 remote_status = requests.get(f"{portal.layer_status_endpoint}")
                 #   * Build layer status comparison dict
+                # TODO: Handle Error on request!
                 comparison_results = compare_remote_layers(remote_status.json())
                 #   * Feed comparison dict back to template
                 results = {
@@ -157,7 +158,11 @@ class RemoteImportExportMixin(ImportExportMixin):
                     'message': 'Success',
                     # 'data': comparison_results
                 }
-                remote_status = {'layers': [comparison_results['layers'][x] for x in comparison_results['layers'].keys() if not comparison_results['layers'][x]['source'] == 'local']}
+                remote_status_dict = {
+                    # 'layers': [comparison_results['layers'][x] for x in comparison_results['layers'].keys() if not comparison_results['layers'][x]['source'] == 'local'],
+                    'layers': comparison_results['layers'],
+                    'themes': [remote_status.json()['themes'][key] for key in remote_status.json()['themes'].keys()]
+                }
                 local_status = {'layers': [comparison_results['layers'][x] for x in comparison_results['layers'].keys() if comparison_results['layers'][x]['source'] == 'local']}
                 for layer in local_status['layers']:
                     layer.pop('local_modified')
@@ -166,7 +171,7 @@ class RemoteImportExportMixin(ImportExportMixin):
 
 
             view_context['results'] = results
-            view_context['remote_status'] = remote_status
+            view_context['remote_status'] = remote_status_dict
             view_context['local_status'] = json.dumps(local_status)
             view_context['remote_portal'] = {
                 'id': portal_id,
