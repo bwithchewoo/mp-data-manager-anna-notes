@@ -1,6 +1,11 @@
 {% extends "admin/import_export/base.html" %}
 {% load static migration_extras %}
 
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'data_manager/css/migration.css' %}"/>
+{% endblock %}
+
 {% block extrahead %}
     {{ block.super }}
     <script type="text/javascript" src="{% static 'jquery/dist/jquery.js' %}"></script>
@@ -45,12 +50,33 @@
         begin_sync = function(layer_uuid, element_uuid) {
             let local_id = null;
             // local_id = $('#'+ uuid + '_local_merge_selection').val()
-            $.post('/data_manager/migration/merge_layer', {
-                'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
-                'portal_id': "{{ remote_portal.id }}",
-                'local_id': $("#" + element_uuid + "_local_merge_selection_id").val(),
-                'remote_uuid': layer_uuid
-            });
+            $('body').css("cursor", "wait");
+            $.post(
+                '/data_manager/migration/merge_layer', 
+                {
+                    'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
+                    'portal_id': "{{ remote_portal.id }}",
+                    'local_id': $("#" + element_uuid + "_local_merge_selection_id").val(),
+                    'remote_uuid': layer_uuid
+                },
+                function(data) {
+                    if (data.status == "Success") {
+                        alert('Update successful!');
+                        $('body').css("cursor", "unset");
+                        //  Find all rows related to uuid
+                        $('.layer_row_' + data.uuid).addClass('synced');
+                        //  Replace all buttons with "Up to date!"
+                        $(".merge_cell_"+data.uuid).html('synced!');
+                        //  Replace Status with "match"
+                        $(".status_cell_"+data.uuid).html('synced!');
+                        //  Replace Local Layer with disabled field with layer name in place
+                        $(".local_cell_"+data.uuid).html(data.remote_name);
+
+                    } else {
+                        alert("Error importing remote layer: " + data.message);
+                    }
+                }
+            );
         };
     </script>
 {% endblock %}
@@ -73,7 +99,7 @@
                 <th>Local Layer</th>
             </tr>
             {% for theme in remote_status.themes %}
-                <tr>
+                <tr class="theme-row">
                     <th>{{ theme.name }}</th>
                     <td>------------</td>
                     <td>------------------------------------------------------------------------------</td>
@@ -82,9 +108,13 @@
                 </tr>
                 {% for layer in theme.layers %}
                     {% if not remote_status.layers|get_item:layer.uuid|get_item:"source" == 'local' %}
-                        <tr id="layer_row_{{theme.uuid}}_{{layer.uuid}}" class = "layer_row_{{layer.uuid}}">
-                            <td>{{ theme.name }}</td>
-                            <td>
+                        {% if remote_status.layers|get_item:layer.uuid|get_item:"remote_modified" == remote_status.layers|get_item:layer.uuid|get_item:"local_modified" and remote_status.layers|get_item:layer.uuid|get_item:"source" == 'match' %}
+                            <tr id="layer_row_{{theme.uuid}}_{{layer.uuid}}" class = "layer_row_{{layer.uuid}} synced">
+                        {% else %}
+                            <tr id="layer_row_{{theme.uuid}}_{{layer.uuid}}" class = "layer_row_{{layer.uuid}}">
+                        {% endif %}
+                            <td class="theme_cell_{{layer.uuid}}">{{ theme.name }}</td>
+                            <td class="merge_cell_{{layer.uuid}}">
                                 {% if remote_status.layers|get_item:layer.uuid|get_item:"remote_modified" == remote_status.layers|get_item:layer.uuid|get_item:"local_modified" and remote_status.layers|get_item:layer.uuid|get_item:"source" == 'match' %}
                                     Up to date!
                                 {% else %}
@@ -98,9 +128,9 @@
                                 {% endif %}
                             </td>
 
-                            <td>{{ remote_status.layers|get_item:layer.uuid|get_item:"remote_name" }}</td>
+                            <td class="name_cell_{{ layer.uuid }}">{{ remote_status.layers|get_item:layer.uuid|get_item:"remote_name" }}</td>
                             
-                            <td>
+                            <td class="status_cell_{{ layer.uuid }}">
                                 {% if remote_status.layers|get_item:layer.uuid|get_item:"newest" == 'remote' %}
                                     newer
                                 {% elif remote_status.layers|get_item:layer.uuid|get_item:"newest" == 'local' %}
@@ -114,21 +144,25 @@
                                 {% endif %}
                             </td>
 
-                            <td>
+                            <td class="local_cell_{{ layer.uuid }}">
                                 {% if remote_status.layers|get_item:layer.uuid|get_item:"source" == 'match' %}
-                                    <!-- match -->
-                                    <input id="{{theme.uuid}}_{{layer.uuid}}_local_merge_selection" type="text" disabled value="{{remote_status.layers|get_item:layer.uuid|get_item:'local_name'}}">
-                                    <input id="{{theme.uuid}}_{{layer.uuid}}_local_merge_selection_id" type="hidden" disabled value="{{remote_status.layers|get_item:layer.uuid|get_item:'local_pk'}}">
+                                    {{remote_status.layers|get_item:layer.uuid|get_item:'local_name'}}
+                                    <input id="{{theme.uuid}}_{{layer.uuid}}_local_merge_selection" class="local_name_field_{{layer.uuid }}" type="hidden" disabled value="{{remote_status.layers|get_item:layer.uuid|get_item:'local_name'}}">
+                                    <input id="{{theme.uuid}}_{{layer.uuid}}_local_merge_selection_id" class="local_id_field_{{layer.uuid}}" type="hidden" disabled value="{{remote_status.layers|get_item:layer.uuid|get_item:'local_pk'}}">
                                 {% else %}
-                                    <input id="{{theme.uuid}}_{{layer.uuid}}_local_merge_selection" type="text" class="typeahead" data-provide="typeahead" placeholder="Create New">
-                                    <input id="{{theme.uuid}}_{{layer.uuid}}_local_merge_selection_id" type="hidden">
+                                    <input id="{{theme.uuid}}_{{layer.uuid}}_local_merge_selection" class="local_name_field_{{layer.uuid }} typeahead" type="text" data-provide="typeahead" placeholder="Create New">
+                                    <input id="{{theme.uuid}}_{{layer.uuid}}_local_merge_selection_id" class="local_id_field_{{layer.uuid}}" type="hidden">
                                 {% endif %}
                             </td>
                         </tr>
                         {% for sublayer in layer.sublayers %}
-                            <tr id="layer_row_{{theme.uuid}}_{{layer.uuid}}_{{sublayer.uuid}}" class = "layer_row_{{sublayer.uuid}}">
-                                <td>{{ theme.name }}</td>
-                                <td>
+                            {% if remote_status.layers|get_item:sublayer.uuid|get_item:"remote_modified" == remote_status.layers|get_item:sublayer.uuid|get_item:"local_modified" and remote_status.layers|get_item:sublayer.uuid|get_item:"source" == 'match' %}
+                                <tr id="layer_row_{{theme.uuid}}_{{layer.uuid}}_{{sublayer.uuid}}" class = "layer_row_{{sublayer.uuid}} synced">
+                            {% else %}
+                                <tr id="layer_row_{{theme.uuid}}_{{layer.uuid}}_{{sublayer.uuid}}" class = "layer_row_{{sublayer.uuid}}">
+                            {% endif %}
+                                <td class="theme_cell_{{sublayer.uuid}}">{{ theme.name }}</td>
+                                <td class="merge_cell_{{sublayer.uuid}}">
                                     {% if remote_status.layers|get_item:sublayer.uuid|get_item:"remote_modified" == remote_status.layers|get_item:sublayer.uuid|get_item:"local_modified" and remote_status.layers|get_item:sublayer.uuid|get_item:"source" == 'match' %}
                                         Up to date!
                                     {% else %}
@@ -142,9 +176,9 @@
                                     {% endif %}
                                 </td>
 
-                                <td>-----------------> {{ remote_status.layers|get_item:sublayer.uuid|get_item:"remote_name" }}</td>
+                                <td class="name_cell_{{sublayer.uuid}}">-----------------> {{ remote_status.layers|get_item:sublayer.uuid|get_item:"remote_name" }}</td>
                                 
-                                <td>
+                                <td class="status_cell_{{sublayer.uuid}}">
                                     {% if remote_status.layers|get_item:sublayer.uuid|get_item:"newest" == 'remote' %}
                                         newer
                                     {% elif remote_status.layers|get_item:sublayer.uuid|get_item:"newest" == 'local' %}
@@ -158,14 +192,14 @@
                                     {% endif %}
                                 </td>
 
-                                <td>
+                                <td class="local_cell_{{sublayer.uuid}}">
                                     {% if remote_status.layers|get_item:sublayer.uuid|get_item:"source" == 'match' %}
-                                        <!-- match -->
-                                        <input id="{{theme.uuid}}_{{layer.uuid}}_{{sublayer.uuid}}_local_merge_selection" type="text" disabled value="{{remote_status.layers|get_item:sublayer.uuid|get_item:'local_name'}}">
-                                        <input id="{{theme.uuid}}_{{layer.uuid}}_{{sublayer.uuid}}_local_merge_selection_id" type="hidden" disabled value="{{remote_status.layers|get_item:sublayer.uuid|get_item:'local_pk'}}">
+                                        {{remote_status.layers|get_item:sublayer.uuid|get_item:'local_name'}}
+                                        <input id="{{theme.uuid}}_{{layer.uuid}}_{{sublayer.uuid}}_local_merge_selection" class="local_name_field_{{sublayer.uuid}}" type="hidden" disabled value="{{remote_status.layers|get_item:sublayer.uuid|get_item:'local_name'}}">
+                                        <input id="{{theme.uuid}}_{{layer.uuid}}_{{sublayer.uuid}}_local_merge_selection_id" class="local_id_field_{{sublayer.uuid}}" type="hidden" disabled value="{{remote_status.layers|get_item:sublayer.uuid|get_item:'local_pk'}}">
                                     {% else %}
-                                        <input id="{{theme.uuid}}_{{layer.uuid}}_{{sublayer.uuid}}_local_merge_selection" type="text" class="typeahead" data-provide="typeahead" placeholder="Create New">
-                                        <input id="{{theme.uuid}}_{{layer.uuid}}_{{sublayer.uuid}}_local_merge_selection_id" type="hidden">
+                                        <input id="{{theme.uuid}}_{{layer.uuid}}_{{sublayer.uuid}}_local_merge_selection" class="local_name_field_{{sublayer.uuid}} typeahead" type="text" data-provide="typeahead" placeholder="Create New">
+                                        <input id="{{theme.uuid}}_{{layer.uuid}}_{{sublayer.uuid}}_local_merge_selection_id" class="local_id_field_{{sublayer.uuid}}" type="hidden">
                                     {% endif %}
                                 </td>
                             </tr>

@@ -396,7 +396,11 @@ def layer_status(request):
         }
         if theme_dict:
             for layer_id in theme_dict['layers']:
-                layer = Layer.all_objects.get(pk=layer_id)
+                try:
+                    layer = Layer.all_objects.get(pk=layer_id)
+                except Exception as e:
+                    import ipdb; ipdb.set_trace()
+                    print('foo')
                 layer_data = {
                     'uuid': str(layer.uuid), 
                     'name': layer.name,
@@ -555,6 +559,9 @@ def migration_merge_layer(local_id, remote_dict, sites=[]):
     data = {
         'status': 'Unknown', 
         'message': 'Unknown',
+        'local_id': local_id,
+        'remote_name': remote_dict['name'],
+        'uuid': remote_dict['uuid']
     }
     remote_dict.pop('id')
     if local_id:
