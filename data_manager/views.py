@@ -399,8 +399,8 @@ def layer_status(request):
                 try:
                     layer = Layer.all_objects.get(pk=layer_id)
                 except Exception as e:
-                    import ipdb; ipdb.set_trace()
-                    print('foo')
+                    print('This is the result of shared caches between projects and should not appear during production.')
+                    pass
                 layer_data = {
                     'uuid': str(layer.uuid), 
                     'name': layer.name,
@@ -570,7 +570,7 @@ def migration_merge_layer(local_id, remote_dict, sites=[]):
         local_layer = Layer.objects.create(uuid=remote_dict['uuid'])
 
     #   Address 'sites'
-    if not sites or len(sites) == 0:
+    if not sites or len(sites) == 0 or sites == [None,]:
         sites = [x for x in Site.objects.all()]
     for site in sites:
         local_layer.site.add(site)

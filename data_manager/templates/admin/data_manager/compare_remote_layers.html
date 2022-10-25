@@ -9,7 +9,6 @@
 {% block extrahead %}
     {{ block.super }}
     <script type="text/javascript" src="{% static 'jquery/dist/jquery.js' %}"></script>
-    <!-- <script type="text/javascript" src="{% static 'bootstrap/dist/js/bootstrap.js' %}"></script> -->
     <script type="text/javascript" src="{% static 'bootstrap3-typeahead/bootstrap3-typeahead.js' %}"></script>
     <script type="text/javascript">
         local_layers = {'layers': []};
@@ -47,10 +46,29 @@
             }
         );
 
+        confirm_sync = function(layer_uuid, element_uuid, remote_name, local_name_field_id) {
+            local_name = $('#' + local_name_field_id).val();
+            confirm_message = "Are you sure you want to ";
+            if (local_name) {
+                confirm_message += "overwrite '" + local_name + "' with '" + remote_name + "'?";
+            } else {
+                confirm_message += "import '" + remote_name + "'?";
+            }
+            if (confirm(confirm_message) == true) {
+                begin_sync(layer_uuid, element_uuid);
+                return "Importing...";
+            } else {
+                return "Import cancelled.";
+            }
+        }
+
         begin_sync = function(layer_uuid, element_uuid) {
             let local_id = null;
             // local_id = $('#'+ uuid + '_local_merge_selection').val()
             $('body').css("cursor", "wait");
+            //  Replace all buttons with "Up to date!"
+            $(".merge_cell_"+layer_uuid + " button").html('Importing...');
+            $(".merge_cell_"+layer_uuid + " button").prop("disabled", true);
             $.post(
                 '/data_manager/migration/merge_layer', 
                 {
@@ -61,8 +79,8 @@
                 },
                 function(data) {
                     if (data.status == "Success") {
-                        alert('Update successful!');
-                        $('body').css("cursor", "unset");
+                        window.alert('Update successful!');
+                        
                         //  Find all rows related to uuid
                         $('.layer_row_' + data.uuid).addClass('synced');
                         //  Replace all buttons with "Up to date!"
@@ -74,9 +92,19 @@
 
                     } else {
                         alert("Error importing remote layer: " + data.message);
+                        $(".merge_cell_"+data.uuid + " button").html('Import');
+                        $(".merge_cell_"+data.uuid + " button").prop("disabled", false);
                     }
                 }
-            );
+            )
+            .fail(function(response) {
+                alert("Error importing remote layer: " + response.status + " - " + response.statusText);
+                        $(".merge_cell_"+layer_uuid + " button").html('Import');
+                        $(".merge_cell_"+layer_uuid + " button").prop("disabled", false);
+            })
+            .always(function(response) {
+                $('body').css("cursor", "unset");
+            });
         };
     </script>
 {% endblock %}
@@ -118,7 +146,12 @@
                                 {% if remote_status.layers|get_item:layer.uuid|get_item:"remote_modified" == remote_status.layers|get_item:layer.uuid|get_item:"local_modified" and remote_status.layers|get_item:layer.uuid|get_item:"source" == 'match' %}
                                     Up to date!
                                 {% else %}
-                                    <button type="button" onclick="begin_sync('{{layer.uuid}}', '{{theme.uuid}}_{{layer.uuid}}')">
+                                    <button type="button" onclick="confirm_sync(
+                                            '{{layer.uuid}}', 
+                                            '{{theme.uuid}}_{{layer.uuid}}', 
+                                            '{{ remote_status.layers|get_item:layer.uuid|get_item:"remote_name" }}',
+                                            '{{theme.uuid}}_{{layer.uuid}}_local_merge_selection'
+                                    )">
                                         {% if remote_status.layers|get_item:layer.uuid|get_item:"source" == 'match' %}
                                             Sync
                                         {% else %}
@@ -166,7 +199,12 @@
                                     {% if remote_status.layers|get_item:sublayer.uuid|get_item:"remote_modified" == remote_status.layers|get_item:sublayer.uuid|get_item:"local_modified" and remote_status.layers|get_item:sublayer.uuid|get_item:"source" == 'match' %}
                                         Up to date!
                                     {% else %}
-                                        <button type="button" onclick="begin_sync('{{sublayer.uuid}}', '{{theme.uuid}}_{{layer.uuid}}_{{sublayer.uuid}}')">
+                                        <button type="button" onclick="confirm_sync(
+                                                '{{sublayer.uuid}}', 
+                                                '{{theme.uuid}}_{{layer.uuid}}_{{sublayer.uuid}}', 
+                                                '{{ remote_status.layers|get_item:sublayer.uuid|get_item:"remote_name" }}',
+                                                '{{theme.uuid}}_{{layer.uuid}}_{{sublayer.uuid}}_local_merge_selection'
+                                        )">
                                             {% if remote_status.layers|get_item:sublayer.uuid|get_item:"source" == 'match' %}
                                                 Sync
                                             {% else %}
