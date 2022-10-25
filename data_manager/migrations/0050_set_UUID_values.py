@@ -11,6 +11,8 @@ class Migration(migrations.Migration):
     ]
 
     def gen_uuid(apps, schema_editor):
+        from data_manager.models import AllObjectsManager
+        
         AIModel = apps.get_model('data_manager', 'attributeinfo')
         for row in AIModel.objects.all():
             while True:
@@ -53,19 +55,21 @@ class Migration(migrations.Migration):
                     break
 
             row.save()
-        TModel = apps.get_model('data_manager', 'theme')
-        for row in TModel.objects.all():
+        theme_manager = AllObjectsManager()
+        theme_manager.model = apps.get_model('data_manager', 'theme')
+        for row in theme_manager.all():
             while True:
                 row.uuid = uuid.uuid4()
-                if not TModel.objects.filter(uuid=row.uuid).exists():
+                if not theme_manager.filter(uuid=row.uuid).exists():
                     break
 
             row.save()
-        LModel = apps.get_model('data_manager', 'layer')
-        for row in LModel.objects.all():
+        layer_manager = AllObjectsManager()
+        layer_manager.model = apps.get_model('data_manager', 'layer')
+        for row in layer_manager.all():
             while True:
                 row.uuid = uuid.uuid4()
-                if not LModel.objects.filter(uuid=row.uuid).exists():
+                if not layer_manager.filter(uuid=row.uuid).exists():
                     break
 
             row.save()

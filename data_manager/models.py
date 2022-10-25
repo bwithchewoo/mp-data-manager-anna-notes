@@ -53,6 +53,9 @@ class SiteFlags(object):#(models.Model):
         return self.site.filter(id=2).exists()
     preview_site.boolean = True
 
+class AllObjectsManager(models.Manager):
+    use_in_migrations = True
+
 class Theme(models.Model, SiteFlags):
     uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     site = models.ManyToManyField(Site)
@@ -79,7 +82,7 @@ class Theme(models.Model, SiteFlags):
 
     # objects = models.Manager()
     objects = CurrentSiteManager('site')
-    all_objects = models.Manager()
+    all_objects = AllObjectsManager()
 
     def url(self):
         id = self.id
@@ -292,7 +295,7 @@ class Layer(models.Model, SiteFlags):
     opacity = models.FloatField(default=.5, blank=True, null=True, verbose_name="Initial Opacity")
 
     objects = CurrentSiteManager('site')
-    all_objects = models.Manager()
+    all_objects = AllObjectsManager()
 
     #ESPIS Upgrade - RDH 7/23/2017
     ESPIS_REGION_CHOICES = (
