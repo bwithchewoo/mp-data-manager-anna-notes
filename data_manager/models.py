@@ -9,6 +9,9 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.admin.models import LogEntry
 from colorfield.fields import ColorField
 # From MARCO/utils.py
+
+import uuid
+
 def get_domain(port=8010):
     try:
         #domain = Site.objects.all()[0].domain
@@ -50,7 +53,11 @@ class SiteFlags(object):#(models.Model):
         return self.site.filter(id=2).exists()
     preview_site.boolean = True
 
+class AllObjectsManager(models.Manager):
+    use_in_migrations = True
+
 class Theme(models.Model, SiteFlags):
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     site = models.ManyToManyField(Site)
     display_name = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
@@ -65,6 +72,9 @@ class Theme(models.Model, SiteFlags):
     factsheet_thumb = models.CharField(max_length=255, blank=True, null=True)
     factsheet_link = models.CharField(max_length=255, blank=True, null=True)
 
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
     # not really using these atm
     feature_image = models.CharField(max_length=255, blank=True, null=True)
     feature_excerpt = models.TextField(blank=True, null=True)
@@ -72,7 +82,7 @@ class Theme(models.Model, SiteFlags):
 
     # objects = models.Manager()
     objects = CurrentSiteManager('site')
-    all_objects = models.Manager()
+    all_objects = AllObjectsManager()
 
     def url(self):
         id = self.id
@@ -97,13 +107,14 @@ class Theme(models.Model, SiteFlags):
                 themes_dict = cache.get('data_manager_theme_%d_%d' % (self.id, site_id))
             if not themes_dict:
                 themes_dict = self.toDict
-                themes_dict['layers'] = [layer.id for layer in Layer.all_objects.filter(site__in=[site_id],is_sublayer=False,themes__in=[self.id]).exclude(layer_type='placeholder')]
+                themes_dict['layers'] = [layer.id for layer in Layer.all_objects.filter(site__in=[site_id],is_sublayer=False,themes__in=[self.id]).exclude(layer_type='placeholder').order_by('order', 'name')]
                 if site_id:
                     # Cache for 1 week, will be reset if layer data changes
                     cache.set('data_manager_theme_%d_%d' % (self.id, site_id), themes_dict, 60*60*24*7)
                 else:
                     for site in Site.objects.all():
                         cache.set('data_manager_theme_%d_%d' % (self.id, site.id), themes_dict, 60*60*24*7)
+        
         return themes_dict
 
 
@@ -162,6 +173,7 @@ class Layer(models.Model, SiteFlags):
     COLOR_PALETTE.append(("#0000FF", 'blue'))
     COLOR_PALETTE.append(("#FF00FF", 'magenta'))
 
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     site = models.ManyToManyField(Site)
     name = models.CharField(max_length=100)
     order = models.PositiveSmallIntegerField(default=10, blank=True, null=True, help_text='input an integer to determine the priority/order of the layer being displayed (1 being the highest)')
@@ -283,7 +295,7 @@ class Layer(models.Model, SiteFlags):
     opacity = models.FloatField(default=.5, blank=True, null=True, verbose_name="Initial Opacity")
 
     objects = CurrentSiteManager('site')
-    all_objects = models.Manager()
+    all_objects = AllObjectsManager()
 
     #ESPIS Upgrade - RDH 7/23/2017
     ESPIS_REGION_CHOICES = (
@@ -293,6 +305,7 @@ class Layer(models.Model, SiteFlags):
     espis_search = models.CharField(max_length=255, blank=True, null=True, default=None, help_text="keyphrase search for ESPIS Link")
     espis_region = models.CharField(max_length=100, blank=True, null=True, default=None, choices=ESPIS_REGION_CHOICES, help_text="Region to search within")
 
+    date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
     minZoom = models.FloatField(blank=True, null=True, default=None, verbose_name="Minimum zoom")
@@ -582,6 +595,7 @@ class Layer(models.Model, SiteFlags):
         sublayers = [
             {
                 'id': layer.id,
+                'uuid': layer.uuid,
                 'is_sublayer': layer.is_sublayer,
                 'name': layer.name,
                 'order': layer.order,
@@ -640,13 +654,15 @@ class Layer(models.Model, SiteFlags):
                 'is_multilayer': layer.isMultilayer,
                 'is_multilayer_parent': layer.isMultilayerParent,
                 'dimensions': layer.dimensions,
-                'associated_multilayers': layer.associatedMultilayers
+                'associated_multilayers': layer.associatedMultilayers,
+                'date_modified': layer.date_modified
             }
             for layer in self.sublayers.filter(is_sublayer=True)
         ]
         connect_companion_layers_to = [
             {
                 'id': layer.id,
+                'uuid': layer.uuid,
                 'name': layer.name,
                 'order': layer.order,
                 'type': layer.layer_type,
@@ -704,12 +720,14 @@ class Layer(models.Model, SiteFlags):
                 'is_multilayer': layer.isMultilayer,
                 'is_multilayer_parent': layer.isMultilayerParent,
                 'dimensions': layer.dimensions,
-                'associated_multilayers': layer.associatedMultilayers
+                'associated_multilayers': layer.associatedMultilayers,
+                'date_modified': layer.date_modified
             }
             for layer in self.connect_companion_layers_to.all()
         ]
         layers_dict = {
             'id': self.id,
+            'uuid': self.uuid,
             'name': self.name,
             'order': self.order,
             'type': self.layer_type,
@@ -771,7 +789,8 @@ class Layer(models.Model, SiteFlags):
             'dimensions': self.dimensions,
             'associated_multilayers': self.associatedMultilayers,
             'catalog_html': self.catalog_html,
-            'parent': parent
+            'parent': parent,
+            'date_modified': self.date_modified
         }
 
         return layers_dict
@@ -895,6 +914,7 @@ class Layer(models.Model, SiteFlags):
                 theme.dictCache(site.pk)
 
 class AttributeInfo(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     display_name = models.CharField(max_length=255, blank=True, null=True)
     field_name = models.CharField(max_length=255, blank=True, null=True)
     precision = models.IntegerField(blank=True, null=True)
@@ -928,6 +948,7 @@ class LookupInfo(models.Model):
     COLOR_PALETTE.append(("#0000FF", 'blue'))
     COLOR_PALETTE.append(("#FF00FF", 'magenta'))
 
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     value = models.CharField(max_length=255, blank=True, null=True)
     description = models.CharField(max_length=255, blank=True, null=True, default=None)
     color = ColorField(
@@ -983,6 +1004,7 @@ class DataNeed(models.Model):
         return str(self.name)
 
 class MultilayerDimension(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     name = models.CharField(max_length=200, help_text='name to be used for selection in admin tool forms')
     label = models.CharField(max_length=50, help_text='label to be used in mapping tool slider')
     order = models.IntegerField(default=100, help_text='the order in which this dimension will be presented among other dimensions on this layer')
@@ -1012,6 +1034,7 @@ class MultilayerDimension(models.Model):
         super(MultilayerDimension, self).delete(*args, **kwargs)
 
 class MultilayerAssociation(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     name = models.CharField(max_length=200)
     parentLayer = models.ForeignKey(Layer, related_name="parent_layer",
             db_column='parentlayer', on_delete=models.CASCADE)
@@ -1034,6 +1057,7 @@ class MultilayerAssociation(models.Model):
     #     print("Association: %s ---DELETED---" % str(self))
 
 class MultilayerDimensionValue(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     dimension = models.ForeignKey(MultilayerDimension, on_delete=models.CASCADE)
     value = models.CharField(max_length=200, help_text="Actual value of selection")
     label = models.CharField(max_length=50, help_text="Label for this selection seen in mapping tool slider")
@@ -1100,3 +1124,26 @@ class MultilayerDimensionValue(models.Model):
         if self.id:
             # AssertionError: MultilayerDimensionValue object can't be deleted because its id attribute is set to None.
             super(MultilayerDimensionValue, self).delete(*args, **kwargs)
+
+
+class ExternalPortal(models.Model):
+    name = models.CharField(max_length=255, blank=True, null=True, default=None)
+    url = models.URLField(help_text='URL endpoint of the remote Portal')
+
+    def __str__(self):
+        if not self.name == None:
+            return self.name
+        else:
+            return str(self.url)
+
+    @property
+    def layer_status_endpoint(self):
+        return "{}/data_manager/migration/layer_status".format(self.url)
+
+    @property
+    def layer_detail_endpoint(self):
+        return "{}/data_manager/migration/layer_details/".format(self.url)
+
+    @property
+    def get_layer_detail_endpoint(self):
+        return f"{self.url}/data_manager/migration/get_layer_details/"

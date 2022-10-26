@@ -1,0 +1,38 @@
+{% extends "admin/import_export/import.html" %}
+
+<!-- 
+    OVERRIDE THIS TEMPLATE: 
+    https://raw.githubusercontent.com/django-import-export/django-import-export/main/import_export/templates/admin/import_export/import.html
+    * Add 'remote import'
+    * URL field
+    * LATER: Connect to a model for storing remote portal endpoints
+-->
+
+{% block content %}
+
+    {{ block.super }}
+
+    {% block remote_import %}
+
+        <h1>Remote Import</h1>
+
+        {% block import_remote_form %}
+        
+            <form method="post" action="/django-admin/data_manager/layer/import_remote">
+                {% csrf_token %}
+                <p>This tool allows you to import layers from remote instances of Madrona Portal.</p>
+
+                {{ remote_import_form.as_p }}
+
+                <div class="submit-row">
+                    <input class="default" type="submit" value="Submit">
+                </div>
+
+            </form>
+
+
+        {% endblock %} {# end import_remote_form #}
+
+    {% endblock %} {# end remote_import #}
+
+{% endblock %} {# end content #}

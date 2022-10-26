@@ -1,13 +1,18 @@
 # Create your views here.
+
+from django.conf import settings
+from django.contrib.sites.models import Site
+from django.core.exceptions import ObjectDoesNotExist
+from django.db import connection
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.views.decorators.cache import cache_page
-from django.conf import settings
-from django.core.exceptions import ObjectDoesNotExist
 from .models import *
 from .serializers import BriefLayerSerializer
 from rest_framework import viewsets
+
+import json, requests
 
 class LayerViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -363,3 +368,290 @@ def get_catalog_records(request):
         # data['hits'] = len(record_ids)
 
     return JsonResponse(data)
+
+
+######################################################
+#           MIGRATION API/Logic                      #
+######################################################
+
+def layer_status(request):
+    data = {
+        'themes': {},
+        'layers': {}    
+    }
+
+    for theme in Theme.all_objects.all().order_by('order', 'name', 'uuid'):
+        theme_dict = False
+        for site in Site.objects.all():
+            if not theme_dict:
+                theme_dict = theme.dictCache(site_id=site.id)
+            else:
+                new_site_dict = theme.dictCache(site_id=site.id)
+                if new_site_dict:
+                    new_layers = new_site_dict['layers']
+                    theme_dict['layers'] = list(set(theme_dict['layers'] + new_layers))
+            
+        data['themes'][str(theme.uuid)] = {
+            'name': theme.name,
+            'uuid': theme.uuid,
+            'date_modified': theme.date_modified,
+            'layers': []
+        }
+        if theme_dict:
+            for layer_id in theme_dict['layers']:
+                try:
+                    layer = Layer.all_objects.get(pk=layer_id)
+                except Exception as e:
+                    print('This is the result of shared caches between projects and should not appear during production.')
+                    pass
+                layer_data = {
+                    'uuid': str(layer.uuid), 
+                    'name': layer.name,
+                    'date_modified': layer.date_modified,
+                    'sublayers': []
+                }
+                for sublayer in layer.sublayers.all().order_by('order', 'name'):
+                    layer_data['sublayers'].append({
+                        'uuid': str(sublayer.uuid),
+                        'name': sublayer.name,
+                        'date_modified': sublayer.date_modified
+                    })
+                
+                data['themes'][str(theme.uuid)]['layers'].append(layer_data)
+
+    for layer in Layer.all_objects.all().order_by('uuid'):
+        data['layers'][str(layer.uuid)] = {
+            'name': layer.name,
+            'date_modified': layer.date_modified
+        }
+    return JsonResponse(data)
+
+def compare_remote_layers(remote_layer_dict):
+    from datetime import datetime
+    comparison_dict = {
+        'themes': {},
+        'layers': {}
+    }
+    # Populate Dict with lists of Themes and Layers
+    # New field "source" for 'local', 'remote', or 'match'
+    # New field "modified": Null, True, or False  (Null if not a 'match' entry)
+    # New field "newer": Null, 'Local', or 'Remote' (Null if not a 'match' entry)
+    for remote_theme_key in remote_layer_dict['themes'].keys():
+        theme = remote_layer_dict['themes'][remote_theme_key]
+        comparison_dict['themes'][remote_theme_key] = {
+            'id': remote_theme_key,
+            'source': 'remote',
+            'modified': False,
+            'remote_name': theme['name'],
+            'remote_modified': datetime.strptime("{}+0000".format(theme['date_modified']), '%Y-%m-%dT%H:%M:%S.%fZ%z'),
+            'local_name': None,
+            'local_pk': None,
+            'local_modified': None,
+            'newest': None,
+        }
+    for theme in Theme.all_objects.all():
+        key = str(theme.uuid)
+        if not key in comparison_dict['themes'].keys():
+            comparison_dict['themes'][key] = {
+                'id': key,
+                'source': 'local',
+                'modified': False,
+                'remote_name': None,
+                'remote_modified': None,
+                'newest': None,
+            } 
+        else:
+            comparison_dict['themes'][key]['source'] = 'match'
+
+        comparison_entry = comparison_dict['themes'][key]
+
+        comparison_entry['local_name'] = theme.name
+        comparison_entry['local_pk'] = theme.pk
+        comparison_entry['local_modified'] = theme.date_modified
+
+        if comparison_entry['source'] == 'match':
+            if not comparison_entry['local_name'] == comparison_entry['remote_name']:
+                comparison_entry['modified'] = True
+            if not comparison_entry['local_modified'] == comparison_entry['remote_modified']:
+                comparison_entry['modified'] = True
+                if comparison_entry['local_modified'] > comparison_entry['remote_modified']:
+                    comparison_entry['newest'] = 'local'
+                elif comparison_entry['local_modified'] < comparison_entry['remote_modified']:
+                    comparison_entry['newest'] = 'remote'
+
+    for remote_layer_key in remote_layer_dict['layers'].keys():
+        layer = remote_layer_dict['layers'][remote_layer_key]
+        comparison_dict['layers'][remote_layer_key] = {
+            'id': remote_layer_key,
+            'source': 'remote',
+            'modified': False,
+            'remote_name': layer['name'],
+            'remote_modified': datetime.strptime("{}+0000".format(layer['date_modified']), '%Y-%m-%dT%H:%M:%S.%fZ%z'),
+            'local_name': None,
+            'local_pk': None,
+            'local_modified': None,
+            'newest': None,
+        }
+    for layer in Layer.all_objects.all():
+        key = str(layer.uuid)
+        if not key in comparison_dict['layers'].keys():
+            comparison_dict['layers'][key] = {
+                'id': key,
+                'source': 'local',
+                'modified': False,
+                'remote_name': None,
+                'remote_modified': None,
+                'newest': None,
+            } 
+        else:
+            comparison_dict['layers'][key]['source'] = 'match'
+
+        comparison_entry = comparison_dict['layers'][key]
+
+        comparison_entry['local_name'] = layer.name
+        comparison_entry['local_pk'] = layer.pk
+        comparison_entry['local_modified'] = layer.date_modified
+
+        if comparison_entry['source'] == 'match':
+            if not comparison_entry['local_name'] == comparison_entry['remote_name']:
+                comparison_entry['modified'] = True
+            if not comparison_entry['local_modified'] == comparison_entry['remote_modified']:
+                comparison_entry['modified'] = True
+                if comparison_entry['local_modified'] > comparison_entry['remote_modified']:
+                    comparison_entry['newest'] = 'local'
+                elif comparison_entry['local_modified'] < comparison_entry['remote_modified']:
+                    comparison_entry['newest'] = 'remote'
+
+    
+    return comparison_dict
+
+def migration_layer_details(request, uuid=None):
+    data = {
+        'status': 'Unknown', 
+        'message': 'Unknown',
+        'themes': {},
+        'layers': {},
+    }
+    if request.POST:
+        try:
+            layer_ids = request.POST.getlist('layers')
+            for layer_key in layer_ids:
+                layer = Layer.all_objects.get(uuid=layer_key)
+                data['layers'][layer_key] = layer.toDict
+            data['status'] = 'Success'
+            data['message'] = 'layer(s) details retrieved'
+            
+        except Exception as e:
+            data['status'] = 'Error'
+            data['message'] = str(e)
+            pass
+    elif not uuid == None:
+        try:
+            layer = Layer.all_objects.get(uuid=uuid)
+            data['layers'][uuid] = layer.toDict
+            data['status'] = 'Success'
+            data['message'] = 'layer details retrieved'
+        except Exception as e:
+            data['status'] = 'Error'
+            data['message'] = str(e)
+            pass
+
+    return JsonResponse(data)
+
+def migration_merge_layer(local_id, remote_dict, sites=[]):
+    data = {
+        'status': 'Unknown', 
+        'message': 'Unknown',
+        'local_id': local_id,
+        'remote_name': remote_dict['name'],
+        'uuid': remote_dict['uuid']
+    }
+    remote_dict.pop('id')
+    if local_id:
+        local_layer = Layer.objects.get(id=local_id)
+    else:
+        local_layer = Layer.objects.create(uuid=remote_dict['uuid'])
+
+    #   Address 'sites'
+    if not sites or len(sites) == 0 or sites == [None,]:
+        sites = [x for x in Site.objects.all()]
+    for site in sites:
+        local_layer.site.add(site)
+
+    #   Address 'sublayers'
+    remote_dict.pop('subLayers')
+
+    #   Address 'companion layers'
+    remote_dict.pop('companion_layers')
+    remote_dict.pop('has_companion')
+
+    #   Address 'Themes'
+    #       Weird: themes aren't included in a layer's 'dump' details. A bizarre omission!
+    # remote_dict.pop('themes')
+
+    #   Address 'parent'
+    remote_dict.pop('parent')
+
+    #   Address 'sliders'
+    remote_dict.pop('is_multilayer')
+    remote_dict.pop('is_multilayer_parent')
+    remote_dict.pop('associated_multilayers')
+    remote_dict.pop('dimensions')
+
+    #   Address 'attribute info'
+    remote_dict.pop('attributes')
+
+    #   Address 'lookup info'
+    remote_dict.pop('lookups')
+
+    #   Sync dict keys with field names:
+    remote_dict['layer_type'] = remote_dict.pop('type')
+    remote_dict['search_query'] = remote_dict.pop('queryable')
+    remote_dict['data_overview'] = remote_dict.pop('overview')
+    remote_dict['data_download_link'] = remote_dict.pop('data_download')
+    remote_dict['metadata_link'] = remote_dict.pop('metadata')
+    remote_dict['source_link'] = remote_dict.pop('source')
+    remote_dict['tiles_link'] = remote_dict.pop('tiles')
+    remote_dict['vector_outline_color'] = remote_dict.pop('outline_color')
+    remote_dict['vector_outline_opacity'] = remote_dict.pop('outline_opacity')
+    remote_dict['vector_outline_width'] = remote_dict.pop('outline_width')
+    remote_dict['vector_color'] = remote_dict.pop('color')
+    remote_dict['vector_fill'] = remote_dict.pop('fill_opacity')
+    remote_dict['vector_graphic'] = remote_dict.pop('graphic')
+    remote_dict['vector_graphic_scale'] = remote_dict.pop('graphic_scale')
+    remote_dict['is_annotated'] = remote_dict.pop('annotated')
+    
+
+    try:
+        local_layer.__dict__.update(remote_dict)
+        local_layer.save()
+        modified_date = remote_dict['date_modified']
+        sql_command = "UPDATE data_manager_layer set date_modified = '{}' WHERE id = {};".format(modified_date, local_layer.id)
+        with connection.cursor() as cursor:
+            cursor.execute(sql_command)
+        data['status'] = 'Success'
+        data['message'] = 'Layer updated successfully'
+    except Exception as e:
+        data['status'] = 'Error'
+        data['message'] = str(e)
+    return JsonResponse(data)
+
+def migration_merge_layer_request(request):
+    if request.POST:
+        portal_id = request.POST.get('portal_id')
+        local_id = request.POST.get('local_id')
+        remote_uuid = request.POST.get('remote_uuid')
+        portal = ExternalPortal.objects.get(pk=int(portal_id))
+        # local_layer = Layer.objects.get(pk=int(local_id))
+
+        remote_layers_response = requests.get(f"{portal.get_layer_detail_endpoint}{remote_uuid}/")
+        
+        remote_layer_dict = remote_layers_response.json()['layers'][remote_uuid]
+        if not (type(request.site) == Site):
+            try:
+                site = Site.objects.get(domain=request.get_host())
+                request.site = site
+            except Exception as e:
+                request.site = None
+        merge_json_response = migration_merge_layer(local_id, remote_layer_dict, sites=[request.site,])
+        return merge_json_response
