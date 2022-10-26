@@ -381,12 +381,14 @@ def layer_status(request):
     }
 
     for theme in Theme.all_objects.all().order_by('order', 'name', 'uuid'):
-        theme_dict = theme.dictCache(site_id=request.site.id)
-        if theme_dict == None:
-            for site in Site.objects.all():
+        theme_dict = False
+        for site in Site.objects.all():
+            if not theme_dict:
                 theme_dict = theme.dictCache(site_id=site.id)
-                if not theme_dict == None:
-                    continue
+            else:
+                new_site_dict = theme.dictCache(site_id=site.id)
+                new_layers = new_site_dict['layers']
+                theme_dict['layers'] = list(set(theme_dict['layers'] + new_layers))
             
         data['themes'][str(theme.uuid)] = {
             'name': theme.name,
