@@ -387,8 +387,9 @@ def layer_status(request):
                 theme_dict = theme.dictCache(site_id=site.id)
             else:
                 new_site_dict = theme.dictCache(site_id=site.id)
-                new_layers = new_site_dict['layers']
-                theme_dict['layers'] = list(set(theme_dict['layers'] + new_layers))
+                if new_site_dict:
+                    new_layers = new_site_dict['layers']
+                    theme_dict['layers'] = list(set(theme_dict['layers'] + new_layers))
             
         data['themes'][str(theme.uuid)] = {
             'name': theme.name,
