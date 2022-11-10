@@ -187,6 +187,7 @@ def wms_get_capabilities(url):
     import xml.etree.ElementTree as ET
     root = ET.fromstring(wms.getServiceXML())
     # get time dimensions from XML directly, in case OWSLIB fails to set it appropriately
+    available_formats = False
     try:
         layer_group = root.find('Capability').findall('Layer')[0]
         current_layer = {
@@ -367,6 +368,22 @@ def get_catalog_records(request):
         data['CATALOG_TECHNOLOGY'] = settings.CATALOG_TECHNOLOGY
         # data['hits'] = len(record_ids)
 
+    return JsonResponse(data)
+
+def get_portal_catalog_map(request):
+    data = {}
+    if settings.CATALOG_TECHNOLOGY == "GeoPortal2":
+        viable_layers = Layer.objects.exclude(themes=None).exclude(catalog_name='').exclude(catalog_name=None)
+        if not type(request.site) == Site:
+            try:
+                site = Site.objects.get(domain=request.get_host())
+                request.site = site
+            except Exception as e:
+                pass
+        if request.site:
+            viable_layers = viable_layers.filter(site=request.site)
+        for layer in viable_layers:
+            data[layer.catalog_name] = layer.pk
     return JsonResponse(data)
 
 
