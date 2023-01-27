@@ -1097,6 +1097,7 @@ class MultilayerDimensionValue(models.Model):
                     newAssociation = deepcopy(association)
                     newAssociation.id = None
                     newAssociation.name = 'NEW'
+                    newAssociation.uuid = uuid.uuid4()
                     newAssociation.save()
                     # restore value/association relationships
                     for value in dimensionValues:
@@ -1108,7 +1109,7 @@ class MultilayerDimensionValue(models.Model):
 
     def delete(self, *args, **kwargs):
         delete_all = False
-        if kwargs.has_key('last'):
+        if 'last' in kwargs.keys():
             if kwargs['last']:
                 delete_all = True
             kwargs.pop('last', None)
