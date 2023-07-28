@@ -310,6 +310,8 @@ class Layer(models.Model, SiteFlags):
 
     minZoom = models.FloatField(blank=True, null=True, default=None, verbose_name="Minimum zoom")
     maxZoom = models.FloatField(blank=True, null=True, default=None, verbose_name="Maximum zoom")
+    password_protected = models.BooleanField(default=False, help_text='check this if the server requires a password to show layers')
+
 
     def __unicode__(self):
         return unicode('%s' % (self.name))
@@ -407,7 +409,6 @@ class Layer(models.Model, SiteFlags):
         panel_str = '&tab=data&legends=false&layers=true'
 
         return "%s%s%s%s%s" % (root_str, layer_str, companion_str, themes_str, panel_str)
-
 
     @property
     def data_download_link(self):
@@ -602,6 +603,7 @@ class Layer(models.Model, SiteFlags):
                 'type': layer.layer_type,
                 'url': layer.url,
                 'arcgis_layers': layer.arcgis_layers,
+                'password_protected': layer.password_protected,
                 'query_by_point': layer.query_by_point,
                 'proxy_url': layer.proxy_url,
                 'disable_arcgis_attributes': layer.disable_arcgis_attributes,
@@ -668,6 +670,7 @@ class Layer(models.Model, SiteFlags):
                 'type': layer.layer_type,
                 'url': layer.url,
                 'arcgis_layers': layer.arcgis_layers,
+                'password_protected': layer.password_protected,
                 'query_by_point': layer.query_by_point,
                 'proxy_url': layer.proxy_url,
                 'disable_arcgis_attributes': layer.disable_arcgis_attributes,
@@ -733,6 +736,7 @@ class Layer(models.Model, SiteFlags):
             'type': self.layer_type,
             'url': self.url,
             'arcgis_layers': self.arcgis_layers,
+            'password_protected': self.password_protected,
             'query_by_point': self.query_by_point,
             'proxy_url': self.proxy_url,
             'disable_arcgis_attributes': self.disable_arcgis_attributes,
