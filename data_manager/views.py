@@ -29,7 +29,7 @@ def get_themes(request):
 
 def get_layer_search_data(request):
     search_dict = {}
-    for theme in Theme.all_objects.filter(visible=True):
+    for theme in Theme.objects.filter(visible=True):
         for layer in theme.layer_set.all():
             if not layer.is_sublayer:
                 search_dict[layer.name] = {
