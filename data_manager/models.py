@@ -1,15 +1,43 @@
+#if data is bound with sites and have SITE_ID setting defined, CurrentSiteManager filters object based on the site.
+#CurrentSiteManager is a model manager, looks for foreignKey called site or ManyToManyField called sites.
+#if you try to pass field name that doesn't exist, Django will raise ValueError. 
 from django.contrib.sites.managers import CurrentSiteManager
+
+#Sites framework is a hook for associating objects and functionality to particular websites
+#many to one relationship, use ForeignKey
+#many to many, let site producers edit all content in single interface, no duplicates, create single record
 from django.contrib.sites.models import Site
+
+#models define structure of stored data, including field types, max size, default values, selection list options, etc
+#have separate models for every "object" (group of related info)
+#can use models to represent selection-list options, implemented as subclasses of models.Model
+#each database record (row) will consist of one of each field value
 from django.db import models
+
+#converts to ASCII, converts spaces to hyphens, removes characters that aren't alphanumerics, underscores or hyphens
+#converts to lowercase, strips leading and trailing whitespace
 from django.template.defaultfilters import slugify
+
+#enables retrieval of url information
 from django.urls import reverse
+
+#use sites framework based on the site in which the view is being called. 
 from django.conf import settings
+
 #from sorl.thumbnail import ImageField
+#instances of ContentType represent and store info about the models installed in the project
+#new instances of ContentType are auto created whenever new models are installed
 from django.contrib.contenttypes.models import ContentType
+
+#whenever a user adds, deletes or changes an object in Django admin, that action is recorded using model LogEntry
 from django.contrib.admin.models import LogEntry
+
+#simple color field for models with color-picker in admin-interface
 from colorfield.fields import ColorField
+
 # From MARCO/utils.py
 
+#field for storing universally unique identifiers, when used on PostgreSQL, stores in uuid datatype.
 import uuid
 
 def get_domain(port=8010):
