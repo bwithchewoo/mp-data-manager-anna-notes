@@ -53,8 +53,11 @@ def get_domain(port=8010):
     return domain
 
 def reset_cache(sites):
+    #low-level caching, gives option to control what gets cached on the site using the cache key.
     from django.core.cache import cache
+    #provides methods for accessing Web resources via HTTP
     import requests
+    #absence of connection
     from requests.exceptions import ConnectionError
     for site in sites:
         cache.delete('data_manager_json_site_%s' % site.pk)
@@ -64,6 +67,7 @@ def reset_cache(sites):
         else:
             url = "http://%s/data_manager/get_json" % site.domain
         try:
+            #makes https request to the URL sequence
             requests.get(url)
         except ConnectionError:
             #sometimes testing overdoes this a bit and we get 'Max retries exceeded'
@@ -82,6 +86,7 @@ class SiteFlags(object):#(models.Model):
     preview_site.boolean = True
 
 class AllObjectsManager(models.Manager):
+    #serialize managers into migrations and have them available in RunPython operations, define use_in_migrations attribute
     use_in_migrations = True
 
 class Theme(models.Model, SiteFlags):
@@ -203,40 +208,111 @@ class Layer(models.Model, SiteFlags):
 
     uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     site = models.ManyToManyField(Site)
+    ######################################################
+    #           BASIC INFO                               #
+    ######################################################
+    #name you wish to give layer, readable in the tool
     name = models.CharField(max_length=100)
-    order = models.PositiveSmallIntegerField(default=10, blank=True, null=True, help_text='input an integer to determine the priority/order of the layer being displayed (1 being the highest)')
-    slug_name = models.CharField(max_length=200, blank=True, null=True)
+    #XYZ, WMS, ArcRest, radio, checkbox, Vector, Vectortile, placeholder
     layer_type = models.CharField(max_length=50, choices=settings.LAYER_TYPE_CHOICES, help_text='use placeholder to temporarily remove layer from TOC')
+    #required for XYZ, WMS, ArcRest, Vector and Vectortile, endpoint for webserver
+    #XYZ: will contain x,y,z somewhere in the url, each map tile called separately
+    #WMS: urls vary wildly, often have wms in the URL
+    #Arcrest: must end in "/export"
+    #Vector: likely will end with series of arguments after a "?" including "format=json" or "f=json"
+    #Vectortile: uses tiles and provides template for intended file using x,y,z in URL
     url = models.TextField(blank=True, null=True)
-    shareable_url = models.BooleanField(default=True, help_text='Indicates whether the data layer (e.g. map tiles) can be shared with others (through the Map Tiles Link)')
     proxy_url = models.BooleanField(default=False, help_text="proxy layer url through marine planner")
+
+    ######################################################
+    #           LAYER ORGANIZATION                       #
+    ######################################################
+    #putting layers in order under a theme or sublayers in order under a layer is managed by assigning every layer "order" value
+    order = models.PositiveSmallIntegerField(default=10, blank=True, null=True, help_text='input an integer to determine the priority/order of the layer being displayed (1 being the highest)')
+    themes = models.ManyToManyField("Theme", blank=True)
+    is_sublayer = models.BooleanField(default=False)
+    sublayers = models.ManyToManyField('self', blank=True)
+    has_companion = models.BooleanField(default=False, help_text='Check if this layer has a companion layer')
+    connect_companion_layers_to = models.ManyToManyField('self', blank=True, help_text='Select which main layer(s) you would like to use in conjuction with this companion layer.')
+    
+    ######################################################
+    #                        METADATA                    #
+    ######################################################
+    description = models.TextField(blank=True, null=True)
+    data_overview = models.TextField(blank=True, null=True)
+    data_source = models.CharField(max_length=255, blank=True, null=True)
+    data_notes = models.TextField(blank=True, null=True)
+    data_publish_date = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True, default=None, verbose_name='Date published', help_text='YYYY-MM-DD')
+    
+    ######################################################
+    #                        LEGEND                      #
+    ######################################################
+    show_legend = models.BooleanField(default=True, help_text='show the legend for this layer if available')
+    legend = models.CharField(max_length=255, blank=True, null=True, help_text='URL or path to the legend image file')
+    legend_title = models.CharField(max_length=255, blank=True, null=True, help_text='alternative to using the layer name')
+    legend_subtitle = models.CharField(max_length=255, blank=True, null=True)
+    
+    ######################################################
+    #                        LINKS                       #
+    ######################################################
+    metadata = models.CharField(max_length=255, blank=True, null=True, help_text='link to view/download the metadata')
+    source = models.CharField(max_length=255, blank=True, null=True, help_text='link back to the data source')
+    bookmark = models.CharField(max_length=755, blank=True, null=True, help_text='link to view data layer in the planner')
+    kml = models.CharField(max_length=255, blank=True, null=True, help_text='link to download the KML')
+    data_download = models.CharField(max_length=255, blank=True, null=True, help_text='link to download the data')
+    learn_more = models.CharField(max_length=255, blank=True, null=True, default=None, help_text='link to view description in the Learn section')
+    map_tiles = models.CharField(max_length=255, blank=True, null=True, help_text='internal link to a page that details how others might consume the data')
+
+
+    slug_name = models.CharField(max_length=200, blank=True, null=True)
+
+    ######################################################
+    #           SHARING                                  #
+    ######################################################
+    shareable_url = models.BooleanField(default=True, help_text='Indicates whether the data layer (e.g. map tiles) can be shared with others (through the Map Tiles Link)')
+    
+    ######################################################
+    #           ArcGIS Details                           #
+    ######################################################
     arcgis_layers = models.CharField(max_length=255, blank=True, null=True, help_text='comma separated list of arcgis layer IDs')
+    password_protected = models.BooleanField(default=False, help_text='check this if the server requires a password to show layers')
     query_by_point = models.BooleanField(default=False, help_text='Do not buffer selection clicks (not recommended for point or line data)')
     disable_arcgis_attributes = models.BooleanField(default=False, help_text='Click to disable clickable ArcRest layers')
+
+    ######################################################
+    #              WMS Details                           #
+    ######################################################
     wms_help = models.BooleanField(default=False, help_text='Enable simple selection for WMS fields. Only supports WMS 1.1.1')
     wms_slug = models.CharField(max_length=255, blank=True, null=True, verbose_name='WMS Layer Name')
     wms_version = models.CharField(max_length=10, blank=True, null=True, default=None, choices=WMS_VERSION_CHOICES, help_text='WMS Versioning - usually either 1.1.1 or 1.3.0')
     wms_format = models.CharField(max_length=100, blank=True, null=True, default=None, help_text='most common: image/png. Only image types supported.', verbose_name='WMS Format')
     wms_srs = models.CharField(max_length=100, blank=True, null=True, default=None, help_text='If not EPSG:3857 WMS requests will be proxied', verbose_name='WMS SRS')
-    wms_styles = models.CharField(max_length=255, blank=True, null=True, default=None, help_text='pre-determined styles, if exist', verbose_name='WMS Styles')
     wms_timing = models.CharField(max_length=255, blank=True, null=True, default=None, help_text='http://docs.geoserver.org/stable/en/user/services/wms/time.html#specifying-a-time', verbose_name='WMS Time')
     wms_time_item = models.CharField(max_length=255, blank=True, null=True, default=None, help_text='Time Attribute Field, if different from "TIME". Proxy only.', verbose_name='WMS Time Field')
+    wms_styles = models.CharField(max_length=255, blank=True, null=True, default=None, help_text='pre-determined styles, if exist', verbose_name='WMS Styles')
     wms_additional = models.TextField(blank=True, null=True, default=None, help_text='additional WMS key-value pairs: &key=value...', verbose_name='WMS Additional Fields')
     wms_info = models.BooleanField(default=False, help_text='enable Feature Info requests on click')
     wms_info_format = models.CharField(max_length=255, blank=True, null=True, default=None, help_text='Available supported feature info formats')
-    is_sublayer = models.BooleanField(default=False)
-    sublayers = models.ManyToManyField('self', blank=True)
-    themes = models.ManyToManyField("Theme", blank=True)
+
+    ######################################################
+    #     DYNAMIC LAYERS(MDAT & CAS)                     #
+    ######################################################
     search_query = models.BooleanField(default=False, help_text='Select when layers are queryable - e.g. MDAT and CAS')
-    has_companion = models.BooleanField(default=False, help_text='Check if this layer has a companion layer')
-    connect_companion_layers_to = models.ManyToManyField('self', blank=True, help_text='Select which main layer(s) you would like to use in conjuction with this companion layer.')
+    
+    ######################################################
+    #     UTF Grid Layers                                #
+    ######################################################
+    utfurl = models.CharField(max_length=255, blank=True, null=True)
+
+    ######################################################
+    #                  Attribute Reporting               #
+    ######################################################
+    
+    
     is_disabled = models.BooleanField(default=False, help_text='when disabled, the layer will still appear in the TOC, only disabled')
     disabled_message = models.CharField(max_length=255, blank=True, null=True, default=None)
-    legend = models.CharField(max_length=255, blank=True, null=True, help_text='URL or path to the legend image file')
-    legend_title = models.CharField(max_length=255, blank=True, null=True, help_text='alternative to using the layer name')
-    legend_subtitle = models.CharField(max_length=255, blank=True, null=True)
-    show_legend = models.BooleanField(default=True, help_text='show the legend for this layer if available')
-    utfurl = models.CharField(max_length=255, blank=True, null=True)
+   
+    
 
     # RDH: utfjsonp does not appear to be used.
     # utfjsonp = models.BooleanField(default=False)
@@ -251,27 +327,16 @@ class Layer(models.Model, SiteFlags):
     # RDH: proj does not appear to be used.
     # proj = models.CharField(max_length=255, blank=True, null=True, help_text="will be EPSG:3857, if unspecified")
 
-    #tooltip
-    description = models.TextField(blank=True, null=True)
-
-    data_overview = models.TextField(blank=True, null=True)
-    data_source = models.CharField(max_length=255, blank=True, null=True)
-    data_notes = models.TextField(blank=True, null=True)
-    data_publish_date = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True, default=None, verbose_name='Date published', help_text='YYYY-MM-DD')
+   
 
     #data catalog links
     catalog_name = models.TextField(null=True, blank=True, help_text="name of associated record in catalog", verbose_name='Catalog Record Name')
     catalog_id = models.TextField(null=True, blank=True, help_text="unique ID of associated record in catalog", verbose_name='Catalog Record Id')
-    bookmark = models.CharField(max_length=755, blank=True, null=True, help_text='link to view data layer in the planner')
-    kml = models.CharField(max_length=255, blank=True, null=True, help_text='link to download the KML')
-    data_download = models.CharField(max_length=255, blank=True, null=True, help_text='link to download the data')
-    learn_more = models.CharField(max_length=255, blank=True, null=True, default=None, help_text='link to view description in the Learn section')
-    metadata = models.CharField(max_length=255, blank=True, null=True, help_text='link to view/download the metadata')
-    source = models.CharField(max_length=255, blank=True, null=True, help_text='link back to the data source')
-    map_tiles = models.CharField(max_length=255, blank=True, null=True, help_text='internal link to a page that details how others might consume the data')
+    
+    
     thumbnail = models.URLField(max_length=255, blank=True, null=True, default=None, help_text='not sure we are using this any longer...')
 
-    ### ATTRIBUTE REPORTING ###
+
     label_field = models.CharField(max_length=255, blank=True, null=True, help_text="Which field should be used for labels and feature identification in reports?")
     #geojson javascript attribution
     EVENT_CHOICES = (
@@ -284,10 +349,17 @@ class Layer(models.Model, SiteFlags):
     compress_display = models.BooleanField(default=False)
     attribute_event = models.CharField(max_length=35, choices=EVENT_CHOICES, default='click')
     mouseover_field = models.CharField(max_length=75, blank=True, null=True, default=None, help_text='feature level attribute used in mouseover display')
-    lookup_field = models.CharField(max_length=255, blank=True, null=True, help_text="To override the style based on specific attributes, provide the attribute name here and define your attributes in the Lookup table below.")
-    lookup_table = models.ManyToManyField('LookupInfo', blank=True)
+    
+    
     is_annotated = models.BooleanField(default=False)
 
+    ######################################################
+    #           DISPLAY & STYLE                          #
+    ######################################################
+    #default opacity, somewhat transparent (.5)
+    opacity = models.FloatField(default=.5, blank=True, null=True, verbose_name="Initial Opacity")
+    minZoom = models.FloatField(blank=True, null=True, default=None, verbose_name="Minimum zoom")
+    maxZoom = models.FloatField(blank=True, null=True, default=None, verbose_name="Maximum zoom")
     CUSTOM_STYLE_CHOICES = (
         (None, '------'),
         ('color', 'color'),
@@ -299,6 +371,7 @@ class Layer(models.Model, SiteFlags):
         choices=CUSTOM_STYLE_CHOICES,
         help_text="Apply a custom styling rule: i.e. 'color' for Native-Land.ca layers, or 'random' to assign arbitary colors"
     )
+    #sets the color of the layer's features' lines or outlines, can be either color's name or hex value (Starts with #)
     vector_outline_color = ColorField(
         blank=True,
         null=True,
@@ -308,7 +381,9 @@ class Layer(models.Model, SiteFlags):
     )
     # RDH 20191106 - This is not a thing.
     vector_outline_opacity = models.FloatField(blank=True, null=True, default=None, verbose_name="Vector Stroke Opacity")
+    #width of layer's features' lines/outlines in pixels
     vector_outline_width = models.IntegerField(blank=True, null=True, default=None, verbose_name="Vector Stroke Width")
+    #set the color to fill any polygons or circle-icons for points
     vector_color = ColorField(
         blank=True,
         null=True,
@@ -317,14 +392,26 @@ class Layer(models.Model, SiteFlags):
         samples=COLOR_PALETTE,
     )
     vector_fill = models.FloatField(blank=True, null=True, default=None, verbose_name="Vector Fill Opacity")
+    #enter URL for image from online for layer's point data
     vector_graphic = models.CharField(max_length=255, blank=True, null=True, default=None, verbose_name="Vector Graphic", help_text="address of image to use for point data")
+    #if you need to resize vector graphic image so it looks appropriate on map
+    #to make image smaller, use value less than 1, to make image larger, use values larger than 1
     vector_graphic_scale = models.FloatField(blank=True, null=True, default=True, verbose_name="Vector Graphic Scale", help_text="Scale for the vector graphic from original size.")
+    #set radius of circle in pixels, only applies to point data with no graphics
     point_radius = models.IntegerField(blank=True, null=True, default=None, help_text='Used only for for Point layers (default is 2)')
-    opacity = models.FloatField(default=.5, blank=True, null=True, verbose_name="Initial Opacity")
+    
+
+    #use field to specify attribute on layer that you wish to be considered in adding conditional style formatting
+    lookup_field = models.CharField(max_length=255, blank=True, null=True, help_text="To override the style based on specific attributes, provide the attribute name here and define your attributes in the Lookup table below.")
+    #use widget along with creating Lookup Info records to apply conditional styling to your layer
+    lookup_table = models.ManyToManyField('LookupInfo', blank=True)
 
     objects = CurrentSiteManager('site')
     all_objects = AllObjectsManager()
 
+    ######################################################
+    #           ESPIS                                    #
+    ######################################################
     #ESPIS Upgrade - RDH 7/23/2017
     ESPIS_REGION_CHOICES = (
         ('Mid Atlantic', 'Mid Atlantic'),
@@ -336,9 +423,8 @@ class Layer(models.Model, SiteFlags):
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
-    minZoom = models.FloatField(blank=True, null=True, default=None, verbose_name="Minimum zoom")
-    maxZoom = models.FloatField(blank=True, null=True, default=None, verbose_name="Maximum zoom")
-    password_protected = models.BooleanField(default=False, help_text='check this if the server requires a password to show layers')
+    
+    
 
 
     def __unicode__(self):
